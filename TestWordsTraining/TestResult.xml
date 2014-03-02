@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\TestWordsTraining\TestWordsTraining.csproj" total="11" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-03-02" time="18:56:02">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.8000" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE" machine-name="LAPTOP" user="Vadim" user-domain="LAPTOP" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Project" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\TestWordsTraining\TestWordsTraining.csproj" executed="True" result="Success" success="True" time="0.125" asserts="0">
+    <results>
+      <test-suite type="Assembly" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\TestWordsTraining\bin\Debug\TestWordsTraining.exe" executed="True" result="Success" success="True" time="0.116" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="TestWordsTraining" executed="True" result="Success" success="True" time="0.116" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="TestWordCard" executed="True" result="Success" success="True" time="0.114" asserts="0">
+                <results>
+                  <test-case name="TestWordsTraining.TestWordCard.TestIncrCounter" executed="True" result="Success" success="True" time="0.041" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInit" executed="True" result="Success" success="True" time="0.001" asserts="4" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFail1" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFail2" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFail3" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFail4" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFail5" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetComment" executed="True" result="Success" success="True" time="0.001" asserts="3" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetCounterTo0" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetIncorrectPropertyLanguage2" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetIncorrectPropertyWord1" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\WordsTraining.sln" total="1" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-03-02" time="15:44:19">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.8000" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE" machine-name="LAPTOP" user="Vadim" user-domain="LAPTOP" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Project" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\WordsTraining.sln" executed="True" result="Failure" success="False" time="0.034" asserts="0">
+    <results>
+      <test-suite type="Assembly" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\TestWordsTraining\bin\Debug\TestWordsTraining.exe" executed="True" result="Failure" success="False" time="0.027" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="TestWordsTraining" executed="True" result="Failure" success="False" time="0.026" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="TestWordCard" executed="True" result="Failure" success="False" time="0.025" asserts="0">
+                <results>
+                  <test-case name="TestWordsTraining.TestWordCard.Test" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+                    <failure>
+                      <message><![CDATA[Test]]></message>
+                      <stack-trace><![CDATA[at TestWordsTraining.TestWordCard.Test() in C:\Users\Vadim\documents\visual studio 2010\Projects\WordsTraining\TestWordsTraining\TestWordCard.cs:line 17
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
