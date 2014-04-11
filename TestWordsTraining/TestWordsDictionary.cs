@@ -13,12 +13,24 @@ namespace TestWordsTraining
         WordsDictionary dictionary;
         string language1 = "ENG";
         string language2 = "EST";
-        int maxWords = 3;
+        int maxCards = 3;
+
+        string word11 = "Hi";
+        string word12 = "Tere";
+        WordType type1 = WordType.NOUN;
+
+        string word21 = "rääkima";
+        string word22 = "speak";
+        WordType type2 = WordType.VERB;
+
+        string word31 = "hästi";
+        string word32 = "well";
+        WordType type3 = WordType.ADVERB;
 
         [SetUp]
         public void SetUp()
         {
-            dictionary = new WordsDictionary(language1, language2, maxWords);
+            dictionary = new WordsDictionary(language1, language2, maxCards);
         }
         
         [Test]
@@ -26,7 +38,7 @@ namespace TestWordsTraining
         {
             Assert.AreEqual(language1, dictionary.Language1, "Validating that language1 is initialized correctly");
             Assert.AreEqual(language2, dictionary.Language2, "Validating that language2 is initialized correctly");
-            Assert.AreEqual(maxWords, dictionary.MaxWords, "Validating that maxWords is initialized correctly");
+            Assert.AreEqual(maxCards, dictionary.MaxCards, "Validating that maxWords is initialized correctly");
         }
 
         [Test]
@@ -35,7 +47,7 @@ namespace TestWordsTraining
             dictionary = new WordsDictionary(language2, language1);
             Assert.AreEqual(language2, dictionary.Language1, "Validating that language1 is initialized correctly");
             Assert.AreEqual(language1, dictionary.Language2, "Validating that language2 is initialized correctly");
-            Assert.AreEqual(100, dictionary.MaxWords, "Validating that maxWords is initialized correctly");
+            Assert.AreEqual(100, dictionary.MaxCards, "Validating that maxWords is initialized correctly");
         }
 
         [Test]
@@ -55,9 +67,9 @@ namespace TestWordsTraining
         [Test]
         public void TestAddWordCard()
         {
-            WordCard card = new WordCard("Hi", "Tere");
+            WordCard card = new WordCard(word11, word12, type1);
             dictionary.Add(card);
-            WordCard cardExpected = new WordCard("Hi", "Tere");
+            WordCard cardExpected = new WordCard(word11, word12, type1);
             WordCard cardActual = dictionary.Get(0);
             Assert.AreEqual(cardExpected, cardActual, "Validating that card is added correctly");
 
@@ -70,8 +82,8 @@ namespace TestWordsTraining
         [ExpectedException(typeof(ArgumentException))]
         public void TestAddWordCardTwice()
         {
-            WordCard card1 = new WordCard("Hi", "Tere");
-            WordCard card2 = new WordCard("Hi", "Tere");
+            WordCard card1 = new WordCard(word11, word12, type1);
+            WordCard card2 = new WordCard(word11, word12, type1);
             dictionary.Add(card1);
             dictionary.Add(card2);
         }
@@ -79,9 +91,9 @@ namespace TestWordsTraining
         [Test]
         public void TestAddWordCardMax()
         {
-            WordCard card1 = new WordCard("Hi", "Tere");
-            WordCard card2 = new WordCard("Good morning", "Tere hommikust");
-            WordCard card3 = new WordCard("Good day", "Tere päevast");
+            WordCard card1 = new WordCard(word11, word12, type1);
+            WordCard card2 = new WordCard(word21, word22, type2);
+            WordCard card3 = new WordCard(word31, word32, type3);
             dictionary.Add(card1);
             dictionary.Add(card2);
             dictionary.Add(card3);
@@ -95,10 +107,10 @@ namespace TestWordsTraining
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestAddWordCardMax1()
         {
-            WordCard card1 = new WordCard("Hi", "Tere");
-            WordCard card2 = new WordCard("Good morning", "Tere hommikust");
-            WordCard card3 = new WordCard("Good day", "Tere päevast");
-            WordCard card4 = new WordCard("Goodbye", "Nägamist");
+            WordCard card1 = new WordCard(word11, word12, type1);
+            WordCard card2 = new WordCard(word21, word22, type2);
+            WordCard card3 = new WordCard(word31, word32, type3);
+            WordCard card4 = new WordCard(word31, word32, type1);
             dictionary.Add(card1);
             dictionary.Add(card2);
             dictionary.Add(card3);

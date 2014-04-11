@@ -13,32 +13,34 @@ namespace TestWordsTraining
         WordCard card;
         string word1 = "Hi";
         string word2 = "Tere";
+        WordType type = WordType.NOUN;
 
         [SetUp]
         public void SetUp()
         {
-            card = new WordCard(word1, word2);
+            card = new WordCard(word1, word2, type);
         }
 
         [Test]
         public void TestInit()
         {
-            Assert.AreEqual(word1, card.Word1, "Test that word1 is initialized correctly");
-            Assert.AreEqual(word2, card.Word2, "Test that word2 is initialized correctly");
+            Assert.AreEqual(word1, card.Word1, "Validating that word1 is initialized correctly");
+            Assert.AreEqual(word2, card.Word2, "Validating that word2 is initialized correctly");
+            Assert.AreEqual(type, card.Type, "Validating that word2 is initialized correctly");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitFailed1()
         {
-            new WordCard(null, word2);
+            new WordCard(null, word2, type);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitFailed2()
         {
-            new WordCard(word1, "");
+            new WordCard(word1, "", type);
         }
 
 
@@ -73,6 +75,41 @@ namespace TestWordsTraining
             card.IncrementCounter(2);
             card.ResetCounter(2);
             Assert.AreEqual(0, card.SuccessfulCounter2, "Check that number of successsfull attempts for word2 is reset to 0");
+        }
+
+        [Test]
+        public void TestCardsEqual1()
+        {
+            WordCard card2 = card;
+            Assert.IsTrue(card.Equals(card2), "Validating that cards are equal");
+        }
+
+        [Test]
+        public void TestCardsEqual2()
+        {
+            WordCard card2 = new WordCard(word1, word2, type);
+            Assert.IsTrue(card.Equals(card2), "Validating that cards are equal");
+        }
+
+        [Test]
+        public void TestCardsnotEqual1()
+        {
+            WordCard card2 = new WordCard("Hello", word2, type);
+            Assert.IsFalse(card.Equals(card2), "Validating that cards are not equal");
+        }
+
+        [Test]
+        public void TestCardsnotEqual2()
+        {
+            WordCard card2 = new WordCard(word1, "Tsau", type);
+            Assert.IsFalse(card.Equals(card2), "Validating that cards are not equal");
+        }
+
+        [Test]
+        public void TestCardsnotEqual3()
+        {
+            WordCard card2 = new WordCard(word1, word2, WordType.PRONOUN);
+            Assert.IsFalse(card.Equals(card2), "Validating that cards are not equal");
         }
     }
 }

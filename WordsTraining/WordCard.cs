@@ -5,6 +5,8 @@ using System.Text;
 
 namespace WordsTraining
 {
+    public enum WordType { NOUN, VERB, ADJECTIVE, ADVERB, PRONOUN, PREPOSITION, CONJUCTION, INTERJUNCTION }
+    
     /// <summary>
     /// Describes the Word card that contains two words
     /// </summary>
@@ -26,6 +28,8 @@ namespace WordsTraining
             set { word2.Word = value; }
         }
 
+        public WordType Type { get; private set; }
+        
         // Comment for each word and common comment for card. All are optional
         public string Comment1
         {
@@ -56,10 +60,12 @@ namespace WordsTraining
         /// </summary>
         /// <param name="word1">Word1 text</param>
         /// <param name="word2">Word2 text</param>
-        public WordCard(string word1, string word2)
+        /// <param name="type">Word type</param>
+        public WordCard(string word1, string word2, WordType type)
         {
             this.Word1 = word1;
             this.Word2 = word2;
+            this.Type = type;
         }
 
         /// <summary>
@@ -82,7 +88,7 @@ namespace WordsTraining
         }
 
         /// <summary>
-        /// Find Word Class by language
+        /// Returns word class
         /// </summary>
         /// <param name="num">Word number (1 or 2) in card</param>
         /// <returns>WordClass object</returns>
@@ -90,7 +96,38 @@ namespace WordsTraining
         {
             if (num == 1) return word1;
             else if (num == 2) return word2;
-            else throw new ArgumentException("There is no language " + num + " in word class");
+            else throw new ArgumentException("There is no word number " + num + " in word class");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            WordCard wc = obj as WordCard;
+            if ((System.Object)wc == null)
+            {
+                return false;
+            }
+
+            if (wc.Type != this.Type || wc.Word1 != this.Word1 || wc.Word2 != this.Word2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.Type + this.Word1 + this.Word2).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Card: type - {0}, word1 - {1}, word2 - {2}", this.Type, this.Word1, this.Word2);
         }
     }
 
