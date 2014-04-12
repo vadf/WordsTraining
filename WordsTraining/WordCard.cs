@@ -6,53 +6,39 @@ using System.Text;
 namespace WordsTraining
 {
     public enum WordType { NOUN, VERB, ADJECTIVE, ADVERB, PRONOUN, PREPOSITION, CONJUCTION, INTERJUNCTION }
+    public enum Language { LAN1, LAN2 }
     
     /// <summary>
     /// Describes the Word card that contains two words
     /// </summary>
     public class WordCard
     {
-        private WordClass word1 = new WordClass();
-        private WordClass word2 = new WordClass();
+        private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
 
+        public Language SelectedLanguage { get; set; }
+        
         // Words, mandatory
-        public string Word1
+        public string Word
         {
-            get { return word1.Word; }
-            set { word1.Word = value; }
-        }
-
-        public string Word2
-        {
-            get { return word2.Word; }
-            set { word2.Word = value; }
+            get { return words[SelectedLanguage].Word; }
+            set { words[SelectedLanguage].Word = value; }
         }
 
         public WordType Type { get; private set; }
         
-        // Comment for each word and common comment for card. All are optional
-        public string Comment1
+        // Comment for word and common comment for card. All are optional
+        public string Comment
         {
-            get { return word1.Comment; }
-            set { word1.Comment = value; }
-        }
-        public string Comment2
-        {
-            get { return word2.Comment; }
-            set { word2.Comment = value; }
+            get { return words[SelectedLanguage].Comment; }
+            set { words[SelectedLanguage].Comment = value; }
         }
         public string CommentCommon { get; set; }
 
         // counters
-        public int SuccessfulCounter1
+        public int SuccessfulCounter
         {
-            get { return word1.SuccessfulCounter; }
-            private set { word1.SuccessfulCounter = value; }
-        }
-        public int SuccessfulCounter2
-        {
-            get { return word2.SuccessfulCounter; }
-            private set { word2.SuccessfulCounter = value; }
+            get { return words[SelectedLanguage].SuccessfulCounter; }
+            private set { words[SelectedLanguage].SuccessfulCounter = value; }
         }
 
         /// <summary>
@@ -63,40 +49,30 @@ namespace WordsTraining
         /// <param name="type">Word type</param>
         public WordCard(string word1, string word2, WordType type)
         {
-            this.Word1 = word1;
-            this.Word2 = word2;
+            words.Add(Language.LAN1, new WordClass());
+            words.Add(Language.LAN2, new WordClass());
+            
+            SelectedLanguage = Language.LAN1;
+            this.Word = word1;
+            SelectedLanguage = Language.LAN2;
+            this.Word = word2;
             this.Type = type;
         }
 
         /// <summary>
-        /// Increment successful counter for language
+        /// Increment successful counter for word
         /// </summary>
-        /// <param name="num">Word number (1 or 2) in card</param>
-        public void IncrementCounter(int num)
+        public void IncrementCounter()
         {
-            GetWordClass(num).SuccessfulCounter++;
+            words[SelectedLanguage].SuccessfulCounter++;
         }
-
-
+        
         /// <summary>
         /// Reset successful counter for language
         /// </summary>
-        /// <param name="num">Word number (1 or 2) in card</param>
-        public void ResetCounter(int num)
+        public void ResetCounter()
         {
-            GetWordClass(num).SuccessfulCounter = 0;
-        }
-
-        /// <summary>
-        /// Returns word class
-        /// </summary>
-        /// <param name="num">Word number (1 or 2) in card</param>
-        /// <returns>WordClass object</returns>
-        private WordClass GetWordClass(int num)
-        {
-            if (num == 1) return word1;
-            else if (num == 2) return word2;
-            else throw new ArgumentException("There is no word number " + num + " in word class");
+            words[SelectedLanguage].SuccessfulCounter = 0;
         }
 
         public override bool Equals(object obj)
@@ -112,7 +88,21 @@ namespace WordsTraining
                 return false;
             }
 
-            if (wc.Type != this.Type || wc.Word1 != this.Word1 || wc.Word2 != this.Word2)
+            if (wc.Type != this.Type)
+            {
+                return false;
+            }
+            
+            wc.SelectedLanguage = Language.LAN1;
+            this.SelectedLanguage = Language.LAN1;
+            if (wc.Word != this.Word)
+            {
+                return false;
+            }
+
+            wc.SelectedLanguage = Language.LAN2;
+            this.SelectedLanguage = Language.LAN2;
+            if (wc.Word != this.Word)
             {
                 return false;
             }
@@ -122,12 +112,13 @@ namespace WordsTraining
 
         public override int GetHashCode()
         {
-            return (this.Type + this.Word1 + this.Word2).GetHashCode();
+            return this.ToString().GetHashCode();
         }
 
         public override string ToString()
         {
-            return String.Format("Card: type - {0}, word1 - {1}, word2 - {2}", this.Type, this.Word1, this.Word2);
+            string tmp = String.Join(",", words.Select(kv => kv.Key + "=" + kv.Value).ToArray());
+            return String.Format("Card: type - {0}, words {1}", this.Type, tmp);
         }
     }
 
@@ -176,5 +167,10 @@ namespace WordsTraining
         }
 
         public WordClass() { }
+
+        public override string ToString()
+        {
+            return _word;
+        }
     }
 }
