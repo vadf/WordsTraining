@@ -5,8 +5,8 @@ using System.Text;
 
 namespace WordsTraining
 {
-    public enum WordType { NOUN, VERB, ADJECTIVE, ADVERB, PRONOUN, PREPOSITION, CONJUCTION, INTERJUNCTION }
-    public enum Language { LAN1, LAN2 }
+    public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction }
+    public enum Language { Lang1 = 1, Lang2 }
     
     /// <summary>
     /// Describes the Word card that contains two words
@@ -49,12 +49,12 @@ namespace WordsTraining
         /// <param name="type">Word type</param>
         public WordCard(string word1, string word2, WordType type)
         {
-            words.Add(Language.LAN1, new WordClass());
-            words.Add(Language.LAN2, new WordClass());
+            words.Add(Language.Lang1, new WordClass());
+            words.Add(Language.Lang2, new WordClass());
             
-            SelectedLanguage = Language.LAN1;
+            SelectedLanguage = Language.Lang1;
             this.Word = word1;
-            SelectedLanguage = Language.LAN2;
+            SelectedLanguage = Language.Lang2;
             this.Word = word2;
             this.Type = type;
         }
@@ -93,15 +93,15 @@ namespace WordsTraining
                 return false;
             }
             
-            wc.SelectedLanguage = Language.LAN1;
-            this.SelectedLanguage = Language.LAN1;
+            wc.SelectedLanguage = Language.Lang1;
+            this.SelectedLanguage = Language.Lang1;
             if (wc.Word != this.Word)
             {
                 return false;
             }
 
-            wc.SelectedLanguage = Language.LAN2;
-            this.SelectedLanguage = Language.LAN2;
+            wc.SelectedLanguage = Language.Lang2;
+            this.SelectedLanguage = Language.Lang2;
             if (wc.Word != this.Word)
             {
                 return false;

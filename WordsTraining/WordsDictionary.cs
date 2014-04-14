@@ -7,12 +7,17 @@ namespace WordsTraining
 {
     public class WordsDictionary
     {
-        private IList<WordCard> cardsList = new List<WordCard>(); // CHECK: HashSet ???
+        private List<WordCard> cardsList = new List<WordCard>(); // CHECK: HashSet ???
         private string _language1;
         private string _language2;
 
 
         public int MaxCards { get; private set; } // CHECK: do i realy need it?
+
+        public List<WordCard> Cards
+        {
+            get { return cardsList; }
+        }
 
         /// <summary>
         /// Language1 name

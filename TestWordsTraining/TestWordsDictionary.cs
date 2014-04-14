@@ -17,15 +17,15 @@ namespace TestWordsTraining
 
         string word11 = "Hi";
         string word12 = "Tere";
-        WordType type1 = WordType.NOUN;
+        WordType type1 = WordType.Noun;
 
         string word21 = "rääkima";
         string word22 = "speak";
-        WordType type2 = WordType.VERB;
+        WordType type2 = WordType.Verb;
 
         string word31 = "hästi";
         string word32 = "well";
-        WordType type3 = WordType.ADVERB;
+        WordType type3 = WordType.Adverb;
 
         [SetUp]
         public void SetUp()

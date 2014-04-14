@@ -13,7 +13,7 @@ namespace TestWordsTraining
         WordCard card;
         string word1 = "Hi";
         string word2 = "Tere";
-        WordType type = WordType.NOUN;
+        WordType type = WordType.Noun;
 
         [SetUp]
         public void SetUp()
@@ -24,9 +24,9 @@ namespace TestWordsTraining
         [Test]
         public void TestInit()
         {
-            card.SelectedLanguage = Language.LAN1;
+            card.SelectedLanguage = Language.Lang1;
             Assert.AreEqual(word1, card.Word, "Validating that word1 is initialized correctly");
-            card.SelectedLanguage = Language.LAN2;
+            card.SelectedLanguage = Language.Lang2;
             Assert.AreEqual(word2, card.Word, "Validating that word2 is initialized correctly");
             Assert.AreEqual(type, card.Type, "Validating that word2 is initialized correctly");
         }
@@ -50,18 +50,18 @@ namespace TestWordsTraining
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestSetIncorrectPropertyWord1()
         {
-            card.SelectedLanguage = Language.LAN1;
+            card.SelectedLanguage = Language.Lang1;
             card.Word = "";
         }
 
         [Test]
         public void TestSetComment()
         {
-            card.SelectedLanguage = Language.LAN1;
+            card.SelectedLanguage = Language.Lang1;
             card.Comment = null;
             Assert.IsNull(card.Comment, "Check that comment can be null");
 
-            card.SelectedLanguage = Language.LAN2;
+            card.SelectedLanguage = Language.Lang2;
             card.Comment = "";
             Assert.AreEqual("", card.Comment, "Check that comment can be empty");
             
@@ -72,7 +72,7 @@ namespace TestWordsTraining
         [Test]
         public void TestIncrCounter()
         {
-            card.SelectedLanguage = Language.LAN1;
+            card.SelectedLanguage = Language.Lang1;
             card.IncrementCounter();
             Assert.AreEqual(1, card.SuccessfulCounter, "Check that number of successsfull attempts for word1 is incremented");
         }
@@ -80,7 +80,7 @@ namespace TestWordsTraining
         [Test]
         public void TestSetCounterTo0()
         {
-            card.SelectedLanguage = Language.LAN2;
+            card.SelectedLanguage = Language.Lang2;
             card.IncrementCounter();
             card.ResetCounter();
             Assert.AreEqual(0, card.SuccessfulCounter, "Check that number of successsfull attempts for word2 is reset to 0");
@@ -117,7 +117,7 @@ namespace TestWordsTraining
         [Test]
         public void TestCardsnotEqual3()
         {
-            WordCard card2 = new WordCard(word1, word2, WordType.PRONOUN);
+            WordCard card2 = new WordCard(word1, word2, WordType.Pronoun);
             Assert.IsFalse(card.Equals(card2), "Validating that cards are not equal");
         }
     }
