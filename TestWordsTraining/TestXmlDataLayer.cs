@@ -41,9 +41,12 @@ namespace TestWordsTraining
             dictionary.Add(card1);
             dictionary.Add(card2);
             dictionary.Add(card3);
+        }
 
-//            if (File.Exists(pathToXml))
-//                File.Delete(pathToXml);
+        [TearDown]
+        public void TearDown()
+        {
+            File.Delete(pathToXml);
         }
 
         [Test]
@@ -63,13 +66,6 @@ namespace TestWordsTraining
             card.Comment = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
-        }
-
-        [Test]
-        [ExpectedException(typeof(XmlSchemaValidationException))]
-        public void TestInvalidXml()
-        {
-            
         }
     }
 

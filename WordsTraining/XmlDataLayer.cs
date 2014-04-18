@@ -20,8 +20,8 @@ namespace WordsTraining
         public XmlDataLayer(string pathToXml)
         {
             this.pathToXml = pathToXml;
-            if (!File.Exists(pathToXml))
-                File.CreateText(pathToXml);
+            //if (!File.Exists(pathToXml))
+            //    File.CreateText(pathToXml);
         }
 
         /// <summary>
