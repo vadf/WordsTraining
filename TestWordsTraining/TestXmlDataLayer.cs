@@ -13,12 +13,12 @@ namespace TestWordsTraining
     class TestXmlDataLayer
     {
         WordsDictionary dictionary;
-        string language1 = "ENG";
-        string language2 = "EST";
+        string language1 = "EST";
+        string language2 = "ENG";
         int maxCards = 5;
 
-        string word11 = "Hi";
-        string word12 = "Tere";
+        string word11 = "Tere";
+        string word12 = "Hi";
         WordType type1 = WordType.Noun;
 
         string word21 = "rääkima";
@@ -52,9 +52,11 @@ namespace TestWordsTraining
         [Test]
         public void TestSaveReadWComments()
         {
-            var card = dictionary.Get(0);
+            dictionary.SelectedIndex = 0;
+            WordCard card = dictionary.SelectedCard;
             card.CommentCommon = "Greeting";
-            card = dictionary.Get(1);
+            dictionary.SelectedIndex = 1;
+            card = dictionary.SelectedCard;
             card.SelectedLanguage = Language.Lang1;
             card.Comment = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
 
@@ -76,10 +78,12 @@ namespace TestWordsTraining
         [Test]
         public void TestSaveReadCountersIncreased()
         {
-            var card = dictionary.Get(0);
+            dictionary.SelectedIndex = 0;
+            WordCard card = dictionary.SelectedCard;
             card.SelectedLanguage = Language.Lang1;
             card.SuccessfulCounter = 2;
-            card = dictionary.Get(1);
+            dictionary.SelectedIndex = 1;
+            card = dictionary.SelectedCard;
             card.SelectedLanguage = Language.Lang2;
             card.SuccessfulCounter = 1;
 
@@ -93,10 +97,15 @@ namespace TestWordsTraining
         private void ValidatingDictionaries(WordsDictionary expected, WordsDictionary actual)
         {
             Assert.AreEqual(expected.Size, actual.Size, "Validating read dictionary size");
+            Assert.AreEqual(expected.Language1, actual.Language1, "Validating Language1");
+            Assert.AreEqual(expected.Language2, actual.Language2, "Validating Language2");
             for (int i = 0; i < expected.Size; i++)
             {
-                var cardExpected = expected.Get(i);
-                var cardActual = actual.Get(i);
+                expected.SelectedIndex = 0;
+                WordCard cardExpected = expected.SelectedCard;
+                actual.SelectedIndex = 0;
+                WordCard cardActual = actual.SelectedCard;
+
                 Assert.AreEqual(cardExpected, cardActual, "Validating card " + i + " words");
                 Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card");
                 cardExpected.SelectedLanguage = Language.Lang1;

@@ -10,7 +10,7 @@ namespace WordsTraining
         private List<WordCard> cardsList = new List<WordCard>(); // CHECK: HashSet ???
         private string _language1;
         private string _language2;
-
+        private int _selectedIndex = 0;
 
         public int MaxCards { get; private set; } // CHECK: do i realy need it?
 
@@ -47,6 +47,19 @@ namespace WordsTraining
             }
         }
 
+        public WordCard SelectedCard
+        {
+            get { return cardsList[_selectedIndex]; }
+        }
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; }
+        }
+
+        
+
         /// <summary>
         /// Current number of cards in Dictionary
         /// </summary>
@@ -81,17 +94,6 @@ namespace WordsTraining
                 throw new ArgumentOutOfRangeException("Cards limit exceeded. Max number of cards " + MaxCards);
             else
                 cardsList.Add(card);
-        }
-
-        /// <summary>
-        /// Returns the card at position p in Dictionary
-        /// </summary>
-        /// <param name="p">Position</param>
-        /// <returns>WordCard</returns>
-        public WordCard Get(int p)
-        {
-            // CHECK: do i really need it???
-            return cardsList[p];
         }
 
     }

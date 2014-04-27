@@ -1,8 +1,85 @@
 ﻿<Window x:Class="WordsTraining.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" MinWidth="525" MinHeight="350">
     <Grid>
-        
+        <TabControl Height="Auto" HorizontalAlignment="Stretch" Margin="5" Name="tabControl1" VerticalAlignment="Stretch" Width="Auto" HorizontalContentAlignment="Stretch">
+            <TabItem Header="Dictionaries" Name="tabItem1">
+                <Grid IsManipulationEnabled="True">
+                    <Button Content="Create" Height="23" HorizontalAlignment="Left" Margin="252,6,0,0" Name="Create" VerticalAlignment="Top" Width="75" Click="Create_Click" />
+                    <Button Content="Open" Height="23" HorizontalAlignment="Left" Margin="252,35,0,0" Name="Open" VerticalAlignment="Top" Width="75" Click="Open_Click" />
+                    <ListBox Name="listDictionaries"
+                             Height="Auto"
+                             HorizontalAlignment="Left"
+                             Margin="6,6,0,0"
+                             VerticalAlignment="Stretch"
+                             Width="230">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Words" Name="tabItem2">
+                <Grid>
+                    <Grid HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Height="23" Width="100" HorizontalAlignment="Center" Margin="2" Name="lang1" Text="{Binding Path=Language1}" VerticalAlignment="Top" Grid.Column="0"/>
+                        <ListBox  Name="lang1Words"
+                                  ItemsSource="{Binding Cards}"
+                                  Height="Auto"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="6,25,6,6"
+                                  VerticalAlignment="Stretch"
+                                  Width="Auto"
+                                  SelectionChanged="lang1Words_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Word1}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBlock Height="23" Width="100" HorizontalAlignment="Center" Margin="2" Name="lang2" Text="{Binding Path=Language2}" VerticalAlignment="Top" Grid.Column="1"/>
+                        <ListBox Name="lang2Words"
+                                 ItemsSource="{Binding Cards}"
+                                 Grid.Column="1"
+                                 Height="Auto"
+                                 HorizontalAlignment="Stretch"
+                                 Margin="6,25,6,6"
+                                 VerticalAlignment="Stretch"
+                                 Width="Auto" SelectionChanged="lang2Words_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Word2}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+                            <TextBlock Height="23" Name="lbLang1" Text="{Binding Path=Language1}" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtWord1" Width="Auto" Margin="3,0"/>
+                            <TextBlock Height="23" Name="lbComment1" Text="Comment" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtComment1" Width="Auto" Margin="3,0"/>
+                            <TextBlock Height="23" Name="lbLang2" Text="{Binding Path=Language2}" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtWord2" Width="Auto" Margin="3,0"/>
+                            <TextBlock Height="23" Name="lbComment2" Text="Comment" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtComment2" Width="Auto" Margin="3,0"/>
+                            <TextBlock Height="23" Name="lbType" Text="Type" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtType" Width="Auto" Margin="3,0"/>
+                            <TextBlock Height="23" Name="lbComment" Text="Common Comment" Margin="3,0"/>
+                            <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0"/>
+                        </StackPanel>                        
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Training" Name="tabItem3">
+                <Grid />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

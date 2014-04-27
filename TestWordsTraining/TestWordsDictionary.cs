@@ -70,7 +70,8 @@ namespace TestWordsTraining
             WordCard card = new WordCard(word11, word12, type1);
             dictionary.Add(card);
             WordCard cardExpected = new WordCard(word11, word12, type1);
-            WordCard cardActual = dictionary.Get(0);
+            dictionary.SelectedIndex = 0;
+            WordCard cardActual = dictionary.SelectedCard;
             Assert.AreEqual(cardExpected, cardActual, "Validating that card is added correctly");
 
             int sizeExpected = 1;

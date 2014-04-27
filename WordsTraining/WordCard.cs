@@ -7,7 +7,7 @@ namespace WordsTraining
 {
     public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction }
     public enum Language { Lang1 = 1, Lang2 }
-    
+
     /// <summary>
     /// Describes the Word card that contains two words
     /// </summary>
@@ -16,7 +16,7 @@ namespace WordsTraining
         private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
 
         public Language SelectedLanguage { get; set; }
-        
+
         // Words, mandatory
         public string Word
         {
@@ -24,14 +24,38 @@ namespace WordsTraining
             set { words[SelectedLanguage].Word = value; }
         }
 
-        public WordType Type { get; private set; }
-        
+        public string Word1
+        {
+            get { return words[Language.Lang1].Word; }
+        }
+
+        public string Word2
+        {
+            get { return words[Language.Lang2].Word; }
+        }
+
+        /// <summary>
+        /// Words type
+        /// </summary>
+        public WordType Type { get; set; }
+
         // Comment for word and common comment for card. All are optional
         public string Comment
         {
             get { return words[SelectedLanguage].Comment; }
             set { words[SelectedLanguage].Comment = value; }
         }
+
+        public string Comment1
+        {
+            get { return words[Language.Lang1].Comment; }
+        }
+
+        public string Comment2
+        {
+            get { return words[Language.Lang2].Comment; }
+        }
+
         public string CommentCommon { get; set; }
 
         // counters
@@ -51,7 +75,7 @@ namespace WordsTraining
         {
             words.Add(Language.Lang1, new WordClass());
             words.Add(Language.Lang2, new WordClass());
-            
+
             SelectedLanguage = Language.Lang1;
             this.Word = word1;
             SelectedLanguage = Language.Lang2;
@@ -76,7 +100,7 @@ namespace WordsTraining
             {
                 return false;
             }
-            
+
             wc.SelectedLanguage = Language.Lang1;
             this.SelectedLanguage = Language.Lang1;
             if (wc.Word != this.Word)

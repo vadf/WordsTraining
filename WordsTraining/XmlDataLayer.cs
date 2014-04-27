@@ -50,7 +50,7 @@ namespace WordsTraining
             xd.Load(pathToXml);
             xd.Validate(null);
             XmlElement root = xd.DocumentElement;
-            WordsDictionary dictionary = new WordsDictionary(root.Attributes[strLang1].ToString(), root.Attributes[strLang2].ToString());
+            WordsDictionary dictionary = new WordsDictionary(root.Attributes[strLang1].Value, root.Attributes[strLang2].Value);
 
             XmlNodeList cardsList = xd.GetElementsByTagName(strCard);
             
