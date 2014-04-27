@@ -73,7 +73,7 @@ namespace TestWordsTraining
         public void TestIncrCounter()
         {
             card.SelectedLanguage = Language.Lang1;
-            card.IncrementCounter();
+            card.SuccessfulCounter++;
             Assert.AreEqual(1, card.SuccessfulCounter, "Check that number of successsfull attempts for word1 is incremented");
         }
 
@@ -81,8 +81,8 @@ namespace TestWordsTraining
         public void TestSetCounterTo0()
         {
             card.SelectedLanguage = Language.Lang2;
-            card.IncrementCounter();
-            card.ResetCounter();
+            card.SuccessfulCounter++;
+            card.SuccessfulCounter = 0;
             Assert.AreEqual(0, card.SuccessfulCounter, "Check that number of successsfull attempts for word2 is reset to 0");
         }
 

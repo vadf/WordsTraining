@@ -26,6 +26,7 @@
                           </xs:element>
                           <xs:element minOccurs="0" name ="comment" type="xs:string"/>
                         </xs:sequence>
+                      <xs:attribute name="type" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

@@ -50,22 +50,62 @@ namespace TestWordsTraining
         }
 
         [Test]
-        public void TestSaveWOComments()
-        {
-            XmlDataLayer doc = new XmlDataLayer(pathToXml);
-            doc.Save(dictionary);
-        }
-
-        [Test]
-        public void TestSaveWComments()
+        public void TestSaveReadWComments()
         {
             var card = dictionary.Get(0);
             card.CommentCommon = "Greeting";
             card = dictionary.Get(1);
             card.SelectedLanguage = Language.Lang1;
             card.Comment = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
+
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
+            var dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+        }
+
+        [Test]
+        public void TestSaveReadWOComments()
+        {
+            XmlDataLayer doc = new XmlDataLayer(pathToXml);
+            doc.Save(dictionary);
+            var dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+        }
+
+        [Test]
+        public void TestSaveReadCountersIncreased()
+        {
+            var card = dictionary.Get(0);
+            card.SelectedLanguage = Language.Lang1;
+            card.SuccessfulCounter = 2;
+            card = dictionary.Get(1);
+            card.SelectedLanguage = Language.Lang2;
+            card.SuccessfulCounter = 1;
+
+            XmlDataLayer doc = new XmlDataLayer(pathToXml);
+            doc.Save(dictionary);
+            var dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+        }
+
+
+        private void ValidatingDictionaries(WordsDictionary expected, WordsDictionary actual)
+        {
+            Assert.AreEqual(expected.Size, actual.Size, "Validating read dictionary size");
+            for (int i = 0; i < expected.Size; i++)
+            {
+                var cardExpected = expected.Get(i);
+                var cardActual = actual.Get(i);
+                Assert.AreEqual(cardExpected, cardActual, "Validating card " + i + " words");
+                Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card");
+                cardExpected.SelectedLanguage = Language.Lang1;
+                cardActual.SelectedLanguage = Language.Lang1;
+                Assert.AreEqual(cardExpected.Comment, cardActual.Comment, "Validating comment1 for card");
+                cardExpected.SelectedLanguage = Language.Lang2;
+                cardActual.SelectedLanguage = Language.Lang2;
+                Assert.AreEqual(cardExpected.Comment, cardActual.Comment, "Validating comment2 for card");
+            }
         }
     }
 

@@ -35,10 +35,10 @@ namespace WordsTraining
         public string CommentCommon { get; set; }
 
         // counters
-        public int SuccessfulCounter
+        public uint SuccessfulCounter
         {
             get { return words[SelectedLanguage].SuccessfulCounter; }
-            private set { words[SelectedLanguage].SuccessfulCounter = value; }
+            set { words[SelectedLanguage].SuccessfulCounter = value; }
         }
 
         /// <summary>
@@ -57,22 +57,6 @@ namespace WordsTraining
             SelectedLanguage = Language.Lang2;
             this.Word = word2;
             this.Type = type;
-        }
-
-        /// <summary>
-        /// Increment successful counter for word
-        /// </summary>
-        public void IncrementCounter()
-        {
-            words[SelectedLanguage].SuccessfulCounter++;
-        }
-        
-        /// <summary>
-        /// Reset successful counter for language
-        /// </summary>
-        public void ResetCounter()
-        {
-            words[SelectedLanguage].SuccessfulCounter = 0;
         }
 
         public override bool Equals(object obj)
@@ -128,7 +112,7 @@ namespace WordsTraining
     class WordClass
     {
         private string _word;
-        private int _successfulCounter = 0;
+        private uint _successfulCounter = 0;
 
         /// <summary>
         /// Word text
@@ -153,17 +137,10 @@ namespace WordsTraining
         /// Set the number of word was successfully guessed during exercize
         /// Could be increased by one or set to 0
         /// </summary>
-        public int SuccessfulCounter
+        public uint SuccessfulCounter
         {
             get { return _successfulCounter; }
-            set
-            {
-                if (value != 0 && _successfulCounter + 1 != value)
-                {
-                    throw new InvalidOperationException("Counter can be increased by one or set to 0");
-                }
-                _successfulCounter = value;
-            }
+            set { _successfulCounter = value; }
         }
 
         public WordClass() { }
