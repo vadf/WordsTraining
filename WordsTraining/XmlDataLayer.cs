@@ -63,16 +63,14 @@ namespace WordsTraining
                 WordCard card = new WordCard(word1, word2, (WordType)Enum.Parse(typeof(WordType), type));
                 
                 // set counter and comment for word1
-                card.SelectedLanguage = Language.Lang1;
-                card.SuccessfulCounter = uint.Parse(cardsList[i].ChildNodes[0].Attributes[strCounter].Value);
+                card.SuccessfulCounter1 = uint.Parse(cardsList[i].ChildNodes[0].Attributes[strCounter].Value);
                 if (cardsList[i].ChildNodes[0].ChildNodes.Count > 1)
-                    card.Comment = cardsList[i].ChildNodes[0].ChildNodes[1].InnerText;
+                    card.Comment1 = cardsList[i].ChildNodes[0].ChildNodes[1].InnerText;
 
                 // set counter and comment for word2
-                card.SelectedLanguage = Language.Lang2;
-                card.SuccessfulCounter = uint.Parse(cardsList[i].ChildNodes[1].Attributes[strCounter].Value);
+                card.SuccessfulCounter2 = uint.Parse(cardsList[i].ChildNodes[1].Attributes[strCounter].Value);
                 if (cardsList[i].ChildNodes[1].ChildNodes.Count > 1)
-                    card.Comment = cardsList[i].ChildNodes[1].ChildNodes[1].InnerText;
+                    card.Comment2 = cardsList[i].ChildNodes[1].ChildNodes[1].InnerText;
 
                 // set common comment
                 if (cardsList[i].ChildNodes.Count > 2)
@@ -114,10 +112,10 @@ namespace WordsTraining
                 type.Value = card.Type.ToString();
                 wordCard.Attributes.Append(type);
 
-                XmlNode word1 = GetWordNode(xd, card, Language.Lang1);
+                XmlNode word1 = GetWordNode(xd, card.Word1, card.Comment1, card.SuccessfulCounter1, Language.Lang1);
                 wordCard.AppendChild(word1);
 
-                XmlNode word2 = GetWordNode(xd, card, Language.Lang2);
+                XmlNode word2 = GetWordNode(xd, card.Word2, card.Comment2, card.SuccessfulCounter2, Language.Lang2);
                 wordCard.AppendChild(word2);
 
                 if (card.CommentCommon != null)
@@ -134,29 +132,32 @@ namespace WordsTraining
             xd.Save(pathToXml);
         }
 
+
         /// <summary>
         /// Create a word node for specific language
         /// </summary>
         /// <param name="xd">Xml Document</param>
-        /// <param name="card">Card with words</param>
+        /// <param name="cardWord">Word</param>
+        /// <param name="cardComment">Comment</param>
+        /// <param name="cardCounter">Counter</param>
         /// <param name="lang">Language for word</param>
         /// <returns>Xml Node for word</returns>
-        private XmlNode GetWordNode(XmlDocument xd, WordCard card, Language lang)
+        private XmlNode GetWordNode(XmlDocument xd, string cardWord, string cardComment, uint cardCounter, Language lang)
         {
-            card.SelectedLanguage = lang;
+            // FIXME: word1 and word initialization
             XmlNode word = xd.CreateElement(strWord + (int)lang);
             XmlAttribute counter = xd.CreateAttribute(strCounter);
-            counter.Value = card.SuccessfulCounter.ToString();
+            counter.Value = cardCounter.ToString();
             word.Attributes.Append(counter);
 
             XmlNode text = xd.CreateElement(strText);
-            text.InnerText = card.Word;
+            text.InnerText = cardWord;
             word.AppendChild(text);
 
-            if (card.Comment != null)
+            if (cardComment != null)
             {
                 XmlNode comment = xd.CreateElement(strComment);
-                comment.InnerText = card.Comment;
+                comment.InnerText = cardComment;
                 word.AppendChild(comment);                
             }
 

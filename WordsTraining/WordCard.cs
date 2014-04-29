@@ -15,23 +15,25 @@ namespace WordsTraining
     {
         private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
 
-        public Language SelectedLanguage { get; set; }
+        //public Language SelectedLanguage { get; set; }
 
         // Words, mandatory
-        public string Word
-        {
-            get { return words[SelectedLanguage].Word; }
-            set { words[SelectedLanguage].Word = value; }
-        }
+        //public string Word
+        //{
+        //    get { return words[SelectedLanguage].Word; }
+        //    set { words[SelectedLanguage].Word = value; }
+        //}
 
         public string Word1
         {
             get { return words[Language.Lang1].Word; }
+            set { words[Language.Lang1].Word = value; }
         }
 
         public string Word2
         {
             get { return words[Language.Lang2].Word; }
+            set { words[Language.Lang2].Word = value; }
         }
 
         /// <summary>
@@ -40,29 +42,43 @@ namespace WordsTraining
         public WordType Type { get; set; }
 
         // Comment for word and common comment for card. All are optional
-        public string Comment
-        {
-            get { return words[SelectedLanguage].Comment; }
-            set { words[SelectedLanguage].Comment = value; }
-        }
+        //public string Comment
+        //{
+        //    get { return words[SelectedLanguage].Comment; }
+        //    set { words[SelectedLanguage].Comment = value; }
+        //}
 
         public string Comment1
         {
             get { return words[Language.Lang1].Comment; }
+            set { words[Language.Lang1].Comment = value; }
         }
 
         public string Comment2
         {
             get { return words[Language.Lang2].Comment; }
+            set { words[Language.Lang2].Comment = value; }
         }
 
         public string CommentCommon { get; set; }
 
         // counters
-        public uint SuccessfulCounter
+        //public uint SuccessfulCounter
+        //{
+        //    get { return words[SelectedLanguage].SuccessfulCounter; }
+        //    set { words[SelectedLanguage].SuccessfulCounter = value; }
+        //}
+
+        public uint SuccessfulCounter1
         {
-            get { return words[SelectedLanguage].SuccessfulCounter; }
-            set { words[SelectedLanguage].SuccessfulCounter = value; }
+            get { return words[Language.Lang1].SuccessfulCounter; }
+            set { words[Language.Lang1].SuccessfulCounter = value; }
+        }
+
+        public uint SuccessfulCounter2
+        {
+            get { return words[Language.Lang2].SuccessfulCounter; }
+            set { words[Language.Lang2].SuccessfulCounter = value; }
         }
 
         /// <summary>
@@ -76,10 +92,8 @@ namespace WordsTraining
             words.Add(Language.Lang1, new WordClass());
             words.Add(Language.Lang2, new WordClass());
 
-            SelectedLanguage = Language.Lang1;
-            this.Word = word1;
-            SelectedLanguage = Language.Lang2;
-            this.Word = word2;
+            this.Word1 = word1;
+            this.Word2 = word2;
             this.Type = type;
         }
 
@@ -101,16 +115,12 @@ namespace WordsTraining
                 return false;
             }
 
-            wc.SelectedLanguage = Language.Lang1;
-            this.SelectedLanguage = Language.Lang1;
-            if (wc.Word != this.Word)
+            if (wc.Word1 != this.Word1)
             {
                 return false;
             }
 
-            wc.SelectedLanguage = Language.Lang2;
-            this.SelectedLanguage = Language.Lang2;
-            if (wc.Word != this.Word)
+            if (wc.Word2 != this.Word2)
             {
                 return false;
             }

@@ -57,8 +57,7 @@ namespace TestWordsTraining
             card.CommentCommon = "Greeting";
             dictionary.SelectedIndex = 1;
             card = dictionary.SelectedCard;
-            card.SelectedLanguage = Language.Lang1;
-            card.Comment = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
+            card.Comment1 = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
 
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
@@ -80,12 +79,10 @@ namespace TestWordsTraining
         {
             dictionary.SelectedIndex = 0;
             WordCard card = dictionary.SelectedCard;
-            card.SelectedLanguage = Language.Lang1;
-            card.SuccessfulCounter = 2;
+            card.SuccessfulCounter1 = 2;
             dictionary.SelectedIndex = 1;
             card = dictionary.SelectedCard;
-            card.SelectedLanguage = Language.Lang2;
-            card.SuccessfulCounter = 1;
+            card.SuccessfulCounter2 = 1;
 
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
@@ -108,12 +105,8 @@ namespace TestWordsTraining
 
                 Assert.AreEqual(cardExpected, cardActual, "Validating card " + i + " words");
                 Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card");
-                cardExpected.SelectedLanguage = Language.Lang1;
-                cardActual.SelectedLanguage = Language.Lang1;
-                Assert.AreEqual(cardExpected.Comment, cardActual.Comment, "Validating comment1 for card");
-                cardExpected.SelectedLanguage = Language.Lang2;
-                cardActual.SelectedLanguage = Language.Lang2;
-                Assert.AreEqual(cardExpected.Comment, cardActual.Comment, "Validating comment2 for card");
+                Assert.AreEqual(cardExpected.Comment1, cardActual.Comment1, "Validating comment1 for card");
+                Assert.AreEqual(cardExpected.Comment2, cardActual.Comment2, "Validating comment2 for card");
             }
         }
     }

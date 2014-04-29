@@ -81,14 +81,12 @@ namespace WordsTraining
         {
             wordsDictionary.SelectedIndex = position;
             WordCard card = wordsDictionary.SelectedCard;
-            card.SelectedLanguage = WordsTraining.Language.Lang1;
-            txtWord1.Text = card.Word;
-            txtComment1.Text = card.Comment;
-            card.SelectedLanguage = WordsTraining.Language.Lang2;
-            txtWord2.Text = card.Word;
-            txtComment2.Text = card.Comment;
+            txtWord1.Text = card.Word1;
+            txtComment1.Text = card.Comment1;
+            txtWord2.Text = card.Word2;
+            txtComment2.Text = card.Comment2;
             txtType.Text = card.Type.ToString();
-            txtComment.Text = card.Comment;
+            txtComment.Text = card.CommentCommon;
         }
     }
 }
