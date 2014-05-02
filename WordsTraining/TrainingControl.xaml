@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="WordsTraining.TrainingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             x:Name="TrainingView"
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="TrainingView_Loaded">
+    <Grid>
+        <Grid Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch" Width="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="185" />
+                <ColumnDefinition Width="302" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="stackPanel1" VerticalAlignment="Stretch" Width="Auto">
+                <TextBlock Height="23" Name="lbNumOfWords" Text="Number of words to learn" />
+                <TextBox Height="23" Name="txtNumOfWords" Width="120" />
+                <TextBlock Height="23" Name="lbCounter" Text="Counter Max" />
+                <TextBox Height="23" Name="txtCounter" Width="120" />
+                <TextBlock Height="23" Name="lbDirection" Text="Direction" />
+                <Button Content="Switch Direction" Height="23" Name="btnSwitchDirection" Width="75" />
+                <Button Content="Start" Height="23" Name="btnStart" Width="75" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="stackPanel2" VerticalAlignment="Stretch" Width="Auto">
+                <TextBlock Height="23" Name="lbFrom" Text="From" />
+                <TextBox Height="23" Name="txtFrom" Width="120" IsReadOnly="True" />
+                <TextBlock Height="23" Name="lbTo" Text="To" />
+                <TextBox Height="23" Name="txtTo" Width="120" />
+                <TextBlock Height="23" Name="lbResult" Text="Result" />
+                <Button Content="Check" Height="23" Name="btnCheck" Width="75" />
+                <Button Content="Next" Height="23" Name="btnNetx" Width="75" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

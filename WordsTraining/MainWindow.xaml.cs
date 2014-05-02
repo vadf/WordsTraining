@@ -20,21 +20,15 @@ namespace WordsTraining
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string dictionariesFolder = "dictionaries";
-        private WordsDictionary wordsDictionary;
-
-
-        public List<String> MyDictionaries
-        {
-            get;
-            set;
-        }
-        
+        private static string dictionariesFolder = "dictionaries";
 
         public MainWindow()
         {
             InitializeComponent();
+        }
 
+        public static List<string> GetDictionariesList()
+        {           
             // Create Dictionaries folder if not exist
             if (!Directory.Exists(dictionariesFolder))
             {
@@ -42,51 +36,13 @@ namespace WordsTraining
             }
 
             // read dictionaries list
-            MyDictionaries = new List<string>();
-            string [] dictionaries = Directory.GetFiles(dictionariesFolder);
-            foreach (var file in dictionaries)
-            {
-                MyDictionaries.Add(file.Replace(".xml", ""));
-            }
-
-            listDictionaries.ItemsSource = MyDictionaries;
+            string[] dictionaries = Directory.GetFiles(dictionariesFolder);
+            return new List<string>(dictionaries);
         }
 
-        private void Create_Click(object sender, RoutedEventArgs e)
+        private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            if (listDictionaries.SelectedIndex == -1) return;
-            string pathToXMl = listDictionaries.SelectedItem.ToString() + ".xml";
-            wordsDictionary = new XmlDataLayer(pathToXMl).Read();
-            DataContext = wordsDictionary;
-        }
-
-        private void lang1Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            lang2Words.SelectedIndex = lang1Words.SelectedIndex;
-            UpdateWordView(lang1Words.SelectedIndex);
-        }
-
-        private void lang2Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            lang1Words.SelectedIndex = lang2Words.SelectedIndex;
-            UpdateWordView(lang1Words.SelectedIndex);
-        }
-
-        private void UpdateWordView(int position)
-        {
-            wordsDictionary.SelectedIndex = position;
-            WordCard card = wordsDictionary.SelectedCard;
-            txtWord1.Text = card.Word1;
-            txtComment1.Text = card.Comment1;
-            txtWord2.Text = card.Word2;
-            txtComment2.Text = card.Comment2;
-            txtType.Text = card.Type.ToString();
-            txtComment.Text = card.CommentCommon;
         }
     }
 }
