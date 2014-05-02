@@ -14,22 +14,14 @@ namespace TestWordsTraining
         string language1 = "ENG";
         string language2 = "EST";
         int maxCards = 3;
+        Random random = new Random();
 
-        string word11 = "Hi";
-        string word12 = "Tere";
-        WordType type1 = WordType.Noun;
-
-        string word21 = "rääkima";
-        string word22 = "speak";
-        WordType type2 = WordType.Verb;
-
-        string word31 = "hästi";
-        string word32 = "well";
-        WordType type3 = WordType.Adverb;
+        CardsGenerator generator = new CardsGenerator();
 
         [SetUp]
         public void SetUp()
         {
+            maxCards = random.Next(3, 100);
             dictionary = new WordsDictionary(language1, language2, maxCards);
         }
         
@@ -67,9 +59,9 @@ namespace TestWordsTraining
         [Test]
         public void TestAddWordCard()
         {
-            WordCard card = new WordCard(word11, word12, type1);
-            dictionary.Add(card);
-            WordCard cardExpected = new WordCard(word11, word12, type1);
+            WordCard card = generator.GetCard();
+            WordCard cardExpected = new WordCard(card.Word1, card.Word2, card.Type);
+            dictionary.Add(card);            
             dictionary.SelectedIndex = 0;
             WordCard cardActual = dictionary.SelectedCard;
             Assert.AreEqual(cardExpected, cardActual, "Validating that card is added correctly");
@@ -83,8 +75,8 @@ namespace TestWordsTraining
         [ExpectedException(typeof(ArgumentException))]
         public void TestAddWordCardTwice()
         {
-            WordCard card1 = new WordCard(word11, word12, type1);
-            WordCard card2 = new WordCard(word11, word12, type1);
+            WordCard card1 = generator.GetCard();
+            WordCard card2 = new WordCard(card1.Word1, card1.Word2, card1.Type);
             dictionary.Add(card1);
             dictionary.Add(card2);
         }
@@ -92,14 +84,12 @@ namespace TestWordsTraining
         [Test]
         public void TestAddWordCardMax()
         {
-            WordCard card1 = new WordCard(word11, word12, type1);
-            WordCard card2 = new WordCard(word21, word22, type2);
-            WordCard card3 = new WordCard(word31, word32, type3);
-            dictionary.Add(card1);
-            dictionary.Add(card2);
-            dictionary.Add(card3);
+            for (int i = 0; i < maxCards; i++)
+            {
+                dictionary.Add(generator.GetCard());
+            }            
 
-            int sizeExpected = 3;
+            int sizeExpected = maxCards;
             int sizeActual = dictionary.Size;
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
         }
@@ -108,14 +98,10 @@ namespace TestWordsTraining
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestAddWordCardMax1()
         {
-            WordCard card1 = new WordCard(word11, word12, type1);
-            WordCard card2 = new WordCard(word21, word22, type2);
-            WordCard card3 = new WordCard(word31, word32, type3);
-            WordCard card4 = new WordCard(word31, word32, type1);
-            dictionary.Add(card1);
-            dictionary.Add(card2);
-            dictionary.Add(card3);
-            dictionary.Add(card4);
+            for (int i = 0; i < maxCards + 1; i++)
+            {
+                dictionary.Add(generator.GetCard());
+            }  
         }
     }
 }

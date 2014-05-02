@@ -1,23 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\WordsTraining.sln" total="1" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-03-02" time="15:44:19">
+<test-results name="C:\VS_Projects\WordsTraining\WordsTraining.sln" total="29" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-05-02" time="22:13:11">
   <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.8000" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE" machine-name="LAPTOP" user="Vadim" user-domain="LAPTOP" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Project" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\WordsTraining.sln" executed="True" result="Failure" success="False" time="0.034" asserts="0">
+  <test-suite type="Project" name="C:\VS_Projects\WordsTraining\WordsTraining.sln" executed="True" result="Failure" success="False" time="0.164" asserts="0">
     <results>
-      <test-suite type="Assembly" name="C:\Users\Vadim\Documents\Visual Studio 2010\Projects\WordsTraining\TestWordsTraining\bin\Debug\TestWordsTraining.exe" executed="True" result="Failure" success="False" time="0.027" asserts="0">
+      <test-suite type="Assembly" name="C:\VS_Projects\WordsTraining\TestWordsTraining\bin\Debug\TestWordsTraining.exe" executed="True" result="Failure" success="False" time="0.163" asserts="0">
         <results>
-          <test-suite type="Namespace" name="TestWordsTraining" executed="True" result="Failure" success="False" time="0.026" asserts="0">
+          <test-suite type="Namespace" name="TestWordsTraining" executed="True" result="Failure" success="False" time="0.163" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="TestWordCard" executed="True" result="Failure" success="False" time="0.025" asserts="0">
+              <test-suite type="TestFixture" name="TestTraining" executed="True" result="Success" success="True" time="0.020" asserts="0">
                 <results>
-                  <test-case name="TestWordsTraining.TestWordCard.Test" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+                  <test-case name="TestWordsTraining.TestTraining.Test0ToLearn" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestTraining.Test1ToLearn" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestTraining.TestAllLearned" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestTraining.TestDictionaryEmpty" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestTraining.TestLearnGreaterThanCards" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestTraining.TestSucceeded1" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="TestWordCard" executed="True" result="Success" success="True" time="0.045" asserts="0">
+                <results>
+                  <test-case name="TestWordsTraining.TestWordCard.TestCardsEqual1" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestCardsEqual2" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestCardsnotEqual1" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestCardsnotEqual2" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestCardsnotEqual3" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestIncrCounter" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInit" executed="True" result="Success" success="True" time="0.000" asserts="3" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFailed1" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestInitFailed2" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetComment" executed="True" result="Success" success="True" time="0.000" asserts="3" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetCounterTo0" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordCard.TestSetIncorrectPropertyWord1" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="TestWordsDictionary" executed="True" result="Success" success="True" time="0.032" asserts="0">
+                <results>
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestAddWordCard" executed="True" result="Success" success="True" time="0.000" asserts="2" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestAddWordCardMax" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestAddWordCardMax1" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestAddWordCardTwice" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestInit" executed="True" result="Success" success="True" time="0.000" asserts="3" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestInit2" executed="True" result="Success" success="True" time="0.000" asserts="3" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestInitFailed1" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="TestWordsTraining.TestWordsDictionary.TestInitFailed2" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="TestXmlDataLayer" executed="True" result="Failure" success="False" time="0.049" asserts="0">
+                <results>
+                  <test-case name="TestWordsTraining.TestXmlDataLayer.TestSaveReadCountersIncreased" executed="True" result="Success" success="True" time="0.011" asserts="347" />
+                  <test-case name="TestWordsTraining.TestXmlDataLayer.TestSaveReadWComments" executed="True" result="Failure" success="False" time="0.008" asserts="53">
                     <failure>
-                      <message><![CDATA[Test]]></message>
-                      <stack-trace><![CDATA[at TestWordsTraining.TestWordCard.Test() in C:\Users\Vadim\documents\visual studio 2010\Projects\WordsTraining\TestWordsTraining\TestWordCard.cs:line 17
+                      <message><![CDATA[  Validating common comment for card 12
+  Expected string length 1 but was 0. Strings differ at index 0.
+  Expected: " "
+  But was:  <string.Empty>
+  -----------^
+]]></message>
+                      <stack-trace><![CDATA[at TestWordsTraining.TestXmlDataLayer.ValidatingDictionaries(WordsDictionary expected, WordsDictionary actual) in C:\VS_Projects\WordsTraining\TestWordsTraining\TestXmlDataLayer.cs:line 95
+at TestWordsTraining.TestXmlDataLayer.TestSaveReadWComments() in C:\VS_Projects\WordsTraining\TestWordsTraining\TestXmlDataLayer.cs:line 48
 ]]></stack-trace>
                     </failure>
                   </test-case>
+                  <test-case name="TestWordsTraining.TestXmlDataLayer.TestSaveReadWOComments" executed="True" result="Success" success="True" time="0.006" asserts="63" />
                 </results>
               </test-suite>
             </results>

@@ -49,9 +49,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestTraining.cs" />
     <Compile Include="TestXmlDataLayer.cs" />
     <Compile Include="TestWordCard.cs" />
     <Compile Include="TestWordsDictionary.cs" />
+    <Compile Include="CardsGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WordsTraining\WordsTraining.csproj">

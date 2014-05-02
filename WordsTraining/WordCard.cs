@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WordsTraining
 {
-    public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction }
+    public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction, Phrase }
     public enum Language { Lang1 = 1, Lang2 }
 
     /// <summary>

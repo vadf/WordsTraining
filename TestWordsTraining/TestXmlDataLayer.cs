@@ -15,50 +15,33 @@ namespace TestWordsTraining
         WordsDictionary dictionary;
         string language1 = "EST";
         string language2 = "ENG";
-        int maxCards = 5;
+        int maxCards;
 
-        string word11 = "Tere";
-        string word12 = "Hi";
-        WordType type1 = WordType.Noun;
-
-        string word21 = "rääkima";
-        string word22 = "speak";
-        WordType type2 = WordType.Verb;
-
-        string word31 = "hästi";
-        string word32 = "well";
-        WordType type3 = WordType.Adverb;
+        CardsGenerator generator = new CardsGenerator();
+        Random random = new Random();
 
         string pathToXml = "dictionary.xml";
 
         [SetUp]
         public void SetUp()
         {
+            maxCards = random.Next(5, 100);
             dictionary = new WordsDictionary(language1, language2, maxCards);
-            WordCard card1 = new WordCard(word11, word12, type1);
-            WordCard card2 = new WordCard(word21, word22, type2);
-            WordCard card3 = new WordCard(word31, word32, type3);
-            dictionary.Add(card1);
-            dictionary.Add(card2);
-            dictionary.Add(card3);
+            for (int i = 0; i < maxCards/2; i++)
+            {
+                dictionary.Add(generator.GetCard());
+            }
         }
 
         [TearDown]
         public void TearDown()
         {
-            File.Delete(pathToXml);
+            // File.Delete(pathToXml);
         }
 
         [Test]
         public void TestSaveReadWComments()
         {
-            dictionary.SelectedIndex = 0;
-            WordCard card = dictionary.SelectedCard;
-            card.CommentCommon = "Greeting";
-            dictionary.SelectedIndex = 1;
-            card = dictionary.SelectedCard;
-            card.Comment1 = "r'ääki[ma r'ääki[da räägi[b räägi[tud";
-
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
             var dictionaryRead = doc.Read();
@@ -68,6 +51,13 @@ namespace TestWordsTraining
         [Test]
         public void TestSaveReadWOComments()
         {
+            dictionary.SelectedIndex = 0;
+            WordCard card = dictionary.SelectedCard;
+            card.CommentCommon = "";
+            dictionary.SelectedIndex = 1;
+            card = dictionary.SelectedCard;
+            card.Comment1 = null;
+            
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
             var dictionaryRead = doc.Read();
@@ -77,12 +67,10 @@ namespace TestWordsTraining
         [Test]
         public void TestSaveReadCountersIncreased()
         {
-            dictionary.SelectedIndex = 0;
-            WordCard card = dictionary.SelectedCard;
-            card.SuccessfulCounter1 = 2;
-            dictionary.SelectedIndex = 1;
-            card = dictionary.SelectedCard;
-            card.SuccessfulCounter2 = 1;
+            for (int i = maxCards / 2; i < maxCards - 1; i++)
+            {
+                dictionary.Add(generator.GetCardExtra(5));
+            }
 
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
@@ -98,15 +86,15 @@ namespace TestWordsTraining
             Assert.AreEqual(expected.Language2, actual.Language2, "Validating Language2");
             for (int i = 0; i < expected.Size; i++)
             {
-                expected.SelectedIndex = 0;
+                expected.SelectedIndex = i;
                 WordCard cardExpected = expected.SelectedCard;
-                actual.SelectedIndex = 0;
+                actual.SelectedIndex = i;
                 WordCard cardActual = actual.SelectedCard;
 
                 Assert.AreEqual(cardExpected, cardActual, "Validating card " + i + " words");
-                Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card");
-                Assert.AreEqual(cardExpected.Comment1, cardActual.Comment1, "Validating comment1 for card");
-                Assert.AreEqual(cardExpected.Comment2, cardActual.Comment2, "Validating comment2 for card");
+                Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card " + i);
+                Assert.AreEqual(cardExpected.Comment1, cardActual.Comment1, "Validating comment1 for card " + i);
+                Assert.AreEqual(cardExpected.Comment2, cardActual.Comment2, "Validating comment2 for card " + i);
             }
         }
     }
