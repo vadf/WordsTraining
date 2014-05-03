@@ -59,8 +59,8 @@ namespace TestWordsTraining
                 ch = lang[random.Next(lang.Length)];
                 newString += ch + "";
             }
-            //if (size > 0 && newString[0] == ' ')
-            //    newString = newString.Replace(' ', lang[0]);
+            if (size > 0 && newString[0] == ' ')
+                newString = newString.Replace(' ', lang[0]);
             return newString;
         }
 

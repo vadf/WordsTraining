@@ -15,14 +15,14 @@ namespace WordsTraining
     {
         private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
 
-        //public Language SelectedLanguage { get; set; }
+        public Language SelectedLanguage { get; set; }
 
         // Words, mandatory
-        //public string Word
-        //{
-        //    get { return words[SelectedLanguage].Word; }
-        //    set { words[SelectedLanguage].Word = value; }
-        //}
+        public string Word
+        {
+            get { return words[SelectedLanguage].Word; }
+            set { words[SelectedLanguage].Word = value; }
+        }
 
         public string Word1
         {
@@ -42,11 +42,11 @@ namespace WordsTraining
         public WordType Type { get; set; }
 
         // Comment for word and common comment for card. All are optional
-        //public string Comment
-        //{
-        //    get { return words[SelectedLanguage].Comment; }
-        //    set { words[SelectedLanguage].Comment = value; }
-        //}
+        public string Comment
+        {
+            get { return words[SelectedLanguage].Comment; }
+            set { words[SelectedLanguage].Comment = value; }
+        }
 
         public string Comment1
         {
@@ -63,11 +63,11 @@ namespace WordsTraining
         public string CommentCommon { get; set; }
 
         // counters
-        //public uint SuccessfulCounter
-        //{
-        //    get { return words[SelectedLanguage].SuccessfulCounter; }
-        //    set { words[SelectedLanguage].SuccessfulCounter = value; }
-        //}
+        public uint SuccessfulCounter
+        {
+            get { return words[SelectedLanguage].SuccessfulCounter; }
+            set { words[SelectedLanguage].SuccessfulCounter = value; }
+        }
 
         public uint SuccessfulCounter1
         {

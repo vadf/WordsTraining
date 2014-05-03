@@ -8,6 +8,7 @@ namespace WordsTraining
     public class Training
     {
         private IList<WordCard> cardsToLearn;
+        private Language lang;
         private int _cardIndex = 0;
 
         /// <summary>
@@ -21,10 +22,15 @@ namespace WordsTraining
         /// <param name="maxCounter">Max counter value</param>
         public Training(WordsDictionary dictionary, Language langFrom, Language langTo, int amount, uint maxCounter)
         {
+            this.lang = langFrom;
+            // select from Lagnguage
+            foreach (var card in dictionary.Cards)
+                card.SelectedLanguage = langFrom;
+
             // select all cards that have counter less than maxCounter
             var tmpCards =
                 from c in dictionary.Cards
-                where c.SuccessfulCounter1 < maxCounter
+                where c.SuccessfulCounter < maxCounter
                 select c;
 
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
@@ -53,18 +59,20 @@ namespace WordsTraining
         /// </summary>
         public void Succeeded()
         {
-            cardsToLearn[_cardIndex].SuccessfulCounter1++;
+            var card = cardsToLearn[_cardIndex];
+            card.SelectedLanguage = lang;
+            card.SuccessfulCounter++;
         }
 
         /// <summary>
         /// Get next word to learn
         /// </summary>
         /// <returns>Word 'from' learn</returns>
-        public string NextWord()
+        public WordCard NextCard()
         {
             try
             {
-                return cardsToLearn[_cardIndex++].Word1;
+                return cardsToLearn[_cardIndex++];
             }
             catch (ArgumentOutOfRangeException)
             {

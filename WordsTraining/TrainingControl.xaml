@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             x:Name="TrainingView" Loaded="TrainingView_Loaded" d:DesignHeight="300" d:DesignWidth="300">
+             x:Name="TrainingView" Loaded="TrainingView_Loaded" d:DesignHeight="265" d:DesignWidth="486">
     <Grid>
         <Grid Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch" Width="Auto">
             <Grid.ColumnDefinitions>
@@ -13,21 +13,33 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="stackPanel1" VerticalAlignment="Stretch" Width="Auto">
                 <TextBlock Height="23" Name="lbNumOfWords" Text="Number of words to learn" />
-                <TextBox Height="23" Name="txtNumOfWords" Width="120" />
+                <TextBox Height="23" Name="txtNumOfWords" Width="120" Text="{Binding Path=NumOfWords}" />
                 <TextBlock Height="23" Name="lbCounter" Text="Counter Max" />
-                <TextBox Height="23" Name="txtCounter" Width="120" />
-                <TextBlock Height="23" Name="lbDirection" Text="Direction" />
-                <Button Content="Switch Direction" Height="23" Name="btnSwitchDirection" Width="75" />
-                <Button Content="Start" Height="23" Name="btnStart" Width="75" />
+                <TextBox Height="23" Name="txtCounter" Width="120" Text="{Binding Path=Counter}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="lbDirection" Text="Direction" Width="50" />
+                    <TextBlock Height="23" Name="lbDirectionValue" Text=""/>
+                </StackPanel>
+                <Button Content="Switch Direction" Height="23" Name="btnSwitchDirection" Width="75" Click="btnSwitchDirection_Click" />
+                <Button Content="Start" Height="23" Name="btnStart" Width="75" Click="btnStart_Click" />
             </StackPanel>
-            <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="stackPanel2" VerticalAlignment="Stretch" Width="Auto">
-                <TextBlock Height="23" Name="lbFrom" Text="From" />
+            <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Name="stackPanel2" VerticalAlignment="Stretch" Width="Auto">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="lbFrom" Text="From" />
+                    <TextBlock Height="23" Name="lbFromValue" Text="" />
+                </StackPanel>
                 <TextBox Height="23" Name="txtFrom" Width="120" IsReadOnly="True" />
-                <TextBlock Height="23" Name="lbTo" Text="To" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="lbTo" Text="To" />
+                    <TextBlock Height="23" Name="lbToValue" Text="" />
+                </StackPanel>
                 <TextBox Height="23" Name="txtTo" Width="120" />
-                <TextBlock Height="23" Name="lbResult" Text="Result" />
-                <Button Content="Check" Height="23" Name="btnCheck" Width="75" />
-                <Button Content="Next" Height="23" Name="btnNetx" Width="75" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="lbResult" Text="Result" />
+                    <TextBlock Height="23" Name="lbResultValue" Text="" />
+                </StackPanel>
+                <Button Content="Check" Height="23" Name="btnCheck" Width="75" Click="btnCheck_Click" />
+                <Button Content="Next" Height="23" Name="btnNetx" Width="75" Click="btnNetx_Click" />
             </StackPanel>
         </Grid>
     </Grid>

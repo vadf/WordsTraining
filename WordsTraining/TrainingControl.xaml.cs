@@ -17,17 +17,93 @@ namespace WordsTraining
     /// <summary>
     /// Interaction logic for TrainingSettingsControl.xaml
     /// </summary>
-    public partial class TrainingControl : UserControl 
-    {        
+    public partial class TrainingControl : UserControl
+    {
+        private Language langFrom = WordsTraining.Language.Lang1;
+        private Language langTo = WordsTraining.Language.Lang2;
+        private Training training;
+        private WordCard card;
+
+        public int NumOfWords { get; set; }
+        public int Counter { get; set; }
+
+
+
         public TrainingControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         private void TrainingView_Loaded(object sender, RoutedEventArgs e)
         {
-                     
+            NumOfWords = 10;
+            Counter = 3;
+            SetDirectionText(DictionariesControl.LoadedDictionary);
+
+            DataContext = this;
+        }
+
+        private void btnSwitchDirection_Click(object sender, RoutedEventArgs e)
+        {
+            if (langFrom == WordsTraining.Language.Lang1)
+            {
+                langFrom = WordsTraining.Language.Lang2;
+                langTo = WordsTraining.Language.Lang1;
+            }
+            else
+            {
+                langFrom = WordsTraining.Language.Lang1;
+                langTo = WordsTraining.Language.Lang2;
+            }
+            SetDirectionText(DictionariesControl.LoadedDictionary);
+        }
+
+        private void SetDirectionText(WordsDictionary dictionary)
+        {
+            if (dictionary != null)
+            {
+                lbDirectionValue.Text = dictionary.DictinaryLanguages[langFrom] + " -> " + dictionary.DictinaryLanguages[langTo];
+            }
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            lbFromValue.Text = DictionariesControl.LoadedDictionary.DictinaryLanguages[langFrom];
+            lbToValue.Text = DictionariesControl.LoadedDictionary.DictinaryLanguages[langTo];
+            training = new Training(DictionariesControl.LoadedDictionary, langFrom, langTo, NumOfWords, (uint)Counter);
+            card = training.NextCard();
+            if (card != null)
+                UpdateTrainingCard(card);
+        }
+
+        private void UpdateTrainingCard(WordCard card)
+        {
+            card.SelectedLanguage = langFrom;
+            txtFrom.Text = card.Word;
+        }
+
+        private void btnCheck_Click(object sender, RoutedEventArgs e)
+        {
+            card.SelectedLanguage = langTo;
+            if (txtTo.Text.ToLower() == card.Word.ToLower())
+            {
+                lbResultValue.Text = "Correct";
+                training.Succeeded();
+            }
+            else
+            {
+                lbResultValue.Text = "Incorrect. " + card.Word;
+            }
+        }
+
+        private void btnNetx_Click(object sender, RoutedEventArgs e)
+        {
+            txtFrom.Text = "";
+            txtTo.Text = "";
+            lbResultValue.Text = "";
+            card = training.NextCard();
+            if (card != null)
+                UpdateTrainingCard(card);
         }
 
     }

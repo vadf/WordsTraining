@@ -19,6 +19,10 @@ namespace WordsTraining
             get { return cardsList; }
         }
 
+        private Dictionary<Language, string> lang = new Dictionary<Language, string>();
+
+        public Dictionary<Language, string> DictinaryLanguages { get { return lang; } }
+        
         /// <summary>
         /// Language1 name
         /// Should not be null or empty
@@ -78,6 +82,8 @@ namespace WordsTraining
             this.Language1 = language1;
             this.Language2 = language2;
             this.MaxCards = maxCards;
+            lang.Add(Language.Lang1, language1);
+            lang.Add(Language.Lang2, language2);
         }
 
         /// <summary>
