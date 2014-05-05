@@ -51,11 +51,9 @@ namespace TestWordsTraining
         [Test]
         public void TestSaveReadWOComments()
         {
-            dictionary.SelectedIndex = 0;
-            WordCard card = dictionary.SelectedCard;
+            WordCard card = dictionary[0];
             card.CommentCommon = "";
-            dictionary.SelectedIndex = 1;
-            card = dictionary.SelectedCard;
+            card = dictionary[1];
             card.Comment1 = null;
             
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
@@ -86,10 +84,8 @@ namespace TestWordsTraining
             Assert.AreEqual(expected.Language2, actual.Language2, "Validating Language2");
             for (int i = 0; i < expected.Size; i++)
             {
-                expected.SelectedIndex = i;
-                WordCard cardExpected = expected.SelectedCard;
-                actual.SelectedIndex = i;
-                WordCard cardActual = actual.SelectedCard;
+                WordCard cardExpected = expected[i];
+                WordCard cardActual = actual[i];
 
                 Assert.AreEqual(cardExpected, cardActual, "Validating card " + i + " words");
                 Assert.AreEqual(cardExpected.CommentCommon, cardActual.CommentCommon, "Validating common comment for card " + i);

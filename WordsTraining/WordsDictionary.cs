@@ -22,7 +22,7 @@ namespace WordsTraining
         private Dictionary<Language, string> lang = new Dictionary<Language, string>();
 
         public Dictionary<Language, string> DictinaryLanguages { get { return lang; } }
-        
+
         /// <summary>
         /// Language1 name
         /// Should not be null or empty
@@ -51,18 +51,15 @@ namespace WordsTraining
             }
         }
 
-        public WordCard SelectedCard
+        /// <summary>
+        /// Get WordCard with index i from Dictionary
+        /// </summary>
+        /// <param name="i">index</param>
+        /// <returns>WordCard</returns>
+        public WordCard this[int i]
         {
-            get { return cardsList[_selectedIndex]; }
+            get { return cardsList[i]; }
         }
-
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set { _selectedIndex = value; }
-        }
-
-        
 
         /// <summary>
         /// Current number of cards in Dictionary
@@ -96,7 +93,7 @@ namespace WordsTraining
         {
             if (cardsList.Contains(card))
                 throw new ArgumentException(card + " is exist in a dictionary");
-            else if(cardsList.Count == MaxCards)
+            else if (cardsList.Count == MaxCards)
                 throw new ArgumentOutOfRangeException("Cards limit exceeded. Max number of cards " + MaxCards);
             else
                 cardsList.Add(card);

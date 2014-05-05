@@ -24,7 +24,7 @@ namespace TestWordsTraining
             maxCards = random.Next(3, 100);
             dictionary = new WordsDictionary(language1, language2, maxCards);
         }
-        
+
         [Test]
         public void TestInit()
         {
@@ -61,9 +61,8 @@ namespace TestWordsTraining
         {
             WordCard card = generator.GetCard();
             WordCard cardExpected = new WordCard(card.Word1, card.Word2, card.Type);
-            dictionary.Add(card);            
-            dictionary.SelectedIndex = 0;
-            WordCard cardActual = dictionary.SelectedCard;
+            dictionary.Add(card);
+            WordCard cardActual = dictionary[0];
             Assert.AreEqual(cardExpected, cardActual, "Validating that card is added correctly");
 
             int sizeExpected = 1;
@@ -87,7 +86,7 @@ namespace TestWordsTraining
             for (int i = 0; i < maxCards; i++)
             {
                 dictionary.Add(generator.GetCard());
-            }            
+            }
 
             int sizeExpected = maxCards;
             int sizeActual = dictionary.Size;
@@ -101,7 +100,7 @@ namespace TestWordsTraining
             for (int i = 0; i < maxCards + 1; i++)
             {
                 dictionary.Add(generator.GetCard());
-            }  
+            }
         }
     }
 }

@@ -19,9 +19,11 @@ namespace WordsTraining
     /// </summary>
     public partial class WordsControl : UserControl
     {
+        private WordsDictionary dictionary;
+        
         public WordsControl()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void lang1Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -36,10 +38,9 @@ namespace WordsTraining
             UpdateWordView(lang1Words.SelectedIndex);
         }
 
-        private void UpdateWordView(int position)
+        private void UpdateWordView(int index)
         {
-            DictionariesControl.LoadedDictionary.SelectedIndex = position;
-            WordCard card = DictionariesControl.LoadedDictionary.SelectedCard;
+            WordCard card = dictionary[index];
             txtWord1.Text = card.Word1;
             txtComment1.Text = card.Comment1;
             txtWord2.Text = card.Word2;
@@ -50,7 +51,11 @@ namespace WordsTraining
 
         private void WordsView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext = DictionariesControl.LoadedDictionary;
+            if (DictionariesControl.dataLayer != null)
+            {
+                dictionary = DictionariesControl.dataLayer.Read();
+                DataContext = dictionary;
+            }
         }
     }
 }

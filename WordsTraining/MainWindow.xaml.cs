@@ -20,24 +20,12 @@ namespace WordsTraining
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string dictionariesFolder = "dictionaries";
-
+        public static TabControl tabControl;
+        
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        public static List<string> GetDictionariesList()
-        {           
-            // Create Dictionaries folder if not exist
-            if (!Directory.Exists(dictionariesFolder))
-            {
-                Directory.CreateDirectory(dictionariesFolder);
-            }
-
-            // read dictionaries list
-            string[] dictionaries = Directory.GetFiles(dictionariesFolder);
-            return new List<string>(dictionaries);
+            tabControl = tabControl1;
         }
 
         private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)

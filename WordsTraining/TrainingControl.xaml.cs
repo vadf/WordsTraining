@@ -23,11 +23,10 @@ namespace WordsTraining
         private Language langTo = WordsTraining.Language.Lang2;
         private Training training;
         private WordCard card;
+        private WordsDictionary dictionary;
 
         public int NumOfWords { get; set; }
         public int Counter { get; set; }
-
-
 
         public TrainingControl()
         {
@@ -36,11 +35,14 @@ namespace WordsTraining
 
         private void TrainingView_Loaded(object sender, RoutedEventArgs e)
         {
-            NumOfWords = 10;
-            Counter = 3;
-            SetDirectionText(DictionariesControl.LoadedDictionary);
-
-            DataContext = this;
+            if (DictionariesControl.dataLayer != null)
+            {
+                NumOfWords = 10;
+                Counter = 3;
+                dictionary = DictionariesControl.dataLayer.Read();
+                SetDirectionText(dictionary);
+                DataContext = this;
+            }
         }
 
         private void btnSwitchDirection_Click(object sender, RoutedEventArgs e)
@@ -55,7 +57,7 @@ namespace WordsTraining
                 langFrom = WordsTraining.Language.Lang1;
                 langTo = WordsTraining.Language.Lang2;
             }
-            SetDirectionText(DictionariesControl.LoadedDictionary);
+            SetDirectionText(dictionary);
         }
 
         private void SetDirectionText(WordsDictionary dictionary)
@@ -68,9 +70,9 @@ namespace WordsTraining
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            lbFromValue.Text = DictionariesControl.LoadedDictionary.DictinaryLanguages[langFrom];
-            lbToValue.Text = DictionariesControl.LoadedDictionary.DictinaryLanguages[langTo];
-            training = new Training(DictionariesControl.LoadedDictionary, langFrom, langTo, NumOfWords, (uint)Counter);
+            lbFromValue.Text = dictionary.DictinaryLanguages[langFrom];
+            lbToValue.Text = dictionary.DictinaryLanguages[langTo];
+            training = new Training(dictionary, langFrom, langTo, NumOfWords, (uint)Counter);
             card = training.NextCard();
             if (card != null)
                 UpdateTrainingCard(card);
