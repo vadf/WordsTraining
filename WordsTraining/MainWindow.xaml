@@ -10,12 +10,12 @@
                     <local:DictionariesControl />
                 </Grid>
             </TabItem>
-            <TabItem Header="Words" Name="tabItem2" IsEnabled="True" Visibility="Hidden">
+            <TabItem Header="Words" Name="tabItem2" IsEnabled="False">
                 <Grid>
                     <local:WordsControl />
                 </Grid>
             </TabItem>
-            <TabItem Header="Training" Name="tabItem3" IsEnabled="True" Visibility="Hidden">
+            <TabItem Header="Training" Name="tabItem3" IsEnabled="False">
                 <Grid>
                     <local:TrainingControl />
                 </Grid>

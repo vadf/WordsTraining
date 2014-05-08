@@ -20,17 +20,17 @@ namespace WordsTraining
         /// <param name="langTo">Language 'to' learn</param>
         /// <param name="amount">Amount of cards to learn</param>
         /// <param name="maxCounter">Max counter value</param>
-        public Training(WordsDictionary dictionary, Language langFrom, Language langTo, int amount, uint maxCounter)
+        public Training(WordsDictionary dictionary, Language langFrom, Language langTo, int amount, int maxCounter)
         {
             this.lang = langFrom;
             // select from Lagnguage
-            foreach (var card in dictionary.Cards)
+            foreach (var card in dictionary)
                 card.SelectedLanguage = langFrom;
 
             // select all cards that have counter less than maxCounter
             var tmpCards =
-                from c in dictionary.Cards
-                where c.SuccessfulCounter < maxCounter
+                from c in dictionary
+                where c.Counter < maxCounter
                 select c;
 
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
@@ -61,7 +61,7 @@ namespace WordsTraining
         {
             var card = cardsToLearn[_cardIndex];
             card.SelectedLanguage = lang;
-            card.SuccessfulCounter++;
+            card.Counter++;
         }
 
         /// <summary>

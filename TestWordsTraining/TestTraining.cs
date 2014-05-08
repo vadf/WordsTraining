@@ -27,7 +27,7 @@ namespace TestWordsTraining
         {
             maxCards = random.Next(5, 10);
             wordsToLearn = random.Next(1, maxCards);
-            dictionary = new WordsDictionary(language1, language2, maxCards);
+            dictionary = new WordsDictionary(language1, language2);
             for (int i = 0; i < maxCards; i++)
             {
                 dictionary.Add(generator.GetCardExtra(maxCounter));
@@ -37,7 +37,7 @@ namespace TestWordsTraining
         [Test]
         public void TestDictionaryEmpty()
         {
-            Training training = new Training(new WordsDictionary(language1, language2, maxCards), langFrom, langTo, wordsToLearn, (uint)maxCounter);
+            Training training = new Training(new WordsDictionary(language1, language2), langFrom, langTo, wordsToLearn, maxCounter);
 
             int actual = NumWordsInTraining(training);
             int expected = 0;
@@ -48,7 +48,7 @@ namespace TestWordsTraining
         public void Test0ToLearn()
         {
             int expected = 0;
-            Training training = new Training(dictionary, langFrom, langTo, expected, (uint)maxCounter);
+            Training training = new Training(dictionary, langFrom, langTo, expected, maxCounter);
 
             int actual = NumWordsInTraining(training);
             Assert.AreEqual(expected, actual, "Validating number of words to learn");
@@ -58,7 +58,7 @@ namespace TestWordsTraining
         public void Test1ToLearn()
         {
             int expected = 1;
-            Training training = new Training(dictionary, langFrom, langTo, expected, (uint)maxCounter);
+            Training training = new Training(dictionary, langFrom, langTo, expected, maxCounter);
 
             int actual = NumWordsInTraining(training);
             Assert.AreEqual(expected, actual, "Validating number of words to learn");
@@ -68,7 +68,7 @@ namespace TestWordsTraining
         public void TestLearnGreaterThanCards()
         {
             int expected = maxCards;
-            Training training = new Training(dictionary, langFrom, langTo, maxCards + 1, (uint)maxCounter);
+            Training training = new Training(dictionary, langFrom, langTo, maxCards + 1, maxCounter);
 
             int actual = NumWordsInTraining(training);
             Assert.AreEqual(expected, actual, "Validating number of words to learn");
@@ -77,11 +77,11 @@ namespace TestWordsTraining
         [Test]
         public void TestAllLearned()
         {
-            uint counter = 1;
-            foreach (var card in dictionary.Cards)
+            int counter = 1;
+            foreach (var card in dictionary)
             {
                 card.SelectedLanguage = langFrom;
-                card.SuccessfulCounter = counter;
+                card.Counter = counter;
             }
             Training training = new Training(dictionary, langFrom, langTo, maxCards, counter);
 
@@ -94,10 +94,10 @@ namespace TestWordsTraining
         public void TestSucceeded1()
         {
             // set counter to 0 for all cards
-            foreach (var card in dictionary.Cards)
+            foreach (var card in dictionary)
             {
                 card.SelectedLanguage = langFrom;
-                card.SuccessfulCounter = 0;
+                card.Counter = 0;
             }
             Training training = new Training(dictionary, langFrom, langTo, maxCards, 1);
             // increase counter from 0 to 1 for one card

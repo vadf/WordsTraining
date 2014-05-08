@@ -72,7 +72,7 @@ namespace WordsTraining
         {
             lbFromValue.Text = dictionary.DictinaryLanguages[langFrom];
             lbToValue.Text = dictionary.DictinaryLanguages[langTo];
-            training = new Training(dictionary, langFrom, langTo, NumOfWords, (uint)Counter);
+            training = new Training(dictionary, langFrom, langTo, NumOfWords, Counter);
             card = training.NextCard();
             if (card != null)
                 UpdateTrainingCard(card);

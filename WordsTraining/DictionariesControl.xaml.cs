@@ -24,6 +24,7 @@ namespace WordsTraining
         private string extention = ".xml";
 
         public static DataLayer dataLayer;
+        public static string selectedDictionary;
 
         public DictionariesControl()
         {
@@ -33,7 +34,8 @@ namespace WordsTraining
         private void Create_Click(object sender, RoutedEventArgs e)
         {
             WordsDictionary newDictionary = new WordsDictionary(txtLang1.Text, txtLang2.Text);
-            dataLayer = new XmlDataLayer(GetFullPath(txtName.Text));
+            selectedDictionary = txtName.Text;
+            dataLayer = new XmlDataLayer(GetFullPath(selectedDictionary));
             newDictionary.Add(new WordCard("Hello", "Hello", WordType.Noun)); // HACK: at least one card is needed to save
             dataLayer.Save(newDictionary);
             SwitchTab();
@@ -42,15 +44,15 @@ namespace WordsTraining
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             if (listDictionaries.SelectedIndex == -1) return;
-            string name = listDictionaries.SelectedItem.ToString();
-            dataLayer = new XmlDataLayer(GetFullPath(name));
+            selectedDictionary = listDictionaries.SelectedItem.ToString();
+            dataLayer = new XmlDataLayer(GetFullPath(selectedDictionary));
             SwitchTab();
         }
 
         private void SwitchTab()
         {
-            ((TabItem)MainWindow.tabControl.Items[1]).Visibility = Visibility.Visible;
-            ((TabItem)MainWindow.tabControl.Items[2]).Visibility = Visibility.Visible;
+            ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = true;
+            ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = true;
             MainWindow.tabControl.SelectedIndex = 1;
         }
         /// <summary>
@@ -83,7 +85,14 @@ namespace WordsTraining
         {
             if (listDictionaries.SelectedIndex == -1) return;
             string name = listDictionaries.SelectedItem.ToString();
-            dataLayer = null;
+            if (selectedDictionary == name)
+            {
+                ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = false;
+                ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = false;
+                dataLayer = null;
+                selectedDictionary = null;
+            }
+            
             File.Delete(GetFullPath(name));
         }
 

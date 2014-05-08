@@ -22,7 +22,7 @@ namespace TestWordsTraining
         public void SetUp()
         {
             maxCards = random.Next(3, 100);
-            dictionary = new WordsDictionary(language1, language2, maxCards);
+            dictionary = new WordsDictionary(language1, language2);
         }
 
         [Test]
@@ -30,16 +30,6 @@ namespace TestWordsTraining
         {
             Assert.AreEqual(language1, dictionary.Language1, "Validating that language1 is initialized correctly");
             Assert.AreEqual(language2, dictionary.Language2, "Validating that language2 is initialized correctly");
-            Assert.AreEqual(maxCards, dictionary.MaxCards, "Validating that maxWords is initialized correctly");
-        }
-
-        [Test]
-        public void TestInit2()
-        {
-            dictionary = new WordsDictionary(language2, language1);
-            Assert.AreEqual(language2, dictionary.Language1, "Validating that language1 is initialized correctly");
-            Assert.AreEqual(language1, dictionary.Language2, "Validating that language2 is initialized correctly");
-            Assert.AreEqual(100, dictionary.MaxCards, "Validating that maxWords is initialized correctly");
         }
 
         [Test]
@@ -66,11 +56,12 @@ namespace TestWordsTraining
             Assert.AreEqual(cardExpected, cardActual, "Validating that card is added correctly");
 
             int sizeExpected = 1;
-            int sizeActual = dictionary.Size;
+            int sizeActual = dictionary.Count;
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
         }
 
         [Test]
+        [Ignore]
         [ExpectedException(typeof(ArgumentException))]
         public void TestAddWordCardTwice()
         {
@@ -89,11 +80,12 @@ namespace TestWordsTraining
             }
 
             int sizeExpected = maxCards;
-            int sizeActual = dictionary.Size;
+            int sizeActual = dictionary.Count;
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
         }
 
         [Test]
+        [Ignore]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestAddWordCardMax1()
         {

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              x:Name="WordsView"
-             d:DesignHeight="300" d:DesignWidth="300" Loaded="WordsView_Loaded">
+             d:DesignHeight="313" d:DesignWidth="525" Loaded="WordsView_Loaded" Unloaded="WordsView_Unloaded">
     <Grid HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -14,13 +14,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock Height="23" Width="100" HorizontalAlignment="Center" Margin="2" Name="lang1" Text="{Binding Path=Language1}" VerticalAlignment="Top" Grid.Column="0"/>
         <ListBox  Name="lang1Words"
-                                  ItemsSource="{Binding Cards}"
-                                  Height="Auto"
-                                  HorizontalAlignment="Stretch"
-                                  Margin="6,25,6,6"
-                                  VerticalAlignment="Stretch"
-                                  Width="Auto"
-                                  SelectionChanged="lang1Words_SelectionChanged">
+                  Height="Auto"
+                  HorizontalAlignment="Stretch"
+                  Margin="6,25,6,6"
+                  VerticalAlignment="Stretch"
+                  Width="Auto"
+                  SelectionChanged="lang1Words_SelectionChanged"
+                  ItemsSource="{Binding MyDictionary}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=Word1}" />
@@ -29,13 +29,13 @@
         </ListBox>
         <TextBlock Height="23" Width="100" HorizontalAlignment="Center" Margin="2" Name="lang2" Text="{Binding Path=Language2}" VerticalAlignment="Top" Grid.Column="1"/>
         <ListBox Name="lang2Words"
-                                 ItemsSource="{Binding Cards}"
-                                 Grid.Column="1"
-                                 Height="Auto"
-                                 HorizontalAlignment="Stretch"
-                                 Margin="6,25,6,6"
-                                 VerticalAlignment="Stretch"
-                                 Width="Auto" SelectionChanged="lang2Words_SelectionChanged">
+                 Grid.Column="1"
+                 Height="Auto"
+                 HorizontalAlignment="Stretch"
+                 Margin="6,25,6,6"
+                 VerticalAlignment="Stretch"
+                 Width="Auto" SelectionChanged="lang2Words_SelectionChanged"
+                 ItemsSource="{Binding MyDictionary}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=Word2}" />
@@ -43,6 +43,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="New" Height="23" Name="New" Width="65" Margin="3,5" Click="New_Click" />
+                <Button Content="Save" Height="23" Name="Save" Width="65" Margin="3,5" Click="Save_Click" />
+                <Button Content="Remove" Height="23" Name="Remove" Width="65" Margin="3,5" Click="Remove_Click" />
+            </StackPanel>
             <TextBlock Height="23" Name="lbLang1" Text="{Binding Path=Language1}" Margin="3,0"/>
             <TextBox Height="23" Name="txtWord1" Width="Auto" Margin="3,0"/>
             <TextBlock Height="23" Name="lbComment1" Text="Comment" Margin="3,0"/>
@@ -52,7 +57,7 @@
             <TextBlock Height="23" Name="lbComment2" Text="Comment" Margin="3,0"/>
             <TextBox Height="23" Name="txtComment2" Width="Auto" Margin="3,0"/>
             <TextBlock Height="23" Name="lbType" Text="Type" Margin="3,0"/>
-            <TextBox Height="23" Name="txtType" Width="Auto" Margin="3,0"/>
+            <ComboBox Height="23" Name="txtType" Width="Auto" Margin="3,0"/>
             <TextBlock Height="23" Name="lbComment" Text="Common Comment" Margin="3,0"/>
             <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0"/>
         </StackPanel>

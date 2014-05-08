@@ -39,8 +39,8 @@ namespace TestWordsTraining
         public WordCard GetCardExtra(int counter)
         {
             WordCard card = GetCard();
-            card.SuccessfulCounter1 = (uint)random.Next(counter);
-            card.SuccessfulCounter2 = (uint)random.Next(counter);
+            card.Counter1 = random.Next(counter);
+            card.Counter2 = random.Next(counter);
             return card;
         }
 

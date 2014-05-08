@@ -63,22 +63,22 @@ namespace WordsTraining
         public string CommentCommon { get; set; }
 
         // counters
-        public uint SuccessfulCounter
+        public int Counter
         {
-            get { return words[SelectedLanguage].SuccessfulCounter; }
-            set { words[SelectedLanguage].SuccessfulCounter = value; }
+            get { return words[SelectedLanguage].Counter; }
+            set { words[SelectedLanguage].Counter = value; }
         }
 
-        public uint SuccessfulCounter1
+        public int Counter1
         {
-            get { return words[Language.Lang1].SuccessfulCounter; }
-            set { words[Language.Lang1].SuccessfulCounter = value; }
+            get { return words[Language.Lang1].Counter; }
+            set { words[Language.Lang1].Counter = value; }
         }
 
-        public uint SuccessfulCounter2
+        public int Counter2
         {
-            get { return words[Language.Lang2].SuccessfulCounter; }
-            set { words[Language.Lang2].SuccessfulCounter = value; }
+            get { return words[Language.Lang2].Counter; }
+            set { words[Language.Lang2].Counter = value; }
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace WordsTraining
     class WordClass
     {
         private string _word;
-        private uint _successfulCounter = 0;
+        private int _counter = 0;
 
         /// <summary>
         /// Word text
@@ -171,10 +171,10 @@ namespace WordsTraining
         /// Set the number of word was successfully guessed during exercize
         /// Could be increased by one or set to 0
         /// </summary>
-        public uint SuccessfulCounter
+        public int Counter
         {
-            get { return _successfulCounter; }
-            set { _successfulCounter = value; }
+            get { return _counter; }
+            set { _counter = value; }
         }
 
         public WordClass() { }

@@ -67,16 +67,16 @@ namespace TestWordsTraining
         [Test]
         public void TestIncrCounter()
         {
-            card.SuccessfulCounter1++;
-            Assert.AreEqual(1, card.SuccessfulCounter1, "Check that number of successsfull attempts for word1 is incremented");
+            card.Counter1++;
+            Assert.AreEqual(1, card.Counter1, "Check that number of successsfull attempts for word1 is incremented");
         }
 
         [Test]
         public void TestSetCounterTo0()
         {
-            card.SuccessfulCounter2++;
-            card.SuccessfulCounter2 = 0;
-            Assert.AreEqual(0, card.SuccessfulCounter2, "Check that number of successsfull attempts for word2 is reset to 0");
+            card.Counter2++;
+            card.Counter2 = 0;
+            Assert.AreEqual(0, card.Counter2, "Check that number of successsfull attempts for word2 is reset to 0");
         }
 
         [Test]

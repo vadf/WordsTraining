@@ -16,7 +16,6 @@ namespace TestWordsTraining
         string language1 = "EST";
         string language2 = "ENG";
         int maxCards;
-
         CardsGenerator generator = new CardsGenerator();
         Random random = new Random();
 
@@ -26,7 +25,7 @@ namespace TestWordsTraining
         public void SetUp()
         {
             maxCards = random.Next(5, 100);
-            dictionary = new WordsDictionary(language1, language2, maxCards);
+            dictionary = new WordsDictionary(language1, language2);
             for (int i = 0; i < maxCards/2; i++)
             {
                 dictionary.Add(generator.GetCard());
@@ -36,7 +35,7 @@ namespace TestWordsTraining
         [TearDown]
         public void TearDown()
         {
-            // File.Delete(pathToXml);
+            File.Delete(pathToXml);
         }
 
         [Test]
@@ -76,13 +75,28 @@ namespace TestWordsTraining
             ValidatingDictionaries(dictionary, dictionaryRead);
         }
 
+        [Test]
+        public void TestSaveReadTwice()
+        {
+            XmlDataLayer doc = new XmlDataLayer(pathToXml);
+            doc.Save(dictionary);
+            var dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+
+            dictionary = dictionaryRead;
+            dictionary[0].Word1 = "qwer";
+            dictionary[1].CommentCommon = "asdf";
+            doc.Save(dictionary);
+            dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+        }
 
         private void ValidatingDictionaries(WordsDictionary expected, WordsDictionary actual)
         {
-            Assert.AreEqual(expected.Size, actual.Size, "Validating read dictionary size");
+            Assert.AreEqual(expected.Count, actual.Count, "Validating read dictionary size");
             Assert.AreEqual(expected.Language1, actual.Language1, "Validating Language1");
             Assert.AreEqual(expected.Language2, actual.Language2, "Validating Language2");
-            for (int i = 0; i < expected.Size; i++)
+            for (int i = 0; i < expected.Count; i++)
             {
                 WordCard cardExpected = expected[i];
                 WordCard cardActual = actual[i];

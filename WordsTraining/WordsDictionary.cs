@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace WordsTraining
 {
-    public class WordsDictionary
+    public class WordsDictionary : ObservableCollection<WordCard>
     {
-        private List<WordCard> cardsList = new List<WordCard>(); // CHECK: HashSet ???
         private string _language1;
         private string _language2;
-        private int _selectedIndex = 0;
-
-        public int MaxCards { get; private set; } // CHECK: do i realy need it?
-
-        public List<WordCard> Cards
-        {
-            get { return cardsList; }
-        }
 
         private Dictionary<Language, string> lang = new Dictionary<Language, string>();
 
@@ -51,53 +44,12 @@ namespace WordsTraining
             }
         }
 
-        /// <summary>
-        /// Get WordCard with index i from Dictionary
-        /// </summary>
-        /// <param name="i">index</param>
-        /// <returns>WordCard</returns>
-        public WordCard this[int i]
-        {
-            get { return cardsList[i]; }
-        }
-
-        /// <summary>
-        /// Current number of cards in Dictionary
-        /// </summary>
-        public int Size
-        {
-            get { return cardsList.Count; }
-        }
-
         public WordsDictionary(string language1, string language2)
-            : this(language1, language2, 100)
-        {
-        }
-
-        public WordsDictionary(string language1, string language2, int maxCards)
         {
             this.Language1 = language1;
             this.Language2 = language2;
-            this.MaxCards = maxCards;
             lang.Add(Language.Lang1, language1);
             lang.Add(Language.Lang2, language2);
         }
-
-        /// <summary>
-        /// Add Card to a dictinary
-        /// Throws ArgumentException if such card has beed added
-        /// Throws ArgumentOutOfRangeException if max cards limit exceeded
-        /// </summary>
-        /// <param name="card">Word card</param>
-        public void Add(WordCard card)
-        {
-            if (cardsList.Contains(card))
-                throw new ArgumentException(card + " is exist in a dictionary");
-            else if (cardsList.Count == MaxCards)
-                throw new ArgumentOutOfRangeException("Cards limit exceeded. Max number of cards " + MaxCards);
-            else
-                cardsList.Add(card);
-        }
-
     }
 }
