@@ -39,9 +39,8 @@ namespace TestWordsTraining
         {
             Training training = new Training(new WordsDictionary(language1, language2), langFrom, langTo, wordsToLearn, maxCounter);
 
-            int actual = NumWordsInTraining(training);
             int expected = 0;
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
         [Test]
@@ -50,8 +49,7 @@ namespace TestWordsTraining
             int expected = 0;
             Training training = new Training(dictionary, langFrom, langTo, expected, maxCounter);
 
-            int actual = NumWordsInTraining(training);
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
         [Test]
@@ -60,8 +58,7 @@ namespace TestWordsTraining
             int expected = 1;
             Training training = new Training(dictionary, langFrom, langTo, expected, maxCounter);
 
-            int actual = NumWordsInTraining(training);
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
         [Test]
@@ -70,12 +67,11 @@ namespace TestWordsTraining
             int expected = maxCards;
             Training training = new Training(dictionary, langFrom, langTo, maxCards + 1, maxCounter);
 
-            int actual = NumWordsInTraining(training);
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
         [Test]
-        public void TestAllLearned()
+        public void TestNothingToLearn()
         {
             int counter = 1;
             foreach (var card in dictionary)
@@ -86,13 +82,37 @@ namespace TestWordsTraining
             Training training = new Training(dictionary, langFrom, langTo, maxCards, counter);
 
             int expected = 0;
-            int actual = NumWordsInTraining(training);
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
         [Test]
-        public void TestSucceeded1()
+        public void TestSucceeded1In1()
         {
+            int amount = 1;
+
+            // set counter to 0 for all cards
+            foreach (var card in dictionary)
+            {
+                card.SelectedLanguage = langFrom;
+                card.Counter = 0;
+            }
+            Training training = new Training(dictionary, langFrom, langTo, amount, 1);
+
+            // increase counter from 0 to 1 for one card
+            var cardToLearn = training.NextCard();
+            training.Succeeded();
+
+            // check that card counter increased and number of learned cards
+            cardToLearn.SelectedLanguage = langFrom;
+            Assert.AreEqual(amount, cardToLearn.Counter, "Validating card counter");
+            Assert.AreEqual(amount, training.CorrectAnswers, "Validating number of correct answers");
+            Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
+        }
+
+        [Test]
+        public void TestSucceededSeveralInMany()
+        {
+            int amount = random.Next(maxCards / 2);
             // set counter to 0 for all cards
             foreach (var card in dictionary)
             {
@@ -100,25 +120,21 @@ namespace TestWordsTraining
                 card.Counter = 0;
             }
             Training training = new Training(dictionary, langFrom, langTo, maxCards, 1);
-            // increase counter from 0 to 1 for one card
-            training.NextCard();
-            training.Succeeded();
+            // increase counter from 0 to 1 for several cards
+            for (int i = 0; i < amount; i++)
+            {
+                training.NextCard();
+                training.Succeeded();
+            }
+
+            // check number of correct answers and total cards in training
+            Assert.AreEqual(amount, training.CorrectAnswers, "Validating number of correct answers");
+            Assert.AreEqual(maxCards, training.TotalCards, "Validating number of cards in training");
 
             // check that training set decreased by 1 card
             training = new Training(dictionary, langFrom, langTo, maxCards, 1);
-            int actual = NumWordsInTraining(training);
-            int expected = maxCards - 1;
-            Assert.AreEqual(expected, actual, "Validating number of words to learn");
-        }
-
-        private int NumWordsInTraining(Training tr)
-        {
-            int count = 0;
-            while (tr.NextCard() != null)
-            {
-                count++;
-            }
-            return count;
+            int expected = maxCards - amount;
+            Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
     }
 }

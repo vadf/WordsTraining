@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WordsTraining
 {
@@ -36,16 +26,19 @@ namespace WordsTraining
 
         private void TrainingView_Loaded(object sender, RoutedEventArgs e)
         {
+            trainingTest.Visibility = Visibility.Collapsed;
+            trainingSetting.Visibility = Visibility.Collapsed;
             if (DictionariesControl.dataLayer != null)
             {
                 NumOfWords = 10;
                 Counter = 3;
-                dictionary = DictionariesControl.dataLayer.Read();
+                dictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
                 languages.Clear();
                 languages.Add(WordsTraining.Language.Lang1, dictionary.Language1);
                 languages.Add(WordsTraining.Language.Lang2, dictionary.Language2);
                 SetDirectionText(dictionary);
+                trainingSetting.Visibility = Visibility.Visible;
             }
         }
 
@@ -79,7 +72,11 @@ namespace WordsTraining
             training = new Training(dictionary, langFrom, langTo, NumOfWords, Counter);
             card = training.NextCard();
             if (card != null)
+            {
+                trainingTest.Visibility = Visibility.Visible;
+                trainingSetting.Visibility = Visibility.Collapsed;
                 UpdateTrainingCard(card);
+            }
         }
 
         private void UpdateTrainingCard(WordCard card)
@@ -110,6 +107,22 @@ namespace WordsTraining
             card = training.NextCard();
             if (card != null)
                 UpdateTrainingCard(card);
+            else
+                ShowResult();
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            ShowResult();
+        }
+
+        private void ShowResult()
+        {
+            MessageBox.Show(string.Format("Total words in training {0}, correct answers {1}", training.TotalCards, training.CorrectAnswers));
+            trainingTest.Visibility = Visibility.Collapsed;
+            trainingSetting.Visibility = Visibility.Visible;
+            training = null;
+            DictionariesControl.dataLayer.Save(dictionary);
         }
 
     }

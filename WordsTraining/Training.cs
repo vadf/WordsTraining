@@ -10,6 +10,18 @@ namespace WordsTraining
         private IList<WordCard> cardsToLearn;
         private Language lang;
         private int _cardIndex = 0;
+        private int _correctAnswers = 0;
+        private Random r = new Random();
+
+        public int CorrectAnswers
+        {
+            get { return _correctAnswers; }
+        }
+
+        public int TotalCards
+        {
+            get { return cardsToLearn.Count; }
+        }
 
         /// <summary>
         /// Initiates Training object
@@ -41,10 +53,9 @@ namespace WordsTraining
             else
             {
                 cardsToLearn = new List<WordCard>();
-                Random r = new Random();
                 while (cardsToLearn.Count < amount)
                 {
-                    int pos = r.Next(amount);
+                    int pos = r.Next(cards.Count);
                     if (!cardsToLearn.Contains(cards[pos]))
                         cardsToLearn.Add(cards[pos]);
                 }
@@ -59,9 +70,10 @@ namespace WordsTraining
         /// </summary>
         public void Succeeded()
         {
-            var card = cardsToLearn[_cardIndex];
+            var card = cardsToLearn[_cardIndex - 1];
             card.SelectedLanguage = lang;
             card.Counter++;
+            _correctAnswers++;
         }
 
         /// <summary>

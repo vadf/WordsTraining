@@ -24,7 +24,7 @@ namespace WordsTraining
         private string extention = ".xml";
 
         public static DataLayer dataLayer;
-        public static string selectedDictionary;
+        public static WordsDictionary selectedDictionary;
 
         public DictionariesControl()
         {
@@ -33,19 +33,18 @@ namespace WordsTraining
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-            WordsDictionary newDictionary = new WordsDictionary(txtLang1.Text, txtLang2.Text);
-            selectedDictionary = txtName.Text;
-            dataLayer = new XmlDataLayer(GetFullPath(selectedDictionary));
-            newDictionary.Add(new WordCard("Hello", "Hello", WordType.Noun)); // HACK: at least one card is needed to save
-            dataLayer.Save(newDictionary);
+            selectedDictionary = new WordsDictionary(txtLang1.Text, txtLang2.Text);
+            dataLayer = new XmlDataLayer(GetFullPath(txtName.Text));
+            selectedDictionary.Add(new WordCard("Hello", "Hello", WordType.Noun)); // HACK: at least one card is needed to save
+            dataLayer.Save(selectedDictionary);
             SwitchTab();
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             if (listDictionaries.SelectedIndex == -1) return;
-            selectedDictionary = listDictionaries.SelectedItem.ToString();
-            dataLayer = new XmlDataLayer(GetFullPath(selectedDictionary));
+            dataLayer = new XmlDataLayer(GetFullPath(listDictionaries.SelectedItem.ToString()));
+            selectedDictionary = dataLayer.Read(); ;
             SwitchTab();
         }
 
@@ -85,7 +84,7 @@ namespace WordsTraining
         {
             if (listDictionaries.SelectedIndex == -1) return;
             string name = listDictionaries.SelectedItem.ToString();
-            if (selectedDictionary == name)
+            //if (selectedDictionary == name) //TODO
             {
                 ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = false;
                 ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = false;
@@ -94,6 +93,7 @@ namespace WordsTraining
             }
             
             File.Delete(GetFullPath(name));
+            listDictionaries.Items.Refresh();
         }
 
         /// <summary>

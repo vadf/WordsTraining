@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 
 namespace WordsTraining
@@ -20,7 +12,6 @@ namespace WordsTraining
     /// </summary>
     public partial class WordsControl : UserControl, INotifyPropertyChanged
     {
-        private string selectedDictionary;
         private WordCard _selectedCard;
 
         public WordsDictionary MyDictionary { get; set; }
@@ -35,7 +26,7 @@ namespace WordsTraining
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(String propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -71,11 +62,10 @@ namespace WordsTraining
 
         private void WordsView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DictionariesControl.selectedDictionary != null && DictionariesControl.selectedDictionary != selectedDictionary)
+            if (DictionariesControl.selectedDictionary != null && DictionariesControl.selectedDictionary != MyDictionary)
             {
-                MyDictionary = DictionariesControl.dataLayer.Read();
+                MyDictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
-                selectedDictionary = DictionariesControl.selectedDictionary;
                 UpdateWordView(0);
             }
         }
@@ -139,6 +129,18 @@ namespace WordsTraining
             lang1Words.SelectedIndex = 0;
             lang2Words.SelectedIndex = 0;
             MyDictionary.RemoveAt(index);
+        }
+
+        private void Reset1_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedCard.Counter1 = 0;
+            DictionariesControl.dataLayer.Save(MyDictionary);
+        }
+
+        private void Reset2_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedCard.Counter2 = 0;
+            DictionariesControl.dataLayer.Save(MyDictionary);
         }
     }
 }
