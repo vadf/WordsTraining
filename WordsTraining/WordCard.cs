@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace WordsTraining
 {
@@ -130,7 +131,7 @@ namespace WordsTraining
 
         public override int GetHashCode()
         {
-            return this.ToString().GetHashCode();
+            return base.GetHashCode();
         }
 
         public override string ToString()
@@ -157,7 +158,8 @@ namespace WordsTraining
             get { return _word; }
             set
             {
-                if (value == null || value == "") throw new ArgumentNullException("Word is empty");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("Word is empty");
                 _word = value;
             }
         }

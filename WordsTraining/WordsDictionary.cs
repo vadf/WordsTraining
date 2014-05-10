@@ -12,10 +12,6 @@ namespace WordsTraining
         private string _language1;
         private string _language2;
 
-        private Dictionary<Language, string> lang = new Dictionary<Language, string>();
-
-        public Dictionary<Language, string> DictinaryLanguages { get { return lang; } }
-
         /// <summary>
         /// Language1 name
         /// Should not be null or empty
@@ -25,7 +21,8 @@ namespace WordsTraining
             get { return _language1; }
             private set
             {
-                if (value == null || value == "") throw new ArgumentNullException("Language1 is empty");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("Language1 is empty");
                 _language1 = value;
             }
         }
@@ -39,7 +36,8 @@ namespace WordsTraining
             get { return _language2; }
             private set
             {
-                if (value == null || value == "") throw new ArgumentNullException("Language2 is empty");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("Language2 is empty");
                 _language2 = value;
             }
         }
@@ -48,8 +46,6 @@ namespace WordsTraining
         {
             this.Language1 = language1;
             this.Language2 = language2;
-            lang.Add(Language.Lang1, language1);
-            lang.Add(Language.Lang2, language2);
         }
     }
 }

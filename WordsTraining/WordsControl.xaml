@@ -42,24 +42,29 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+        <StackPanel Grid.Column="2"
+                    HorizontalAlignment="Stretch"
+                    Margin="6"
+                    VerticalAlignment="Stretch"
+                    Width="Auto"
+                    Height="Auto">
             <StackPanel Orientation="Horizontal">
                 <Button Content="New" Height="23" Name="New" Width="65" Margin="3,5" Click="New_Click" />
                 <Button Content="Save" Height="23" Name="Save" Width="65" Margin="3,5" Click="Save_Click" />
                 <Button Content="Remove" Height="23" Name="Remove" Width="65" Margin="3,5" Click="Remove_Click" />
             </StackPanel>
-            <TextBlock Height="23" Name="lbLang1" Text="{Binding Path=Language1}" Margin="3,0"/>
-            <TextBox Height="23" Name="txtWord1" Width="Auto" Margin="3,0"/>
+            <TextBlock Height="23" Name="lbLang1" Text="{Binding Path=MyDictionary.Language1}" Margin="3,0"/>
+            <TextBox Height="23" Name="txtWord1" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.Word1, Mode=OneWay}"/>
             <TextBlock Height="23" Name="lbComment1" Text="Comment" Margin="3,0"/>
-            <TextBox Height="23" Name="txtComment1" Width="Auto" Margin="3,0"/>
-            <TextBlock Height="23" Name="lbLang2" Text="{Binding Path=Language2}" Margin="3,0"/>
-            <TextBox Height="23" Name="txtWord2" Width="Auto" Margin="3,0"/>
+            <TextBox Height="23" Name="txtComment1" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.Comment1, Mode=OneWay}"/>
+            <TextBlock Height="23" Name="lbLang2" Text="{Binding Path=MyDictionary.Language2}" Margin="3,0"/>
+            <TextBox Height="23" Name="txtWord2" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.Word2, Mode=OneWay}"/>
             <TextBlock Height="23" Name="lbComment2" Text="Comment" Margin="3,0"/>
-            <TextBox Height="23" Name="txtComment2" Width="Auto" Margin="3,0"/>
+            <TextBox Height="23" Name="txtComment2" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.Comment2, Mode=OneWay}"/>
             <TextBlock Height="23" Name="lbType" Text="Type" Margin="3,0"/>
-            <ComboBox Height="23" Name="txtType" Width="Auto" Margin="3,0"/>
+            <ComboBox Height="23" Name="txtType" Width="Auto" Margin="3,0" SelectedItem="{Binding SelectedWordType, Mode=OneWay}" ItemsSource="{Binding WordTypeValues}"/>
             <TextBlock Height="23" Name="lbComment" Text="Common Comment" Margin="3,0"/>
-            <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0"/>
+            <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.CommonComment, Mode=OneWay}" />
         </StackPanel>
     </Grid>
 </UserControl>

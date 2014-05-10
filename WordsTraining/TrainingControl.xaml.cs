@@ -24,6 +24,7 @@ namespace WordsTraining
         private Training training;
         private WordCard card;
         private WordsDictionary dictionary;
+        private Dictionary<WordsTraining.Language, string> languages = new Dictionary<Language, string>();
 
         public int NumOfWords { get; set; }
         public int Counter { get; set; }
@@ -40,8 +41,11 @@ namespace WordsTraining
                 NumOfWords = 10;
                 Counter = 3;
                 dictionary = DictionariesControl.dataLayer.Read();
-                SetDirectionText(dictionary);
                 DataContext = this;
+                languages.Clear();
+                languages.Add(WordsTraining.Language.Lang1, dictionary.Language1);
+                languages.Add(WordsTraining.Language.Lang2, dictionary.Language2);
+                SetDirectionText(dictionary);
             }
         }
 
@@ -64,14 +68,14 @@ namespace WordsTraining
         {
             if (dictionary != null)
             {
-                lbDirectionValue.Text = dictionary.DictinaryLanguages[langFrom] + " -> " + dictionary.DictinaryLanguages[langTo];
+                lbDirectionValue.Text = languages[langFrom] + " -> " + languages[langTo];
             }
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            lbFromValue.Text = dictionary.DictinaryLanguages[langFrom];
-            lbToValue.Text = dictionary.DictinaryLanguages[langTo];
+            lbFromValue.Text = languages[langFrom];
+            lbToValue.Text = languages[langTo];
             training = new Training(dictionary, langFrom, langTo, NumOfWords, Counter);
             card = training.NextCard();
             if (card != null)

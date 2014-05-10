@@ -11,16 +11,58 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace WordsTraining
 {
     /// <summary>
     /// Interaction logic for WordsView.xaml
     /// </summary>
-    public partial class WordsControl : UserControl
+    public partial class WordsControl : UserControl, INotifyPropertyChanged
     {
-        public WordsDictionary MyDictionary { get; set; }
         private string selectedDictionary;
+        private WordCard _selectedCard;
+
+        public WordsDictionary MyDictionary { get; set; }
+        public WordCard SelectedCard
+        {
+            get { return _selectedCard; }
+            set
+            {
+                _selectedCard = value;
+                NotifyPropertyChanged("SelectedCard");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        // Get the list of possible word types
+        public IEnumerable<WordType> WordTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(WordType)).Cast<WordType>();
+            }
+        }
+
+        // selected typed
+        private WordType _selectedWordType;
+        public WordType SelectedWordType
+        {
+            get { return _selectedWordType; }
+            set
+            {
+                _selectedWordType = value;
+                NotifyPropertyChanged("SelectedWordType");
+            }
+        }
 
         public WordsControl()
         {
@@ -34,55 +76,61 @@ namespace WordsTraining
                 MyDictionary = DictionariesControl.dataLayer.Read();
                 DataContext = this;
                 selectedDictionary = DictionariesControl.selectedDictionary;
-                lang1Words.SelectedIndex = 0;
-                lang2Words.SelectedIndex = 0;
+                UpdateWordView(0);
             }
         }
 
         private void WordsView_Unloaded(object sender, RoutedEventArgs e)
         {
-            DictionariesControl.dataLayer.Save(MyDictionary);
+            
         }
 
         private void lang1Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lang2Words.SelectedIndex = lang1Words.SelectedIndex;
             UpdateWordView(lang1Words.SelectedIndex);
         }
 
         private void lang2Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lang1Words.SelectedIndex = lang2Words.SelectedIndex;
-            UpdateWordView(lang1Words.SelectedIndex);
+            UpdateWordView(lang2Words.SelectedIndex);
         }
 
         private void UpdateWordView(int index)
         {
-            WordCard card = MyDictionary[index];
-            txtWord1.Text = card.Word1;
-            txtComment1.Text = card.Comment1;
-            txtWord2.Text = card.Word2;
-            txtComment2.Text = card.Comment2;
-            txtType.Text = card.Type.ToString();
-            txtComment.Text = card.CommentCommon;
+            if (index >= 0 && index < MyDictionary.Count)
+            {
+                SelectedCard = MyDictionary[index];
+                SelectedWordType = SelectedCard.Type;
+                if (lang1Words.SelectedIndex != index)
+                {
+                    lang1Words.SelectedIndex = index;
+                }
+                if (lang2Words.SelectedIndex != index)
+                {
+                    lang2Words.SelectedIndex = index;
+                }
+            }
         }
-
-
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            MyDictionary.Add(new WordCard("new", "new", WordType.Noun));
+            var card = new WordCard("new", "new", WordType.Noun);
+            MyDictionary.Insert(0, card);
+            UpdateWordView(0);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            WordCard card = MyDictionary[lang1Words.SelectedIndex];
-            card.Word1 = txtWord1.Text;
-            card.Comment1 = txtComment1.Text;
-            card.Word2 = txtWord2.Text;
-            card.Comment2 = txtComment2.Text;
-            // card.Type = txtType.Text;
-            card.CommentCommon = txtComment.Text;
+            SelectedCard.Word1 = txtWord1.Text;
+            SelectedCard.Comment1 = txtComment1.Text;
+            SelectedCard.Word2 = txtWord2.Text;
+            SelectedCard.Comment2 = txtComment2.Text;
+            SelectedCard.Type = (WordType)txtType.SelectedItem;
+            SelectedCard.CommentCommon = txtComment.Text;
+            lang1Words.Items.Refresh();
+            lang2Words.Items.Refresh();
+
+            DictionariesControl.dataLayer.Save(MyDictionary);
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
