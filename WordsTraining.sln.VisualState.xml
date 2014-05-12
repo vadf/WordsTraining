@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1028]TestWordsTraining.TestTraining</TopNode>
-  <SelectedNode>[0-1001]C:\VS_Projects\WordsTraining\WordsTraining\bin\Debug\WordsTraining.exe</SelectedNode>
+  <TopNode>[0-1035]TestWordsTraining.TestTraining.TestSucceededSeveralInMany</TopNode>
+  <SelectedNode>[0-1037]TestWordsTraining</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1000]C:\VS_Projects\WordsTraining\WordsTraining.sln" Expanded="true" />
     <Node UniqueName="[0-1036]C:\VS_Projects\WordsTraining\TestWordsTraining\bin\Debug\TestWordsTraining.exe" Expanded="true" />
     <Node UniqueName="[0-1037]TestWordsTraining" Expanded="true" />
+    <Node UniqueName="[0-1028]TestWordsTraining.TestTraining" Expanded="true" />
     <Node UniqueName="[0-1002]TestWordsTraining.TestWordCard" Expanded="true" />
     <Node UniqueName="[0-1020]TestWordsTraining.TestWordsDictionary" Expanded="true" />
     <Node UniqueName="[0-1015]TestWordsTraining.TestXmlDataLayer" Expanded="true" />

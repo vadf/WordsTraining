@@ -13,6 +13,9 @@ namespace WordsTraining
     public partial class WordsControl : UserControl, INotifyPropertyChanged
     {
         private WordCard _selectedCard;
+        private bool isNew = false;
+        private Visibility _commonVisibility = Visibility.Visible;
+        private Visibility _saveVisibility = Visibility.Collapsed;
 
         public WordsDictionary MyDictionary { get; set; }
         public WordCard SelectedCard
@@ -24,6 +27,27 @@ namespace WordsTraining
                 NotifyPropertyChanged("SelectedCard");
             }
         }
+
+        public Visibility CommonVisibility
+        {
+            get { return _commonVisibility; }
+            set
+            {
+                _commonVisibility = value;
+                NotifyPropertyChanged("CommonVisibility");
+            }
+        }
+
+        public Visibility SaveVisibility
+        {
+            get { return _saveVisibility; }
+            set
+            {
+                _saveVisibility = value;
+                NotifyPropertyChanged("SaveVisibility");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -72,7 +96,7 @@ namespace WordsTraining
 
         private void WordsView_Unloaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void lang1Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -100,13 +124,14 @@ namespace WordsTraining
                     lang2Words.SelectedIndex = index;
                 }
             }
+            CommonView();
         }
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            var card = new WordCard("new", "new", WordType.Noun);
-            MyDictionary.Insert(0, card);
-            UpdateWordView(0);
+            SelectedCard = new WordCard("new", "new", WordType.Noun);
+            isNew = true;
+            UpdateView();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -117,6 +142,13 @@ namespace WordsTraining
             SelectedCard.Comment2 = txtComment2.Text;
             SelectedCard.Type = (WordType)txtType.SelectedItem;
             SelectedCard.CommentCommon = txtComment.Text;
+            if (isNew)
+            {
+                MyDictionary.Insert(0, SelectedCard);
+                UpdateWordView(0);
+            }
+            CommonView();
+
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
 
@@ -129,6 +161,30 @@ namespace WordsTraining
             lang1Words.SelectedIndex = 0;
             lang2Words.SelectedIndex = 0;
             MyDictionary.RemoveAt(index);
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateView();
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            CommonView();
+            SelectedCard = null;
+        }
+
+        private void CommonView()
+        {
+            CommonVisibility = Visibility.Visible;
+            SaveVisibility = Visibility.Collapsed;
+            isNew = false;
+        }
+
+        private void UpdateView()
+        {
+            CommonVisibility = Visibility.Collapsed;
+            SaveVisibility = Visibility.Visible;
         }
 
         private void Reset1_Click(object sender, RoutedEventArgs e)
