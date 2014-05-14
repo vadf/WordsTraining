@@ -20,7 +20,7 @@ namespace WordsTraining
     /// </summary>
     public partial class DictionariesControl : UserControl
     {
-        private string dictionariesFolder = "dictionaries";
+        private string dictionariesFolder = "";
         private string extention = ".xml";
 
         public static DataLayer dataLayer;
@@ -29,6 +29,15 @@ namespace WordsTraining
         public DictionariesControl()
         {
             InitializeComponent();
+
+            dictionariesFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "WordsTraining");
+
+            // Create Dictionaries folder if not exist
+            if (!Directory.Exists(dictionariesFolder))
+            {
+                Directory.CreateDirectory(dictionariesFolder);
+            }
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
@@ -60,12 +69,6 @@ namespace WordsTraining
         /// <returns>List of file names</returns>
         private List<string> GetDictionariesList()
         {
-            // Create Dictionaries folder if not exist
-            if (!Directory.Exists(dictionariesFolder))
-            {
-                Directory.CreateDirectory(dictionariesFolder);
-            }
-
             // read dictionaries list
             string[] dictionaries = Directory.GetFiles(dictionariesFolder, "*" + extention);
             var dict =
@@ -91,7 +94,7 @@ namespace WordsTraining
                 dataLayer = null;
                 selectedDictionary = null;
             }
-            
+
             File.Delete(GetFullPath(name));
             listDictionaries.Items.Refresh();
         }

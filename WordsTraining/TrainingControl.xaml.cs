@@ -74,7 +74,7 @@ namespace WordsTraining
             if (card != null)
             {
                 trainingTest.Visibility = Visibility.Visible;
-                trainingSetting.Visibility = Visibility.Collapsed;
+                trainingSetting.IsEnabled = false;
                 UpdateTrainingCard(card);
             }
         }
@@ -119,8 +119,8 @@ namespace WordsTraining
         private void ShowResult()
         {
             MessageBox.Show(string.Format("Total words in training {0}, correct answers {1}", training.TotalCards, training.CorrectAnswers));
+            trainingSetting.IsEnabled = true;
             trainingTest.Visibility = Visibility.Collapsed;
-            trainingSetting.Visibility = Visibility.Visible;
             training = null;
             DictionariesControl.dataLayer.Save(dictionary);
         }
