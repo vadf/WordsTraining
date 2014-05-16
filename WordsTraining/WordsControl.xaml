@@ -8,8 +8,8 @@
              d:DesignHeight="403" d:DesignWidth="674" Loaded="WordsView_Loaded" Unloaded="WordsView_Unloaded">
     <Grid HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130" />
-            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock Height="23" Width="100" HorizontalAlignment="Center" Margin="2" Name="lang1" Text="{Binding Path=MyDictionary.Language1}" VerticalAlignment="Top" Grid.Column="0"/>

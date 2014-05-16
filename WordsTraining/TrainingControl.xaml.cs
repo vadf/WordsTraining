@@ -76,6 +76,7 @@ namespace WordsTraining
                 trainingTest.Visibility = Visibility.Visible;
                 trainingSetting.IsEnabled = false;
                 UpdateTrainingCard(card);
+                btnCheck.IsEnabled = true;
             }
         }
 
@@ -83,6 +84,7 @@ namespace WordsTraining
         {
             card.SelectedLanguage = langFrom;
             txtFrom.Text = card.Word;
+            lbTypeValue.Text = card.Type.ToString();
         }
 
         private void btnCheck_Click(object sender, RoutedEventArgs e)
@@ -97,6 +99,7 @@ namespace WordsTraining
             {
                 lbResultValue.Text = "Incorrect. " + card.Word;
             }
+            btnCheck.IsEnabled = false;
         }
 
         private void btnNetx_Click(object sender, RoutedEventArgs e)
@@ -106,9 +109,13 @@ namespace WordsTraining
             lbResultValue.Text = "";
             card = training.NextCard();
             if (card != null)
+            {
                 UpdateTrainingCard(card);
+                btnCheck.IsEnabled = true;
+            }
             else
                 ShowResult();
+            
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -123,6 +130,14 @@ namespace WordsTraining
             trainingTest.Visibility = Visibility.Collapsed;
             training = null;
             DictionariesControl.dataLayer.Save(dictionary);
+        }
+
+        private void txtTo_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Return)
+            {
+                btnCheck_Click(sender, e);
+            }
         }
 
     }

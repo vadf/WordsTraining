@@ -20,29 +20,33 @@
                     <TextBlock Height="23" Name="lbDirection" Text="Direction" Width="50" />
                     <TextBlock Height="23" Name="lbDirectionValue" Margin="5,0,0,0"/>
                 </StackPanel>
-                <Button Content="Switch Direction" Height="23" Name="btnSwitchDirection" Width="75" Click="btnSwitchDirection_Click" />
-                <Button Content="Start" Height="23" Name="btnStart" Width="75" Click="btnStart_Click" />
+                <Button Content="Switch Direction" Height="23" Name="btnSwitchDirection" Width="90" Click="btnSwitchDirection_Click" Margin="0,3" />
+                <Button Content="Start" Height="23" Name="btnStart" Width="90" Click="btnStart_Click" Margin="0,3" />
             </StackPanel>
             <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Name="trainingTest" VerticalAlignment="Stretch" Width="Auto">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23" Name="lbFrom" Text="From" />
                     <TextBlock Height="23" Name="lbFromValue" Margin="5,0,0,0" />
                 </StackPanel>
-                <TextBox Height="23" Name="txtFrom" Width="120" IsReadOnly="True"/>
+                <TextBox Height="23" Name="txtFrom" Width="160" IsReadOnly="True" HorizontalAlignment="Left" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23" Name="lbTo" Text="To" />
                     <TextBlock Height="23" Name="lbToValue" Margin="5,0,0,0" />
                 </StackPanel>
-                <TextBox Height="23" Name="txtTo" Width="120" />
+                <TextBox Height="23" Name="txtTo" Width="160" KeyDown="txtTo_KeyDown" HorizontalAlignment="Left" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Height="23" Name="lbType" Text="Type" />
+                    <TextBlock Height="23" Name="lbTypeValue" Margin="5,0,0,0" />
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23" Name="lbResult" Text="Result" />
                     <TextBlock Height="23" Name="lbResultValue" Margin="5,0,0,0" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Check" Height="23" Name="btnCheck" Width="75" Click="btnCheck_Click" />
-                    <Button Content="Next" Height="23" Name="btnNetx" Width="75" Click="btnNetx_Click" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Content="Check" Height="23" Name="btnCheck" Width="75" Click="btnCheck_Click" Margin="3"/>
+                    <Button Content="Next" Height="23" Name="btnNetx" Width="75" Click="btnNetx_Click" Margin="3" />
                 </StackPanel>
-                <Button Content="Stop" Height="23" Name="btnStop" Width="75" Click="btnStop_Click" />
+                <Button Content="Stop" Height="23" Name="btnStop" Width="75" Click="btnStop_Click" Margin="3" HorizontalAlignment="Left" />
             </StackPanel>
         </Grid>
     </Grid>

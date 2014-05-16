@@ -136,7 +136,7 @@ namespace WordsTraining
 
         public override string ToString()
         {
-            string tmp = String.Join(",", words.Select(kv => kv.Key + "=" + kv.Value).ToArray());
+            string tmp = String.Join(",", words.Select(kv => kv.Key + "=" + kv.Value));
             return String.Format("Card: type - {0}, words {1}", this.Type, tmp);
         }
     }

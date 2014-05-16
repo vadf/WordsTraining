@@ -10,7 +10,7 @@
         <Grid Height="Auto" HorizontalAlignment="Stretch" Name="grid1" Width="Auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="141*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ListBox Name="listDictionaries" HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch" Width="Auto" Grid.Column="0">
                 <ListBox.ItemTemplate>
@@ -33,10 +33,6 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <TextBlock Height="23" Name="lbLang2" Text="Lang2" HorizontalAlignment="Left" />
                     <TextBox Height="23" Name="txtLang2" Width="70" Margin="10,0,0,0" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <TextBlock Height="23" Name="lbCards" Text="Max Cards" HorizontalAlignment="Left" />
-                    <TextBox Height="23" Name="txtCards" Width="40" Margin="10,0,0,0" />
                 </StackPanel>
                 <Button Content="Create" Height="23" Name="Create" Width="75" Click="Create_Click" HorizontalAlignment="Center" Margin="0,5,0,0" />
                 <Button Content="Remove" Height="23" Name="Remove" Width="75" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0,30,0,0" Click="Remove_Click" />
