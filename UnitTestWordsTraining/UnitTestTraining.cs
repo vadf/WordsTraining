@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordsTraining;
 
-namespace TestWordsTraining
+namespace UnitTestWordsTraining
 {
-    [TestFixture]
-    class TestTraining
+    [TestClass]
+    public class UnitTestTraining
     {
         WordsDictionary dictionary;
         string language1 = "ENG";
@@ -22,7 +19,7 @@ namespace TestWordsTraining
         CardsGenerator generator = new CardsGenerator();
         Random random = new Random();
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             maxCards = random.Next(5, 10);
@@ -34,7 +31,7 @@ namespace TestWordsTraining
             }
         }
 
-        [Test]
+        [TestMethod]
         public void TestDictionaryEmpty()
         {
             Training training = new Training(new WordsDictionary(language1, language2), langFrom, langTo, wordsToLearn, maxCounter);
@@ -43,7 +40,7 @@ namespace TestWordsTraining
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
-        [Test]
+        [TestMethod]
         public void Test0ToLearn()
         {
             int expected = 0;
@@ -52,7 +49,7 @@ namespace TestWordsTraining
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
-        [Test]
+        [TestMethod]
         public void Test1ToLearn()
         {
             int expected = 1;
@@ -61,7 +58,7 @@ namespace TestWordsTraining
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
-        [Test]
+        [TestMethod]
         public void TestLearnGreaterThanCards()
         {
             int expected = maxCards;
@@ -70,7 +67,7 @@ namespace TestWordsTraining
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
-        [Test]
+        [TestMethod]
         public void TestNothingToLearn()
         {
             int counter = 1;
@@ -85,7 +82,7 @@ namespace TestWordsTraining
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
 
-        [Test]
+        [TestMethod]
         public void TestSucceeded1In1()
         {
             int amount = 1;
@@ -109,7 +106,7 @@ namespace TestWordsTraining
             Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
         }
 
-        [Test]
+        [TestMethod]
         public void TestSucceededSeveralInMany()
         {
             int amount = random.Next(maxCards / 2);

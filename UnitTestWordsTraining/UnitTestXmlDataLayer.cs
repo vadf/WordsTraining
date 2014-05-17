@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordsTraining;
 using System.IO;
 using System.Xml.Schema;
 
-namespace TestWordsTraining
+namespace UnitTestWordsTraining
 {
-    [TestFixture]
-    class TestXmlDataLayer
+    [TestClass]
+    public class UnitTestXmlDataLayer
     {
         WordsDictionary dictionary;
         string language1 = "EST";
@@ -21,24 +18,24 @@ namespace TestWordsTraining
 
         string pathToXml = "dictionary.xml";
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             maxCards = random.Next(5, 100);
             dictionary = new WordsDictionary(language1, language2);
-            for (int i = 0; i < maxCards/2; i++)
+            for (int i = 0; i < maxCards / 2; i++)
             {
                 dictionary.Add(generator.GetCard());
             }
         }
 
-        [TearDown]
+        [TestCleanup]
         public void TearDown()
         {
             File.Delete(pathToXml);
         }
 
-        [Test]
+        [TestMethod]
         public void TestSaveReadWComments()
         {
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
@@ -47,21 +44,21 @@ namespace TestWordsTraining
             ValidatingDictionaries(dictionary, dictionaryRead);
         }
 
-        [Test]
+        [TestMethod]
         public void TestSaveReadWOComments()
         {
             WordCard card = dictionary[0];
             card.CommentCommon = "";
             card = dictionary[1];
             card.Comment1 = null;
-            
+
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
             doc.Save(dictionary);
             var dictionaryRead = doc.Read();
             ValidatingDictionaries(dictionary, dictionaryRead);
         }
 
-        [Test]
+        [TestMethod]
         public void TestSaveReadCountersIncreased()
         {
             for (int i = maxCards / 2; i < maxCards - 1; i++)
@@ -75,7 +72,7 @@ namespace TestWordsTraining
             ValidatingDictionaries(dictionary, dictionaryRead);
         }
 
-        [Test]
+        [TestMethod]
         public void TestSaveReadTwice()
         {
             XmlDataLayer doc = new XmlDataLayer(pathToXml);
@@ -108,5 +105,4 @@ namespace TestWordsTraining
             }
         }
     }
-
 }

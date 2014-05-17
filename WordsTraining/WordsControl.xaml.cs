@@ -92,6 +92,7 @@ namespace WordsTraining
                 DataContext = this;
                 UpdateWordView(0);
             }
+            filtersPanel.Visibility = Visibility.Collapsed;
         }
 
         private void WordsView_Unloaded(object sender, RoutedEventArgs e)
@@ -144,23 +145,20 @@ namespace WordsTraining
             SelectedCard.CommentCommon = txtComment.Text;
             if (isNew)
             {
-                MyDictionary.Insert(0, SelectedCard);
-                UpdateWordView(0);
+                DictionariesControl.selectedDictionary.Insert(0, SelectedCard);
             }
             CommonView();
 
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
 
-            DictionariesControl.dataLayer.Save(MyDictionary);
+            DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            int index = lang1Words.SelectedIndex;
-            lang1Words.SelectedIndex = 0;
-            lang2Words.SelectedIndex = 0;
-            MyDictionary.RemoveAt(index);
+            DictionariesControl.selectedDictionary.Remove(SelectedCard);
+            DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
@@ -197,6 +195,34 @@ namespace WordsTraining
         {
             SelectedCard.Counter2 = 0;
             DictionariesControl.dataLayer.Save(MyDictionary);
+        }
+
+        private void Filters_Click(object sender, RoutedEventArgs e)
+        {
+            filtersPanel.Visibility = Visibility.Visible;
+        }
+
+        private void Hide_Click(object sender, RoutedEventArgs e)
+        {
+            filtersPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void Apply_Click(object sender, RoutedEventArgs e)
+        {
+            var filter =
+                from c in DictionariesControl.selectedDictionary
+                where c.Word1.Contains("a") || c.Word2.Contains("a")
+                select c;
+            MyDictionary = filter as WordsDictionary;
+            lang1Words.Items.Refresh();
+            lang2Words.Items.Refresh();
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            MyDictionary = DictionariesControl.selectedDictionary;
+            lang1Words.Items.Refresh();
+            lang2Words.Items.Refresh();
         }
     }
 }

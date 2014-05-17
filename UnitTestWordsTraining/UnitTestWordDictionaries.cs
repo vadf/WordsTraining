@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordsTraining;
 
-namespace TestWordsTraining
+namespace UnitTestWordsTraining
 {
-    [TestFixture]
-    class TestWordsDictionary
+    [TestClass]
+    public class UnitTestWordDictionaries
     {
+        [TestMethod]
+        public void TestMethod1()
+        {
+        }
+
         WordsDictionary dictionary;
         string language1 = "ENG";
         string language2 = "EST";
@@ -18,35 +20,35 @@ namespace TestWordsTraining
 
         CardsGenerator generator = new CardsGenerator();
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             maxCards = random.Next(3, 100);
             dictionary = new WordsDictionary(language1, language2);
         }
 
-        [Test]
+        [TestMethod]
         public void TestInit()
         {
             Assert.AreEqual(language1, dictionary.Language1, "Validating that language1 is initialized correctly");
             Assert.AreEqual(language2, dictionary.Language2, "Validating that language2 is initialized correctly");
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitFailed1()
         {
             dictionary = new WordsDictionary(null, language2);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitFailed2()
         {
             dictionary = new WordsDictionary(language1, "");
         }
 
-        [Test]
+        [TestMethod]
         public void TestAddWordCard()
         {
             WordCard card = generator.GetCard();
@@ -60,7 +62,7 @@ namespace TestWordsTraining
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
         }
 
-        [Test]
+        [TestMethod]
         [Ignore]
         [ExpectedException(typeof(ArgumentException))]
         public void TestAddWordCardTwice()
@@ -71,7 +73,7 @@ namespace TestWordsTraining
             dictionary.Add(card2);
         }
 
-        [Test]
+        [TestMethod]
         public void TestAddWordCardMax()
         {
             for (int i = 0; i < maxCards; i++)
@@ -84,7 +86,7 @@ namespace TestWordsTraining
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
         }
 
-        [Test]
+        [TestMethod]
         [Ignore]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestAddWordCardMax1()

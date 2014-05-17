@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using WordsTraining;
 
-namespace TestWordsTraining
+namespace UnitTestWordsTraining
 {
     class CardsGenerator
     {
