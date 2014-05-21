@@ -12,21 +12,11 @@ namespace WordsTraining
     /// </summary>
     public partial class WordsControl : UserControl, INotifyPropertyChanged
     {
-        private WordCard _selectedCard;
         private bool isNew = false;
         private Visibility _commonVisibility = Visibility.Visible;
         private Visibility _saveVisibility = Visibility.Collapsed;
 
         public WordsDictionary MyDictionary { get; set; }
-        public WordCard SelectedCard
-        {
-            get { return _selectedCard; }
-            set
-            {
-                _selectedCard = value;
-                NotifyPropertyChanged("SelectedCard");
-            }
-        }
 
         public Visibility CommonVisibility
         {
@@ -58,27 +48,6 @@ namespace WordsTraining
             }
         }
 
-        // Get the list of possible word types
-        public IEnumerable<WordType> WordTypeValues
-        {
-            get
-            {
-                return Enum.GetValues(typeof(WordType)).Cast<WordType>();
-            }
-        }
-
-        // selected typed
-        private WordType _selectedWordType;
-        public WordType SelectedWordType
-        {
-            get { return _selectedWordType; }
-            set
-            {
-                _selectedWordType = value;
-                NotifyPropertyChanged("SelectedWordType");
-            }
-        }
-
         public WordsControl()
         {
             InitializeComponent();
@@ -91,6 +60,8 @@ namespace WordsTraining
                 MyDictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
                 UpdateWordView(0);
+                WordCardElement.Lang1 = DictionariesControl.selectedDictionary.Language1;
+                WordCardElement.Lang2 = DictionariesControl.selectedDictionary.Language2;
             }
             filtersPanel.Visibility = Visibility.Collapsed;
         }
@@ -114,8 +85,8 @@ namespace WordsTraining
         {
             if (index >= 0 && index < MyDictionary.Count)
             {
-                SelectedCard = MyDictionary[index];
-                SelectedWordType = SelectedCard.Type;
+                WordCardElement.SelectedCard = MyDictionary[index];
+                WordCardElement.SelectedWordType = WordCardElement.SelectedCard.Type;
                 if (lang1Words.SelectedIndex != index)
                 {
                     lang1Words.SelectedIndex = index;
@@ -130,22 +101,22 @@ namespace WordsTraining
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            SelectedCard = new WordCard("new", "new", WordType.Noun);
+            WordCardElement.SelectedCard = new WordCard("new", "new", WordType.Noun);
             isNew = true;
             UpdateView();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            SelectedCard.Word1 = txtWord1.Text;
-            SelectedCard.Comment1 = txtComment1.Text;
-            SelectedCard.Word2 = txtWord2.Text;
-            SelectedCard.Comment2 = txtComment2.Text;
-            SelectedCard.Type = (WordType)txtType.SelectedItem;
-            SelectedCard.CommentCommon = txtComment.Text;
+            WordCardElement.SelectedCard.Word1 = WordCardElement.txtWord1.Text;
+            WordCardElement.SelectedCard.Comment1 = WordCardElement.txtComment1.Text;
+            WordCardElement.SelectedCard.Word2 = WordCardElement.txtWord2.Text;
+            WordCardElement.SelectedCard.Comment2 = WordCardElement.txtComment2.Text;
+            WordCardElement.SelectedCard.Type = (WordType)WordCardElement.txtType.SelectedItem;
+            WordCardElement.SelectedCard.CommentCommon = WordCardElement.txtComment.Text;
             if (isNew)
             {
-                DictionariesControl.selectedDictionary.Insert(0, SelectedCard);
+                DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
             }
             CommonView();
 
@@ -157,7 +128,7 @@ namespace WordsTraining
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            DictionariesControl.selectedDictionary.Remove(SelectedCard);
+            DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
@@ -169,7 +140,7 @@ namespace WordsTraining
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             CommonView();
-            SelectedCard = null;
+            WordCardElement.SelectedCard = null;
         }
 
         private void CommonView()
@@ -183,18 +154,6 @@ namespace WordsTraining
         {
             CommonVisibility = Visibility.Collapsed;
             SaveVisibility = Visibility.Visible;
-        }
-
-        private void Reset1_Click(object sender, RoutedEventArgs e)
-        {
-            SelectedCard.Counter1 = 0;
-            DictionariesControl.dataLayer.Save(MyDictionary);
-        }
-
-        private void Reset2_Click(object sender, RoutedEventArgs e)
-        {
-            SelectedCard.Counter2 = 0;
-            DictionariesControl.dataLayer.Save(MyDictionary);
         }
 
         private void Filters_Click(object sender, RoutedEventArgs e)
