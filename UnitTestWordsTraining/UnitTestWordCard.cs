@@ -133,7 +133,7 @@ namespace UnitTestWordsTraining
             card2.CommentCommon = card.CommentCommon;
             card2.Counter1 = card.Counter2;
             card2.Counter2 = card.Counter1;
-            card.Swicth();
+            card.Switched = true;
             Assert.IsTrue(card.Switched, "Validating that card is switched (Property)");
             Assert.AreEqual(card, card2, "Validating that card is switched (Cards)");
             Assert.AreEqual(card.CommentCommon, card2.CommentCommon, "Validating that card is switched (Comment)");
@@ -152,8 +152,8 @@ namespace UnitTestWordsTraining
             card2.CommentCommon = card.CommentCommon;
             card2.Counter1 = card.Counter1;
             card2.Counter2 = card.Counter2;
-            card.Swicth();
-            card.Swicth();
+            card.Switched = true;
+            card.Switched = false;
             Assert.IsFalse(card.Switched, "Validating that card is switched (Property)");
             Assert.AreEqual(card, card2, "Validating that card is switched (Cards)");
             Assert.AreEqual(card.CommentCommon, card2.CommentCommon, "Validating that card is switched (Comment)");

@@ -88,6 +88,16 @@ namespace UnitTestWordsTraining
             ValidatingDictionaries(dictionary, dictionaryRead);
         }
 
+        public void TestSwitchBeforeSave()
+        {
+            XmlDataLayer doc = new XmlDataLayer(pathToXml);
+            dictionary[0].Switched = true;
+            doc.Save(dictionary);
+            Assert.IsFalse(dictionary[0].Switched, "Validating that Card was switched back befor saving");
+            var dictionaryRead = doc.Read();
+            ValidatingDictionaries(dictionary, dictionaryRead);
+        }
+
         private void ValidatingDictionaries(WordsDictionary expected, WordsDictionary actual)
         {
             Assert.AreEqual(expected.Count, actual.Count, "Validating read dictionary size");

@@ -82,7 +82,17 @@ namespace WordsTraining
             set { words[Language.Lang2].Counter = value; }
         }
 
-        public bool Switched { get; private set; }
+        private bool isSwitched = false;
+        public bool Switched
+        {
+            get { return isSwitched; }
+            set
+            {
+                if (isSwitched != value)
+                    Swicth();
+                isSwitched = value;
+            }
+        }
 
         /// <summary>
         /// Creates the Word Card with all Mandatory elements (language1, language2, word1, word2)
@@ -143,14 +153,12 @@ namespace WordsTraining
             return String.Format("Card: type - {0}, words {1}", this.Type, tmp);
         }
 
-        public void Swicth()
+        private void Swicth()
         {
-            Switched = !Switched;
             WordClass tmp = words[Language.Lang1];
             words[Language.Lang1] = words[Language.Lang2];
             words[Language.Lang2] = tmp;
         }
-
     }
 
     /// <summary>

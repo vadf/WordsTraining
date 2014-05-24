@@ -4,12 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             x:Name="TrainingView" Loaded="TrainingView_Loaded" d:DesignHeight="265" d:DesignWidth="486">
+             x:Name="TrainingView"
+             xmlns:local="clr-namespace:WordsTraining"
+             Loaded="TrainingView_Loaded" d:DesignWidth="490" d:DesignHeight="450
+             " Unloaded="TrainingView_Unloaded">
     <Grid>
         <Grid Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch" Width="Auto">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="185" />
-                <ColumnDefinition Width="302" />
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="300*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" Margin="0" Name="trainingSetting" VerticalAlignment="Stretch" Width="Auto">
                 <TextBlock Height="23" Name="lbNumOfWords" Text="Number of words to learn" />
@@ -24,19 +27,10 @@
                 <Button Content="Start" Height="23" Name="btnStart" Width="90" Click="btnStart_Click" Margin="0,3" />
             </StackPanel>
             <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Name="trainingTest" VerticalAlignment="Stretch" Width="Auto">
+                <local:WordCardControl x:Name="WordCardElement"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Height="23" Name="lbFrom" Text="From" />
-                    <TextBlock Height="23" Name="lbFromValue" Margin="5,0,0,0" />
-                </StackPanel>
-                <TextBox Height="23" Name="txtFrom" Width="160" IsReadOnly="True" HorizontalAlignment="Left" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Height="23" Name="lbTo" Text="To" />
-                    <TextBlock Height="23" Name="lbToValue" Margin="5,0,0,0" />
-                </StackPanel>
-                <TextBox Height="23" Name="txtTo" Width="160" KeyDown="txtTo_KeyDown" HorizontalAlignment="Left" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Height="23" Name="lbType" Text="Type" />
-                    <TextBlock Height="23" Name="lbTypeValue" Margin="5,0,0,0" />
+                    <TextBlock Height="23" Name="lbAnswer" Text="Answer" />
+                    <TextBox Height="23" Width="150" Name="txtAnswer" Margin="5,0,0,0" KeyDown="txtAnswer_KeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23" Name="lbResult" Text="Result" />
@@ -45,8 +39,8 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Content="Check" Height="23" Name="btnCheck" Width="75" Click="btnCheck_Click" Margin="3"/>
                     <Button Content="Next" Height="23" Name="btnNetx" Width="75" Click="btnNetx_Click" Margin="3" />
-                </StackPanel>
-                <Button Content="Stop" Height="23" Name="btnStop" Width="75" Click="btnStop_Click" Margin="3" HorizontalAlignment="Left" />
+                    <Button Content="Stop" Height="23" Name="btnStop" Width="75" Click="btnStop_Click" Margin="3" HorizontalAlignment="Left" />
+                </StackPanel>                
             </StackPanel>
         </Grid>
     </Grid>

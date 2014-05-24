@@ -44,7 +44,7 @@ namespace WordsTraining
                 NotifyPropertyChanged("SelectedWordType");
             }
         }
-        
+
         // selected Card
         private WordCard _selectedCard;
         public WordCard SelectedCard
@@ -54,6 +54,8 @@ namespace WordsTraining
             {
                 _selectedCard = value;
                 NotifyPropertyChanged("SelectedCard");
+                if (value != null)
+                    SelectedWordType = _selectedCard.Type;
             }
         }
 

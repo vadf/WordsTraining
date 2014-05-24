@@ -63,17 +63,6 @@ namespace UnitTestWordsTraining
         }
 
         [TestMethod]
-        [Ignore]
-        [ExpectedException(typeof(ArgumentException))]
-        public void TestAddWordCardTwice()
-        {
-            WordCard card1 = generator.GetCard();
-            WordCard card2 = new WordCard(card1.Word1, card1.Word2, card1.Type);
-            dictionary.Add(card1);
-            dictionary.Add(card2);
-        }
-
-        [TestMethod]
         public void TestAddWordCardMax()
         {
             for (int i = 0; i < maxCards; i++)
@@ -84,17 +73,6 @@ namespace UnitTestWordsTraining
             int sizeExpected = maxCards;
             int sizeActual = dictionary.Count;
             Assert.AreEqual(sizeExpected, sizeActual, "Validating dictionary size");
-        }
-
-        [TestMethod]
-        [Ignore]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestAddWordCardMax1()
-        {
-            for (int i = 0; i < maxCards + 1; i++)
-            {
-                dictionary.Add(generator.GetCard());
-            }
         }
     }
 }

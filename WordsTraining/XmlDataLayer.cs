@@ -99,6 +99,9 @@ namespace WordsTraining
             // iterate over each card and add it to xml
             foreach (var card in dictionary)
             {
+                // switch back all cards, that could be switched during training
+                card.Switched = false;
+
                 XmlNode wordCard = xd.CreateElement(strCard);
 
                 XmlAttribute type = xd.CreateAttribute(strType);

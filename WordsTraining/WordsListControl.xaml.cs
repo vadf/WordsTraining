@@ -86,7 +86,6 @@ namespace WordsTraining
             if (index >= 0 && index < MyDictionary.Count)
             {
                 WordCardElement.SelectedCard = MyDictionary[index];
-                WordCardElement.SelectedWordType = WordCardElement.SelectedCard.Type;
                 if (lang1Words.SelectedIndex != index)
                 {
                     lang1Words.SelectedIndex = index;

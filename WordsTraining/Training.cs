@@ -8,10 +8,11 @@ namespace WordsTraining
     public class Training
     {
         private IList<WordCard> cardsToLearn;
-        private Language lang;
+        private bool isSwitched;
         private int _cardIndex = 0;
         private int _correctAnswers = 0;
         private Random r = new Random();
+        private WordsDictionary dictionary;
 
         public int CorrectAnswers
         {
@@ -32,17 +33,17 @@ namespace WordsTraining
         /// <param name="langTo">Language 'to' learn</param>
         /// <param name="amount">Amount of cards to learn</param>
         /// <param name="maxCounter">Max counter value</param>
-        public Training(WordsDictionary dictionary, Language langFrom, Language langTo, int amount, int maxCounter)
+        public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter)
         {
-            this.lang = langFrom;
-            // select from Lagnguage
+            this.isSwitched = isSwitched;
+            this.dictionary = dictionary;
             foreach (var card in dictionary)
-                card.SelectedLanguage = langFrom;
+                card.Switched = isSwitched;
 
             // select all cards that have counter less than maxCounter
             var tmpCards =
                 from c in dictionary
-                where c.Counter < maxCounter
+                where c.Counter1 < maxCounter
                 select c;
 
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
@@ -63,6 +64,18 @@ namespace WordsTraining
 
             if (cardsToLearn.Count == 0)
                 _cardIndex = -1;
+
+            foreach (var card in cardsToLearn)
+                card.Switched = isSwitched;
+        }
+
+        /// <summary>
+        /// Switch all Cards back when finish training
+        /// </summary>
+        public void Close()
+        {
+            foreach (var card in dictionary)
+                card.Switched = false;
         }
 
         /// <summary>
@@ -71,8 +84,7 @@ namespace WordsTraining
         public void Succeeded()
         {
             var card = cardsToLearn[_cardIndex - 1];
-            card.SelectedLanguage = lang;
-            card.Counter++;
+            card.Counter1++;
             _correctAnswers++;
         }
 

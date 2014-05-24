@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:WordsTraining"
              mc:Ignorable="d" 
              x:Name="WordsView"
-             d:DesignHeight="403" d:DesignWidth="737" Loaded="WordsView_Loaded" Unloaded="WordsView_Unloaded">
+             d:DesignHeight="550" d:DesignWidth="740"
+             Loaded="WordsView_Loaded" Unloaded="WordsView_Unloaded">
     <Grid HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
