@@ -16,15 +16,7 @@ namespace WordsTraining
     {
         private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
 
-        public Language SelectedLanguage { get; set; }
-
         // Words, mandatory
-        public string Word
-        {
-            get { return words[SelectedLanguage].Word; }
-            set { words[SelectedLanguage].Word = value; }
-        }
-
         public string Word1
         {
             get { return words[Language.Lang1].Word; }
@@ -37,18 +29,7 @@ namespace WordsTraining
             set { words[Language.Lang2].Word = value; }
         }
 
-        /// <summary>
-        /// Words type
-        /// </summary>
-        public WordType Type { get; set; }
-
         // Comment for word and common comment for card. All are optional
-        public string Comment
-        {
-            get { return words[SelectedLanguage].Comment; }
-            set { words[SelectedLanguage].Comment = value; }
-        }
-
         public string Comment1
         {
             get { return words[Language.Lang1].Comment; }
@@ -61,15 +42,7 @@ namespace WordsTraining
             set { words[Language.Lang2].Comment = value; }
         }
 
-        public string CommentCommon { get; set; }
-
         // counters
-        public int Counter
-        {
-            get { return words[SelectedLanguage].Counter; }
-            set { words[SelectedLanguage].Counter = value; }
-        }
-
         public int Counter1
         {
             get { return words[Language.Lang1].Counter; }
@@ -81,6 +54,13 @@ namespace WordsTraining
             get { return words[Language.Lang2].Counter; }
             set { words[Language.Lang2].Counter = value; }
         }
+
+        /// <summary>
+        /// Words type
+        /// </summary>
+        public WordType Type { get; set; }
+
+        public string CommentCommon { get; set; }
 
         private bool isSwitched = false;
         public bool Switched

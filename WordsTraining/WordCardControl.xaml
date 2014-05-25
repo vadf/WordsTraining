@@ -31,7 +31,7 @@
             <TextBlock Height="23" Name="lbType" Text="Type" Margin="3,0"/>
             <ComboBox Height="23" Name="txtType" Width="Auto" Margin="3,0" SelectedItem="{Binding SelectedWordType, Mode=OneWay}" ItemsSource="{Binding WordTypeValues}"/>
             <TextBlock Height="23" Name="lbComment" Text="Common Comment" Margin="3,0"/>
-            <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.CommonComment, Mode=OneWay}" />
+            <TextBox Height="23" Name="txtComment" Width="Auto" Margin="3,0" Text="{Binding Path=SelectedCard.CommentCommon, Mode=OneWay}" />
         </StackPanel>
 
     </Grid>

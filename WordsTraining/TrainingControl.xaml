@@ -29,12 +29,12 @@
             <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" Name="trainingTest" VerticalAlignment="Stretch" Width="Auto">
                 <local:WordCardControl x:Name="WordCardElement"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Height="23" Name="lbAnswer" Text="Answer" />
+                    <TextBlock Height="23" Name="lbAnswer" Text="Answer" FontWeight="Bold" Foreground="#FF73B90E" />
                     <TextBox Height="23" Width="150" Name="txtAnswer" Margin="5,0,0,0" KeyDown="txtAnswer_KeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Height="23" Name="lbResult" Text="Result" />
-                    <TextBlock Height="23" Name="lbResultValue" Margin="5,0,0,0" />
+                    <TextBlock Height="23" Name="lbResult" Text="Result" FontWeight="Bold" />
+                    <TextBlock Height="23" Name="lbResultValue" Margin="5,0,0,0" FontStyle="Italic" FontWeight="Bold" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Content="Check" Height="23" Name="btnCheck" Width="75" Click="btnCheck_Click" Margin="3"/>

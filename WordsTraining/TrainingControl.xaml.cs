@@ -87,6 +87,7 @@ namespace WordsTraining
                 WordCardElement.txtWord2.FontWeight = FontWeights.Bold;
                 WordCardElement.txtWord1.Background = Brushes.GreenYellow; // or (Brush)bc.ConvertFrom("#FFXXXXXX");
                 WordCardElement.txtWord2.Background = Brushes.Gray;
+                txtAnswer.Focus();
                 UpdateTrainingCard();
             }
         }
@@ -101,8 +102,7 @@ namespace WordsTraining
 
         private void btnCheck_Click(object sender, RoutedEventArgs e)
         {
-            WordCardElement.SelectedCard.SelectedLanguage = langTo;
-            if (txtAnswer.Text.ToLower() == WordCardElement.SelectedCard.Word.ToLower())
+            if (txtAnswer.Text.ToLower() == WordCardElement.SelectedCard.Word2.ToLower())
             {
                 lbResultValue.Text = "Correct";
                 lbResultValue.Foreground = Brushes.Green;
