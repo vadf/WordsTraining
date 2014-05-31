@@ -24,7 +24,7 @@
                    HorizontalAlignment="Center"
                    Margin="2"
                    Name="lang1"
-                   Text="{Binding Path=MyDictionary.Language1}"
+                   Text="{Binding Path=Lang1}"
                    VerticalAlignment="Top"
                    Grid.Column="0" />
         <ListBox  Name="lang1Words"
@@ -46,7 +46,7 @@
                    HorizontalAlignment="Center"
                    Margin="2"
                    Name="lang2"
-                   Text="{Binding Path=MyDictionary.Language2}"
+                   Text="{Binding Path=Lang2}"
                    VerticalAlignment="Top"
                    Grid.Column="1" />
         <ListBox Name="lang2Words"
@@ -113,71 +113,72 @@
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
                     <TextBlock Height="23"
-                               Name="lbWordFilter"
+                               x:Name="lbWordFilter"
                                Width="70"
                                Text="Word"
                                Margin="3,0" />
-                    <ComboBox Height="23"
-                              Name="comboWords"
-                              Width="70"
-                              Margin="3,0"
-                              SelectedItem="{Binding SelectedWordType, Mode=OneWay}"
-                              ItemsSource="{Binding WordTypeValues}" />
+                    <TextBlock Height="23"
+                               x:Name="lbWordFilterType"
+                               Width="70"
+                               Text="Contains"
+                               Margin="3,0" />
                     <TextBox Height="23"
-                             Name="txtWordFilter"
+                             x:Name="txtWordFilter"
                              Width="70"
                              Margin="3,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
                     <TextBlock Height="23"
-                               Name="lbCounterFilter"
+                               x:Name="lbCounterFilter"
                                Width="70"
                                Text="Counter"
                                Margin="3,0" />
                     <ComboBox Height="23"
-                              Name="comboCounter"
+                              x:Name="comboCounter"
                               Width="70"
                               Margin="3,0"
-                              SelectedItem="{Binding SelectedWordType, Mode=OneWay}"
-                              ItemsSource="{Binding WordTypeValues}" />
+                              SelectedItem="{Binding SelectedFilterType, Mode=TwoWay}"
+                              ItemsSource="{Binding FilterTypeValues}"
+                              RenderTransformOrigin="0.815,0.483" />
                     <TextBox Height="23"
-                             Name="txtCounterFilter"
+                             x:Name="txtCounterFilter"
                              Width="70"
                              Margin="3,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
                     <TextBlock Height="23"
-                               Name="lbTypeFilter"
+                               x:Name="lbTypeFilter"
                                Width="70"
-                               Text="Word"
+                               Text="Type"
+                               Margin="3,0" />
+                    <TextBlock Height="23"
+                               x:Name="lbTypeFilterType"
+                               Width="70"
+                               Text="Equals to"
                                Margin="3,0" />
                     <ComboBox Height="23"
-                              Name="comboType"
+                              x:Name="comboTypeFilter"
                               Width="70"
                               Margin="3,0"
-                              SelectedItem="{Binding SelectedWordType, Mode=OneWay}"
+                              SelectedItem="{Binding SelectedWordTypeFiler, Mode=TwoWay}"
                               ItemsSource="{Binding WordTypeValues}" />
-                    <TextBox Height="23"
-                             Name="txtTypeFilter"
-                             Width="70"
-                             Margin="3,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
                     <Button Content="Apply"
                             Height="23"
-                            Name="Apply"
+                            Name="ApplyFilter"
                             Width="65"
                             Margin="3,5"
-                            Click="Apply_Click" />
-                    <Button Content="Reset"
+                            Click="ApplyFilter_Click" />
+                    <Button Content="ResetFilter"
                             Height="23"
                             Name="Reset"
                             Width="65"
                             Margin="3,5"
-                            Click="Reset_Click" />
+                            Click="ResetFilter_Click" />
                     <Button Content="Hide"
                             Height="23"
                             Name="Hide"

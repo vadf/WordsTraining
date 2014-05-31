@@ -7,11 +7,6 @@ namespace UnitTestWordsTraining
     [TestClass]
     public class UnitTestWordDictionaries
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
-
         WordsDictionary dictionary;
         string language1 = "ENG";
         string language2 = "EST";

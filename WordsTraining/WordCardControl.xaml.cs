@@ -33,7 +33,7 @@ namespace WordsTraining
             }
         }
 
-        // selected typed
+        // selected type
         private WordType _selectedWordType;
         public WordType SelectedWordType
         {

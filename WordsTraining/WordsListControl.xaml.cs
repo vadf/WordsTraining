@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace WordsTraining
 {
@@ -12,11 +13,45 @@ namespace WordsTraining
     /// </summary>
     public partial class WordsControl : UserControl, INotifyPropertyChanged
     {
+        #region Properties and Variables
+
         private bool isNew = false;
         private Visibility _commonVisibility = Visibility.Visible;
         private Visibility _saveVisibility = Visibility.Collapsed;
+        private ObservableCollection<WordCard> dictionary;
 
-        public WordsDictionary MyDictionary { get; set; }
+        public ObservableCollection<WordCard> MyDictionary
+        {
+            get { return dictionary; }
+            set
+            {
+                dictionary = value;
+                NotifyPropertyChanged("MyDictionary");
+            }
+        }
+
+        // Languages
+        private string _lang1;
+        public string Lang1
+        {
+            get { return _lang1; }
+            set
+            {
+                _lang1 = value;
+                NotifyPropertyChanged("Lang1");
+            }
+        }
+
+        private string _lang2;
+        public string Lang2
+        {
+            get { return _lang2; }
+            set
+            {
+                _lang2 = value;
+                NotifyPropertyChanged("Lang2");
+            }
+        }
 
         public Visibility CommonVisibility
         {
@@ -48,6 +83,10 @@ namespace WordsTraining
             }
         }
 
+        #endregion
+
+        #region Initialization and Card Selection
+
         public WordsControl()
         {
             InitializeComponent();
@@ -55,11 +94,15 @@ namespace WordsTraining
 
         private void WordsView_Loaded(object sender, RoutedEventArgs e)
         {
+            // set dictionary and languages
             if (DictionariesControl.selectedDictionary != null && DictionariesControl.selectedDictionary != MyDictionary)
             {
-                MyDictionary = DictionariesControl.selectedDictionary;
+                //MyDictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
+                ResetFilter_Click(sender, e);
                 UpdateWordView(0);
+                Lang1 = DictionariesControl.selectedDictionary.Language1;
+                Lang2 = DictionariesControl.selectedDictionary.Language2;
                 WordCardElement.Lang1 = DictionariesControl.selectedDictionary.Language1;
                 WordCardElement.Lang2 = DictionariesControl.selectedDictionary.Language2;
             }
@@ -81,6 +124,7 @@ namespace WordsTraining
             UpdateWordView(lang2Words.SelectedIndex);
         }
 
+        // Set SelectedCard when some word selected from list
         private void UpdateWordView(int index)
         {
             if (index >= 0 && index < MyDictionary.Count)
@@ -98,6 +142,11 @@ namespace WordsTraining
             CommonView();
         }
 
+        #endregion
+
+        #region Cards Action
+
+        // prepation to add new card
         private void New_Click(object sender, RoutedEventArgs e)
         {
             WordCardElement.SelectedCard = new WordCard("new", "new", WordType.Noun);
@@ -107,6 +156,7 @@ namespace WordsTraining
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            // save card deatils
             WordCardElement.SelectedCard.Word1 = WordCardElement.txtWord1.Text;
             WordCardElement.SelectedCard.Comment1 = WordCardElement.txtComment1.Text;
             WordCardElement.SelectedCard.Word2 = WordCardElement.txtWord2.Text;
@@ -115,72 +165,142 @@ namespace WordsTraining
             WordCardElement.SelectedCard.CommentCommon = WordCardElement.txtComment.Text;
             if (isNew)
             {
+                // if new card, add it to dictionary
                 DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
             }
             CommonView();
 
+            // refresh wrods lists if some word 'names' are changed
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
 
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
+        // remove card from dictionary
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
+        // set update mode
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             UpdateView();
         }
 
+        // close update mode
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             CommonView();
-            WordCardElement.SelectedCard = null;
+            UpdateWordView(lang1Words.SelectedIndex);
         }
 
+        // set common view mode
         private void CommonView()
         {
             CommonVisibility = Visibility.Visible;
             SaveVisibility = Visibility.Collapsed;
             isNew = false;
+            WordCardElement.IsEnabled = false;
         }
 
+        // set update card view
         private void UpdateView()
         {
             CommonVisibility = Visibility.Collapsed;
             SaveVisibility = Visibility.Visible;
+            WordCardElement.IsEnabled = true;
         }
 
+        #endregion
+
+        #region Filters
+
+        // Get the list of possible word types for filter
+        public IEnumerable<WordType> WordTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(WordType)).Cast<WordType>();
+            }
+        }
+
+        // Get the list of possible filter type values
+        public IEnumerable<FilterType> FilterTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(FilterType)).Cast<FilterType>();
+            }
+        }
+
+        // selected filer type
+        private FilterType _selectedFilterType;
+        public FilterType SelectedFilterType
+        {
+            get { return _selectedFilterType; }
+            set
+            {
+                _selectedFilterType = value;
+                NotifyPropertyChanged("SelectedFilterType");
+            }
+        }
+
+        // selected word type
+        private WordType _selectedWordType;
+        public WordType SelectedWordTypeFilter
+        {
+            get { return _selectedWordType; }
+            set
+            {
+                _selectedWordType = value;
+                NotifyPropertyChanged("SelectedWordTypeFilter");
+            }
+        }
+
+        // show filters
         private void Filters_Click(object sender, RoutedEventArgs e)
         {
             filtersPanel.Visibility = Visibility.Visible;
         }
 
+        // hide filters
         private void Hide_Click(object sender, RoutedEventArgs e)
         {
             filtersPanel.Visibility = Visibility.Collapsed;
         }
 
-        private void Apply_Click(object sender, RoutedEventArgs e)
+        private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
-            var filter =
-                from c in DictionariesControl.selectedDictionary
-                where c.Word1.Contains("a") || c.Word2.Contains("a")
-                select c;
-            MyDictionary = filter as WordsDictionary;
+            IEnumerable<WordCard> result = DictionariesControl.selectedDictionary;
+            if (txtWordFilter.Text != "")
+                result = CardsFilter.FilterByWord(result, txtWordFilter.Text);
+            if (comboTypeFilter.SelectedIndex >= 0)
+                result = CardsFilter.FilterByType(result, (WordType)comboTypeFilter.SelectedItem);
+            int counter = 0;
+
+            if (int.TryParse(txtCounterFilter.Text, out counter) && comboCounter.SelectedIndex >= 0)
+                result = CardsFilter.FilterByCounter(result, (FilterType)comboCounter.SelectedItem, counter);
+
+            MyDictionary = new ObservableCollection<WordCard>(result);
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
         }
 
-        private void Reset_Click(object sender, RoutedEventArgs e)
+        // reset filters
+        private void ResetFilter_Click(object sender, RoutedEventArgs e)
         {
+            txtWordFilter.Text = "";
+            comboTypeFilter.SelectedIndex = -1;
+            comboCounter.SelectedIndex = -1;
+            txtCounterFilter.Text = "-1";
             MyDictionary = DictionariesControl.selectedDictionary;
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
         }
+
+        #endregion
     }
 }

@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CardsGenerator.cs" />
+    <Compile Include="UnitTestCardsFilter.cs" />
     <Compile Include="UnitTestXmlDataLayer.cs" />
     <Compile Include="UnitTestTraining.cs" />
     <Compile Include="UnitTestWordDictionaries.cs" />
