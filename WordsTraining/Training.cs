@@ -8,7 +8,6 @@ namespace WordsTraining
     public class Training
     {
         private IList<WordCard> cardsToLearn;
-        private bool isSwitched;
         private int _cardIndex = 0;
         private int _correctAnswers = 0;
         private Random r = new Random();
@@ -26,17 +25,17 @@ namespace WordsTraining
 
         /// <summary>
         /// Initiates Training object
-        /// Select amount of words for specific lang from dictionary to learn
+        /// Select amount of words from dictionary to learn
         /// </summary>
         /// <param name="dictionary">Dictionary with word cards</param>
-        /// <param name="langFrom">Language 'from' learn</param>
-        /// <param name="langTo">Language 'to' learn</param>
+        /// <param name="isSwitched">Switch words in card</param>
         /// <param name="amount">Amount of cards to learn</param>
         /// <param name="maxCounter">Max counter value</param>
         public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter)
         {
-            this.isSwitched = isSwitched;
             this.dictionary = dictionary;
+
+            // switch all cards if needed
             foreach (var card in dictionary)
                 card.Switched = isSwitched;
 
@@ -47,20 +46,14 @@ namespace WordsTraining
                 select c;
 
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
-            if (cards.Count <= amount)
+            cardsToLearn = new List<WordCard>();
+            while (cardsToLearn.Count < amount && cards.Count > 0)
             {
-                cardsToLearn = cards;
+                int pos = r.Next(cards.Count);
+                cardsToLearn.Add(cards[pos]);
+                cards.RemoveAt(pos);
             }
-            else
-            {
-                cardsToLearn = new List<WordCard>();
-                while (cardsToLearn.Count < amount)
-                {
-                    int pos = r.Next(cards.Count);
-                    if (!cardsToLearn.Contains(cards[pos]))
-                        cardsToLearn.Add(cards[pos]);
-                }
-            }
+
 
             if (cardsToLearn.Count == 0)
                 _cardIndex = -1;

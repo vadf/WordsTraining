@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordsTraining;
+using System.Collections.Generic;
 
 namespace UnitTestWordsTraining
 {
@@ -65,6 +66,7 @@ namespace UnitTestWordsTraining
             Training training = new Training(dictionary, isSwitched, maxCards + 1, maxCounter);
 
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
+            CheckDuplicates(training);
         }
 
         [TestMethod]
@@ -122,12 +124,14 @@ namespace UnitTestWordsTraining
             // check number of correct answers and total cards in training
             Assert.AreEqual(amount, training.CorrectAnswers, "Validating number of correct answers");
             Assert.AreEqual(maxCards, training.TotalCards, "Validating number of cards in training");
+            CheckDuplicates(training);
             training.Close();
 
             // check that training set decreased by 1 card
             training = new Training(dictionary, isSwitched, maxCards, 1);
             int expected = maxCards - amount;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
+            CheckDuplicates(training);
         }
 
         [TestMethod]
@@ -160,6 +164,17 @@ namespace UnitTestWordsTraining
             training.Close();
             foreach (var card in dictionary)
                 Assert.IsFalse(card.Switched);
+        }
+
+        private void CheckDuplicates(Training training)
+        {
+            var card = training.NextCard();
+            List<WordCard> cards = new List<WordCard>();
+            while (card != null)
+            {
+                Assert.IsFalse(cards.Contains(card));
+                card = training.NextCard();
+            }
         }
     }
 }

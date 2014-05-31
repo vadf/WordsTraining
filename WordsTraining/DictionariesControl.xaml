@@ -1,41 +1,105 @@
 ﻿<UserControl x:Class="WordsTraining.DictionariesControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              x:Name="DictionariesView"
-             d:DesignHeight="250" d:DesignWidth="300" Loaded="DictionariesView_Loaded">
+             d:DesignHeight="250"
+             d:DesignWidth="400"
+             Loaded="DictionariesView_Loaded">
     <Grid>
-        <Grid Height="Auto" HorizontalAlignment="Stretch" Name="grid1" Width="Auto">
+        <Grid Height="Auto"
+              HorizontalAlignment="Stretch"
+              Name="grid1"
+              Width="Auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300*" />
             </Grid.ColumnDefinitions>
-            <ListBox Name="listDictionaries" HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch" Width="Auto" Grid.Column="0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=.}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <StackPanel Grid.Column="1" Height="Auto" HorizontalAlignment="Left" Margin="6" Name="stackPanel1" VerticalAlignment="Stretch" Width="Auto">
-                <Button Content="Open" Height="23" Name="Open" Width="75" Click="Open_Click" HorizontalAlignment="Center" IsDefault="False" />
-                <TextBlock Height="23" Name="lbNew" Text="Create new Dictionary" HorizontalAlignment="Center" Margin="0,10,0,0" />
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <TextBlock Height="23" Name="lbName" Text="Name" HorizontalAlignment="Left" />
-                    <TextBox Height="23" Name="txtName" Width="70" Margin="10,0,0,0" />
+            <StackPanel Margin="6"
+                        Orientation="Vertical">
+                <TextBlock Height="23"
+                           x:Name="lbDictionaries"
+                           Text="Dictionaries"
+                           HorizontalAlignment="Left" />
+                <ListBox x:Name="listDictionaries"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Width="Auto"
+                         Height="238">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                        Height="Auto"
+                        Width="Auto"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Margin="6"
+                        x:Name="stackPanel1">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Open"
+                            Height="23"
+                            x:Name="Open"
+                            Width="75"
+                            Margin="3,0"
+                            Click="Open_Click" />
+                    <Button Content="Remove"
+                            Height="23"
+                            x:Name="Remove"
+                            Width="75"
+                            Margin="3,0"
+                            Click="Remove_Click" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <TextBlock Height="23" Name="lbLang1" Text="Lang1" HorizontalAlignment="Left" />
-                    <TextBox Height="23" Name="txtLang1" Width="70" Margin="10,0,0,0" />
+                <TextBlock Height="23"
+                           x:Name="lbNew"
+                           Text="Create new Dictionary"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,0" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,5,0,0">
+                    <TextBlock Height="23"
+                               x:Name="lbName"
+                               Text="Name"
+                               HorizontalAlignment="Left" />
+                    <TextBox Height="23"
+                             x:Name="txtName"
+                             Width="100"
+                             Margin="10,0,0,0" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <TextBlock Height="23" Name="lbLang2" Text="Lang2" HorizontalAlignment="Left" />
-                    <TextBox Height="23" Name="txtLang2" Width="70" Margin="10,0,0,0" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,5,0,0">
+                    <TextBlock Height="23"
+                               x:Name="lbLang1"
+                               Text="Lang1"
+                               HorizontalAlignment="Left" />
+                    <TextBox Height="23"
+                             x:Name="txtLang1"
+                             Width="100"
+                             Margin="10,0,0,0" />
                 </StackPanel>
-                <Button Content="Create" Height="23" Name="Create" Width="75" Click="Create_Click" HorizontalAlignment="Center" Margin="0,5,0,0" />
-                <Button Content="Remove" Height="23" Name="Remove" Width="75" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0,30,0,0" Click="Remove_Click" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,5,0,0">
+                    <TextBlock Height="23"
+                               x:Name="lbLang2"
+                               Text="Lang2"
+                               HorizontalAlignment="Left" />
+                    <TextBox Height="23"
+                             x:Name="txtLang2"
+                             Width="100"
+                             Margin="10,0,0,0" />
+                </StackPanel>
+                <Button Content="Create"
+                        Height="23"
+                        x:Name="Create"
+                        Width="75"
+                        Margin="0,5,0,0"
+                        Click="Create_Click" />
             </StackPanel>
         </Grid>
     </Grid>
