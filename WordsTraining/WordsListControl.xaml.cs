@@ -166,8 +166,11 @@ namespace WordsTraining
             if (isNew)
             {
                 // if new card, add it to dictionary
-                DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
+                // TODO: think for more elegance solution
                 MyDictionary.Insert(0, WordCardElement.SelectedCard);
+                if (!DictionariesControl.selectedDictionary.Contains(WordCardElement.SelectedCard))
+                    DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
+
             }
             CommonView();
 
@@ -181,8 +184,9 @@ namespace WordsTraining
         // remove card from dictionary
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
             MyDictionary.Remove(WordCardElement.SelectedCard);
+            if (!DictionariesControl.selectedDictionary.Contains(WordCardElement.SelectedCard))
+                DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
             WordCardElement.SelectedCard = null;
         }
