@@ -14,27 +14,29 @@
               Name="grid1"
               Width="Auto">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="300*" />
+                <ColumnDefinition Width="150*" />
+                <ColumnDefinition Width="450*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="6"
-                        Orientation="Vertical">
-                <TextBlock Height="23"
-                           x:Name="lbDictionaries"
-                           Text="Dictionaries"
-                           HorizontalAlignment="Left" />
-                <ListBox x:Name="listDictionaries"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Width="Auto"
-                         Height="238">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding .}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+            <TextBlock Height="23"
+                       Margin="2"
+                       x:Name="lbDictionaries"
+                       Text="Dictionaries"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Grid.Column="0"/>
+            <ListBox x:Name="listDictionaries"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     Width="Auto"
+                     Height="Auto"
+                     Margin="6,25,6,6"
+                     Grid.Column="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding .}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <StackPanel Grid.Column="1"
                         Height="Auto"
                         Width="Auto"

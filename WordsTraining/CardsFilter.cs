@@ -57,5 +57,41 @@ namespace WordsTraining
 
             return result;
         }
+
+        public static IEnumerable<WordCard> SortByWord1Asc(IEnumerable<WordCard> dictionary)
+        {
+            var result =
+                from c in dictionary
+                orderby c.Word1 
+                select c;
+            return result;
+        }
+
+        public static IEnumerable<WordCard> SortByWord2Asc(IEnumerable<WordCard> dictionary)
+        {
+            var result =
+                from c in dictionary
+                orderby c.Word2 
+                select c;
+            return result;
+        }
+
+        public static IEnumerable<WordCard> SortByWord1Desc(IEnumerable<WordCard> dictionary)
+        {
+            var result =
+                from c in dictionary
+                orderby c.Word1 descending
+                select c;
+            return result;
+        }
+
+        public static IEnumerable<WordCard> SortByWord2Desc(IEnumerable<WordCard> dictionary)
+        {
+            var result =
+                from c in dictionary
+                orderby c.Word2 descending
+                select c;
+            return result;
+        }
     }
 }

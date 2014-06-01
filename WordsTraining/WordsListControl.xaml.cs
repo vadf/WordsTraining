@@ -167,10 +167,11 @@ namespace WordsTraining
             {
                 // if new card, add it to dictionary
                 DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
+                MyDictionary.Insert(0, WordCardElement.SelectedCard);
             }
             CommonView();
 
-            // refresh wrods lists if some word 'names' are changed
+            // refresh words lists if some word 'names' are changed
             lang1Words.Items.Refresh();
             lang2Words.Items.Refresh();
 
@@ -181,7 +182,9 @@ namespace WordsTraining
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
+            MyDictionary.Remove(WordCardElement.SelectedCard);
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
+            WordCardElement.SelectedCard = null;
         }
 
         // set update mode
@@ -285,20 +288,44 @@ namespace WordsTraining
                 result = CardsFilter.FilterByCounter(result, (FilterType)comboCounter.SelectedItem, counter);
 
             MyDictionary = new ObservableCollection<WordCard>(result);
-            lang1Words.Items.Refresh();
-            lang2Words.Items.Refresh();
         }
 
         // reset filters
         private void ResetFilter_Click(object sender, RoutedEventArgs e)
         {
             txtWordFilter.Text = "";
-            comboTypeFilter.SelectedIndex = -1;
-            comboCounter.SelectedIndex = -1;
-            txtCounterFilter.Text = "-1";
+            comboTypeFilter.SelectedItem = null;
+            comboCounter.SelectedItem = null;
+            txtCounterFilter.Text = "";
             MyDictionary = DictionariesControl.selectedDictionary;
-            lang1Words.Items.Refresh();
-            lang2Words.Items.Refresh();
+        }
+
+        #endregion
+
+        #region Sorting
+
+        private void Word1Asc_Click(object sender, RoutedEventArgs e)
+        {
+            var result = CardsFilter.SortByWord1Asc(MyDictionary);
+            MyDictionary = new ObservableCollection<WordCard>(result);
+        }
+
+        private void Word1Desc_Click(object sender, RoutedEventArgs e)
+        {
+            var result = CardsFilter.SortByWord1Desc(MyDictionary);
+            MyDictionary = new ObservableCollection<WordCard>(result);
+        }
+
+        private void Word2Asc_Click(object sender, RoutedEventArgs e)
+        {
+            var result = CardsFilter.SortByWord2Asc(MyDictionary);
+            MyDictionary = new ObservableCollection<WordCard>(result);
+        }
+
+        private void Word2Desc_Click(object sender, RoutedEventArgs e)
+        {
+            var result = CardsFilter.SortByWord2Desc(MyDictionary);
+            MyDictionary = new ObservableCollection<WordCard>(result);
         }
 
         #endregion

@@ -19,14 +19,24 @@
             <ColumnDefinition Width="150*" />
             <ColumnDefinition Width="300*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Height="23"
-                   Width="100"
-                   HorizontalAlignment="Center"
-                   Margin="2"
-                   Name="lang1"
-                   Text="{Binding Path=Lang1}"
-                   VerticalAlignment="Top"
-                   Grid.Column="0" />
+        <StackPanel Margin="6,0"
+                    Orientation="Horizontal"
+                    Grid.Column="0"
+                    VerticalAlignment="Top">
+            <Button Content="A"
+                    x:Name="Word1Asc"
+                    Width="15"
+                    Click="Word1Asc_Click" />
+            <Button Content="D"
+                    x:Name="Word1Desc"
+                    Width="15"
+                    Click="Word1Desc_Click" />
+            <TextBlock Height="23"
+                       Width="80"
+                       Name="lang1"
+                       Margin="6,0"
+                       Text="{Binding Path=Lang1}" />
+        </StackPanel>
         <ListBox  Name="lang1Words"
                   Height="Auto"
                   HorizontalAlignment="Stretch"
@@ -41,14 +51,24 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBlock Height="23"
-                   Width="100"
-                   HorizontalAlignment="Center"
-                   Margin="2"
-                   Name="lang2"
-                   Text="{Binding Path=Lang2}"
-                   VerticalAlignment="Top"
-                   Grid.Column="1" />
+        <StackPanel Margin="6,0"
+                    Orientation="Horizontal"
+                    Grid.Column="1"
+                    VerticalAlignment="Top">
+            <Button Content="A"
+                    x:Name="Word2Asc"
+                    Width="15"
+                    Click="Word2Asc_Click" />
+            <Button Content="D"
+                    x:Name="Word2Desc"
+                    Width="15"
+                    Click="Word2Desc_Click" />
+            <TextBlock Height="23"
+                       Width="80"
+                       Name="lang2"
+                       Margin="6,0"
+                       Text="{Binding Path=Lang2}" />
+        </StackPanel>
         <ListBox Name="lang2Words"
                  Grid.Column="1"
                  Height="Auto"
