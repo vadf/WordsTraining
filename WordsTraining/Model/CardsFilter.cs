@@ -36,19 +36,19 @@ namespace WordsTraining.Model
                 case FilterType.Equals:
                     result =
                         from c in dictionary
-                        where c.Counter1 == filterValue || c.Counter2 == filterValue
+                        where c.Counter1[TrainingType.Writting] == filterValue || c.Counter2[TrainingType.Writting] == filterValue
                         select c;
                     break;
                 case FilterType.More:
                     result =
                         from c in dictionary
-                        where c.Counter1 > filterValue || c.Counter2 > filterValue
+                        where c.Counter1[TrainingType.Writting] > filterValue || c.Counter2[TrainingType.Writting] > filterValue
                         select c;
                     break;
                 case FilterType.Less:
                     result =
                         from c in dictionary
-                        where c.Counter1 < filterValue || c.Counter2 < filterValue
+                        where c.Counter1[TrainingType.Writting] < filterValue || c.Counter2[TrainingType.Writting] < filterValue
                         select c;
                     break;
                 default:

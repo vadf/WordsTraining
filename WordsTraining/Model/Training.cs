@@ -42,7 +42,7 @@ namespace WordsTraining.Model
             // select all cards that have counter less than maxCounter
             var tmpCards =
                 from c in dictionary
-                where c.Counter1 < maxCounter
+                where c.Counter1[TrainingType.Writting] < maxCounter
                 select c;
 
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
@@ -77,7 +77,7 @@ namespace WordsTraining.Model
         public void Succeeded()
         {
             var card = cardsToLearn[_cardIndex - 1];
-            card.Counter1++;
+            card.Counter1[TrainingType.Writting]++;
             _correctAnswers++;
         }
 

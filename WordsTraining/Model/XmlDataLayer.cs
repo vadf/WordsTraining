@@ -55,12 +55,12 @@ namespace WordsTraining.Model
                 WordCard card = new WordCard(word1, word2, (WordType)Enum.Parse(typeof(WordType), type));
 
                 // set counter and comment for word1
-                card.Counter1 = int.Parse(cardsList[i].ChildNodes[0].Attributes[strCounter].Value);
+                card.Counter1[TrainingType.Writting] = int.Parse(cardsList[i].ChildNodes[0].Attributes[strCounter].Value);
                 if (cardsList[i].ChildNodes[0].ChildNodes.Count > 1)
                     card.Comment1 = cardsList[i].ChildNodes[0].ChildNodes[1].InnerText;
 
                 // set counter and comment for word2
-                card.Counter2 = int.Parse(cardsList[i].ChildNodes[1].Attributes[strCounter].Value);
+                card.Counter2[TrainingType.Writting] = int.Parse(cardsList[i].ChildNodes[1].Attributes[strCounter].Value);
                 if (cardsList[i].ChildNodes[1].ChildNodes.Count > 1)
                     card.Comment2 = cardsList[i].ChildNodes[1].ChildNodes[1].InnerText;
 
@@ -108,10 +108,10 @@ namespace WordsTraining.Model
                 type.Value = card.Type.ToString();
                 wordCard.Attributes.Append(type);
 
-                XmlNode word1 = GetWordNode(xd, card.Word1, card.Comment1, card.Counter1, Language.Lang1);
+                XmlNode word1 = GetWordNode(xd, card.Word1, card.Comment1, card.Counter1[TrainingType.Writting], Language.Lang1);
                 wordCard.AppendChild(word1);
 
-                XmlNode word2 = GetWordNode(xd, card.Word2, card.Comment2, card.Counter2, Language.Lang2);
+                XmlNode word2 = GetWordNode(xd, card.Word2, card.Comment2, card.Counter2[TrainingType.Writting], Language.Lang2);
                 wordCard.AppendChild(word2);
 
                 if (card.CommentCommon != null)

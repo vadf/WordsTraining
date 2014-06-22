@@ -8,6 +8,7 @@ namespace WordsTraining.Model
 {
     public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction, Phrase }
     public enum Language { Lang1 = 1, Lang2 }
+    public enum TrainingType { Writting }
 
     /// <summary>
     /// Describes the Word card that contains two words
@@ -15,6 +16,8 @@ namespace WordsTraining.Model
     public class WordCard
     {
         private IDictionary<Language, WordClass> words = new Dictionary<Language, WordClass>();
+
+        #region Properties
 
         // Words, mandatory
         public string Word1
@@ -43,13 +46,13 @@ namespace WordsTraining.Model
         }
 
         // counters
-        public int Counter1
+        public Dictionary<TrainingType, int> Counter1
         {
             get { return words[Language.Lang1].Counter; }
             set { words[Language.Lang1].Counter = value; }
         }
 
-        public int Counter2
+        public Dictionary<TrainingType, int> Counter2
         {
             get { return words[Language.Lang2].Counter; }
             set { words[Language.Lang2].Counter = value; }
@@ -73,6 +76,8 @@ namespace WordsTraining.Model
                 isSwitched = value;
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Creates the Word Card with all Mandatory elements (language1, language2, word1, word2)
@@ -139,6 +144,12 @@ namespace WordsTraining.Model
             words[Language.Lang1] = words[Language.Lang2];
             words[Language.Lang2] = tmp;
         }
+
+        // Get the list of possible training types
+        public static IEnumerable<TrainingType> GetTrainingTypes()
+        {
+            return Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>();
+        }
     }
 
     /// <summary>
@@ -147,7 +158,7 @@ namespace WordsTraining.Model
     class WordClass
     {
         private string _word;
-        private int _counter = 0;
+        private Dictionary<TrainingType, int> _counter = new Dictionary<TrainingType, int>();
 
         /// <summary>
         /// Word text
@@ -170,16 +181,21 @@ namespace WordsTraining.Model
         public string Comment { get; set; }
 
         /// <summary>
-        /// Set the number of word was successfully guessed during exercize
-        /// Could be increased by one or set to 0
+        /// Training counter
         /// </summary>
-        public int Counter
+        public Dictionary<TrainingType, int> Counter
         {
             get { return _counter; }
             set { _counter = value; }
         }
 
-        public WordClass() { }
+        public WordClass()
+        {
+            foreach (var type in WordCard.GetTrainingTypes())
+            {
+                _counter.Add(type, 0);
+            }
+        }
 
         public override string ToString()
         {

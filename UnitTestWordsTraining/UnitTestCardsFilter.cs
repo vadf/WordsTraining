@@ -122,10 +122,10 @@ namespace UnitTestWordsTraining
             int counter = 3;
             foreach (var card in dictionary)
             {
-                card.Counter1 = counter + 1;
-                card.Counter2 = counter - 1;
+                card.Counter1[TrainingType.Writting] = counter + 1;
+                card.Counter2[TrainingType.Writting] = counter - 1;
             }
-            dictionary[dictionary.Count - 1].Counter1 = counter;
+            dictionary[dictionary.Count - 1].Counter1[TrainingType.Writting] = counter;
             int actual = 1;
             var result = CardsFilter.FilterByCounter(dictionary, FilterType.Equals, counter);
             int expected = CheckFilterCounter(result, FilterType.Equals, counter);
@@ -137,8 +137,8 @@ namespace UnitTestWordsTraining
             int counter = 5;
             foreach (var card in dictionary)
             {
-                card.Counter1 = counter + 1;
-                card.Counter2 = counter - 1;
+                card.Counter1[TrainingType.Writting] = counter + 1;
+                card.Counter2[TrainingType.Writting] = counter - 1;
             }
             int actual = 0;
             var result = CardsFilter.FilterByCounter(dictionary, FilterType.Equals, counter);
@@ -180,11 +180,11 @@ namespace UnitTestWordsTraining
             foreach (var item in result)
             {
                 if (type == FilterType.Equals)
-                    Assert.IsTrue(item.Counter1 == counter || item.Counter2 == counter);
+                    Assert.IsTrue(item.Counter1[TrainingType.Writting] == counter || item.Counter2[TrainingType.Writting] == counter);
                 else if (type == FilterType.More)
-                    Assert.IsTrue(item.Counter1 > counter || item.Counter2 > counter);
+                    Assert.IsTrue(item.Counter1[TrainingType.Writting] > counter || item.Counter2[TrainingType.Writting] > counter);
                 else if (type == FilterType.Less)
-                    Assert.IsTrue(item.Counter1 < counter || item.Counter2 < counter);
+                    Assert.IsTrue(item.Counter1[TrainingType.Writting] < counter || item.Counter2[TrainingType.Writting] < counter);
                 count++;
             }
             return count;
@@ -235,17 +235,17 @@ namespace UnitTestWordsTraining
             {
                 if (type == FilterType.Equals)
                 {
-                    if (item.Counter1 == counter || item.Counter2 == counter)
+                    if (item.Counter1[TrainingType.Writting] == counter || item.Counter2[TrainingType.Writting] == counter)
                         count++;
                 }
                 else if (type == FilterType.More)
                 {
-                    if (item.Counter1 > counter || item.Counter2 > counter)
+                    if (item.Counter1[TrainingType.Writting] > counter || item.Counter2[TrainingType.Writting] > counter)
                         count++;
                 }
                 else if (type == FilterType.Less)
                 {
-                    if (item.Counter1 < counter || item.Counter2 < counter)
+                    if (item.Counter1[TrainingType.Writting] < counter || item.Counter2[TrainingType.Writting] < counter)
                         count++;
                 }
             }

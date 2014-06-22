@@ -104,13 +104,13 @@ namespace WordsTraining
 
         private void Reset1_Click(object sender, RoutedEventArgs e)
         {
-            SelectedCard.Counter1 = 0;
+            SelectedCard.Counter1[TrainingType.Writting] = 0;
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
 
         private void Reset2_Click(object sender, RoutedEventArgs e)
         {
-            SelectedCard.Counter2 = 0;
+            SelectedCard.Counter2[TrainingType.Writting] = 0;
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
     }
