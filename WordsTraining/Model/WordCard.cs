@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace WordsTraining
+namespace WordsTraining.Model
 {
     public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction, Phrase }
     public enum Language { Lang1 = 1, Lang2 }

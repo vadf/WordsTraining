@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WordsTraining;
 using System.Collections.Generic;
+
+using WordsTraining.Model;
 
 namespace UnitTestWordsTraining
 {

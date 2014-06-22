@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
+using WordsTraining.Model;
+
 namespace WordsTraining
 {
     /// <summary>

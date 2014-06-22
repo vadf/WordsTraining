@@ -89,8 +89,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CardsFilter.cs" />
-    <Compile Include="DataLayer.cs" />
+    <Compile Include="Model\CardsFilter.cs" />
+    <Compile Include="Model\DataLayer.cs" />
     <Compile Include="DictionariesControl.xaml.cs">
       <DependentUpon>DictionariesControl.xaml</DependentUpon>
     </Compile>
@@ -103,15 +103,15 @@
     <Compile Include="WordsListControl.xaml.cs">
       <DependentUpon>WordsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XmlDataLayer.cs" />
+    <Compile Include="Model\XmlDataLayer.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Training.cs" />
-    <Compile Include="WordCard.cs" />
-    <Compile Include="WordsDictionary.cs" />
+    <Compile Include="Model\Training.cs" />
+    <Compile Include="Model\WordCard.cs" />
+    <Compile Include="Model\WordsDictionary.cs" />
     <Page Include="DictionariesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

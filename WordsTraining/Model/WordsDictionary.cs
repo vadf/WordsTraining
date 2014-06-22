@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace WordsTraining
+namespace WordsTraining.Model
 {
     public class WordsDictionary : ObservableCollection<WordCard>
     {

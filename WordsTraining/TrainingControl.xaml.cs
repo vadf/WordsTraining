@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using WordsTraining.Model;
+
 namespace WordsTraining
 {
     /// <summary>
@@ -10,11 +12,11 @@ namespace WordsTraining
     /// </summary>
     public partial class TrainingControl : UserControl
     {
-        private Language langFrom = WordsTraining.Language.Lang1;
-        private Language langTo = WordsTraining.Language.Lang2;
+        private Language langFrom = Model.Language.Lang1;
+        private Language langTo = Model.Language.Lang2;
         private Training training;
         private WordsDictionary dictionary;
-        private Dictionary<WordsTraining.Language, string> languages = new Dictionary<Language, string>();
+        private Dictionary<Language, string> languages = new Dictionary<Language, string>();
         private bool isSwitched = false;
 
         public int NumOfWords { get; set; }
@@ -36,8 +38,8 @@ namespace WordsTraining
                 dictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
                 languages.Clear();
-                languages.Add(WordsTraining.Language.Lang1, dictionary.Language1);
-                languages.Add(WordsTraining.Language.Lang2, dictionary.Language2);
+                languages.Add(Model.Language.Lang1, dictionary.Language1);
+                languages.Add(Model.Language.Lang2, dictionary.Language2);
                 SetDirectionText(dictionary);
                 trainingSetting.Visibility = Visibility.Visible;
                 trainingSetting.IsEnabled = true;
@@ -46,15 +48,15 @@ namespace WordsTraining
 
         private void btnSwitchDirection_Click(object sender, RoutedEventArgs e)
         {
-            if (langFrom == WordsTraining.Language.Lang1)
+            if (langFrom == Model.Language.Lang1)
             {
-                langFrom = WordsTraining.Language.Lang2;
-                langTo = WordsTraining.Language.Lang1;
+                langFrom = Model.Language.Lang2;
+                langTo = Model.Language.Lang1;
             }
             else
             {
-                langFrom = WordsTraining.Language.Lang1;
-                langTo = WordsTraining.Language.Lang2;
+                langFrom = Model.Language.Lang1;
+                langTo = Model.Language.Lang2;
             }
             isSwitched = !isSwitched;
             SetDirectionText(dictionary);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WordsTraining
+namespace WordsTraining.Model
 {
     public enum FilterType { Equals, More, Less }
 

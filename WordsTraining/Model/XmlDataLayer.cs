@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.IO;
 
-namespace WordsTraining
+namespace WordsTraining.Model
 {
     public class XmlDataLayer : DataLayer
     {

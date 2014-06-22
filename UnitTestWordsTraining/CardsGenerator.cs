@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WordsTraining;
+
+using WordsTraining.Model;
 
 namespace UnitTestWordsTraining
 {
     class CardsGenerator
     {
         private Random random = new Random();
-        private string lang1 = "qwertyuiopasdfghjklzxcvbnm ";
+        private string lang1 = "qwertyuiopüõasdfghjklöäzxcvbnm ";
         private string lang2 = "йцукенгшщзхъфывапролджэячсмитьбю ";
-        private string lang3 = "qwertyuiopüõasdfghjklöäzxcvbnm ";
 
         public CardsGenerator()
         { }
