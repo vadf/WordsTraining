@@ -74,7 +74,7 @@ namespace WordsTraining
         {
             WordCardElement.Lang1 = languages[langFrom];
             WordCardElement.Lang2 = languages[langTo];
-            training = new Training(dictionary, isSwitched, NumOfWords, Counter);
+            training = new Training(dictionary, isSwitched, NumOfWords, Counter, TrainingType.Writting);
             WordCardElement.SelectedCard = training.NextCard();
             if (WordCardElement.SelectedCard != null)
             {

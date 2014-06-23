@@ -16,6 +16,7 @@ namespace UnitTestWordsTraining
         int wordsToLearn;
         int maxCounter = 5;
         bool isSwitched;
+        TrainingType type = TrainingType.Writting;
 
         CardsGenerator generator = new CardsGenerator();
         Random random = new Random();
@@ -36,7 +37,7 @@ namespace UnitTestWordsTraining
         [TestMethod]
         public void TestDictionaryEmpty()
         {
-            Training training = new Training(new WordsDictionary(language1, language2), isSwitched, wordsToLearn, maxCounter);
+            Training training = new Training(new WordsDictionary(language1, language2), isSwitched, wordsToLearn, maxCounter, type);
 
             int expected = 0;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
@@ -46,7 +47,7 @@ namespace UnitTestWordsTraining
         public void Test0ToLearn()
         {
             int expected = 0;
-            Training training = new Training(dictionary, isSwitched, expected, maxCounter);
+            Training training = new Training(dictionary, isSwitched, expected, maxCounter, type);
 
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
@@ -55,7 +56,7 @@ namespace UnitTestWordsTraining
         public void Test1ToLearn()
         {
             int expected = 1;
-            Training training = new Training(dictionary, isSwitched, expected, maxCounter);
+            Training training = new Training(dictionary, isSwitched, expected, maxCounter, type);
 
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
         }
@@ -64,7 +65,7 @@ namespace UnitTestWordsTraining
         public void TestLearnGreaterThanCards()
         {
             int expected = maxCards;
-            Training training = new Training(dictionary, isSwitched, maxCards + 1, maxCounter);
+            Training training = new Training(dictionary, isSwitched, maxCards + 1, maxCounter, type);
 
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
             CheckDuplicates(training);
@@ -76,9 +77,9 @@ namespace UnitTestWordsTraining
             int counter = 1;
             isSwitched = true;
             foreach (var card in dictionary)
-                card.Counter2[TrainingType.Writting] = counter;
+                card.Counter2[type] = counter;
 
-            Training training = new Training(dictionary, isSwitched, maxCards, counter);
+            Training training = new Training(dictionary, isSwitched, maxCards, counter, type);
 
             int expected = 0;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
@@ -91,16 +92,16 @@ namespace UnitTestWordsTraining
             isSwitched = false;
             // set counter to 0 for all cards
             foreach (var card in dictionary)
-                card.Counter1[TrainingType.Writting] = 0;
+                card.Counter1[type] = 0;
 
-            Training training = new Training(dictionary, isSwitched, amount, 1);
+            Training training = new Training(dictionary, isSwitched, amount, 1, type);
 
             // increase counter from 0 to 1 for one card
             var cardToLearn = training.NextCard();
             training.Succeeded();
 
             // check that card counter increased and number of learned cards
-            Assert.AreEqual(amount, cardToLearn.Counter1[TrainingType.Writting], "Validating card counter");
+            Assert.AreEqual(amount, cardToLearn.Counter1[type], "Validating card counter");
             Assert.AreEqual(amount, training.CorrectAnswers, "Validating number of correct answers");
             Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
         }
@@ -112,9 +113,9 @@ namespace UnitTestWordsTraining
             isSwitched = true;
             // set counter to 0 for all cards
             foreach (var card in dictionary)
-                card.Counter2[TrainingType.Writting] = 0;
+                card.Counter2[type] = 0;
 
-            Training training = new Training(dictionary, isSwitched, maxCards, 1);
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
             // increase counter from 0 to 1 for several cards
             for (int i = 0; i < amount; i++)
             {
@@ -129,7 +130,7 @@ namespace UnitTestWordsTraining
             training.Close();
 
             // check that training set decreased by 1 card
-            training = new Training(dictionary, isSwitched, maxCards, 1);
+            training = new Training(dictionary, isSwitched, maxCards, 1, type);
             int expected = maxCards - amount;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
             CheckDuplicates(training);
@@ -139,7 +140,7 @@ namespace UnitTestWordsTraining
         public void TestCloseSwitched()
         {
             isSwitched = true;
-            Training training = new Training(dictionary, isSwitched, maxCards, maxCounter / 2);
+            Training training = new Training(dictionary, isSwitched, maxCards, maxCounter / 2, type);
 
             // check that all cards are switched in dictionary
             foreach (var card in dictionary)
@@ -155,7 +156,7 @@ namespace UnitTestWordsTraining
         public void TestCloseNotSwitched()
         {
             isSwitched = false;
-            Training training = new Training(dictionary, isSwitched, maxCards, maxCounter / 2);
+            Training training = new Training(dictionary, isSwitched, maxCards, maxCounter / 2, type);
 
             // check that all cards are not switched in dictionary
             foreach (var card in dictionary)

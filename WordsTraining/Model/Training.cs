@@ -12,6 +12,7 @@ namespace WordsTraining.Model
         private int _correctAnswers = 0;
         private Random r = new Random();
         private WordsDictionary dictionary;
+        private TrainingType type;
 
         public int CorrectAnswers
         {
@@ -31,20 +32,23 @@ namespace WordsTraining.Model
         /// <param name="isSwitched">Switch words in card</param>
         /// <param name="amount">Amount of cards to learn</param>
         /// <param name="maxCounter">Max counter value</param>
-        public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter)
+        /// <param name="type">Training type</param>
+        public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter, TrainingType type)
         {
             this.dictionary = dictionary;
+            this.type = type;
 
             // switch all cards if needed
             foreach (var card in dictionary)
                 card.Switched = isSwitched;
 
-            // select all cards that have counter less than maxCounter
+            // select all cards that have counter less than maxCounter for specific training type
             var tmpCards =
                 from c in dictionary
-                where c.Counter1[TrainingType.Writting] < maxCounter
+                where c.Counter1[type] < maxCounter
                 select c;
 
+            // select cards of specific amount to learn from tmpCards list
             IList<WordCard> cards = tmpCards.ToList<WordCard>();
             cardsToLearn = new List<WordCard>();
             while (cardsToLearn.Count < amount && cards.Count > 0)
@@ -53,13 +57,6 @@ namespace WordsTraining.Model
                 cardsToLearn.Add(cards[pos]);
                 cards.RemoveAt(pos);
             }
-
-
-            if (cardsToLearn.Count == 0)
-                _cardIndex = -1;
-
-            foreach (var card in cardsToLearn)
-                card.Switched = isSwitched;
         }
 
         /// <summary>
@@ -77,7 +74,7 @@ namespace WordsTraining.Model
         public void Succeeded()
         {
             var card = cardsToLearn[_cardIndex - 1];
-            card.Counter1[TrainingType.Writting]++;
+            card.Counter1[type]++;
             _correctAnswers++;
         }
 
