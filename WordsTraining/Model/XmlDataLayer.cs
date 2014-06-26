@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.IO;
+using System.Xml.Linq;
 
 namespace WordsTraining.Model
 {
@@ -17,9 +18,12 @@ namespace WordsTraining.Model
         private string strLang2 = Language.Lang2.ToString().ToLower();
         private string strComment = "comment";
         private string strWord = "word";
-        private string strType = "type";
+        private string strWordType = "type";
         private string strCounter = "counter";
         private string strText = "text";
+        private string strCounters = "counters";
+        private string strCounterType = "type";
+        private string strValue = "value";
 
 
         /// <summary>
@@ -38,35 +42,45 @@ namespace WordsTraining.Model
         /// <returns>WordsDictionary</returns>
         public override WordsDictionary Read()
         {
-            XmlDocument xd = XmlDocInit();
-            xd.Load(pathToXml);
-            xd.Validate(null);
-            XmlElement root = xd.DocumentElement;
-            WordsDictionary dictionary = new WordsDictionary(root.Attributes[strLang1].Value, root.Attributes[strLang2].Value);
+            XDocument xd = XDocument.Load(pathToXml);
 
-            XmlNodeList cardsList = xd.GetElementsByTagName(strCard);
+            WordsDictionary dictionary = new WordsDictionary(xd.Root.Attribute(strLang1).Value, xd.Root.Attribute(strLang2).Value);
 
-            for (int i = 0; i < cardsList.Count; i++)
+            foreach (XElement cardXml in xd.Root.Elements(strCard))
             {
+                XElement word1Xml = cardXml.Element(strLang1);
+                XElement word2Xml = cardXml.Element(strLang2);
+
                 // create word card class
-                string word1 = cardsList[i].ChildNodes[0].ChildNodes[0].InnerText;
-                string word2 = cardsList[i].ChildNodes[1].ChildNodes[0].InnerText;
-                string type = cardsList[i].Attributes[strType].Value;
+                string word1 = word1Xml.Element(strText).Value;
+                string word2 = word2Xml.Element(strText).Value;
+                string type = cardXml.Attribute(strWordType).Value;
                 WordCard card = new WordCard(word1, word2, (WordType)Enum.Parse(typeof(WordType), type));
 
                 // set counter and comment for word1
-                card.Counter1[TrainingType.Writting] = int.Parse(cardsList[i].ChildNodes[0].Attributes[strCounter].Value);
-                if (cardsList[i].ChildNodes[0].ChildNodes.Count > 1)
-                    card.Comment1 = cardsList[i].ChildNodes[0].ChildNodes[1].InnerText;
+                foreach (XElement counter in word1Xml.Element(strCounters).Elements(strCounter))
+                {
+                    TrainingType trainingType = (TrainingType)Enum.Parse(typeof(TrainingType), counter.Attribute(strCounterType).Value, true);
+                    card.Counter1[trainingType] = int.Parse(counter.Attribute(strValue).Value);
+                }
+                XElement commentXml = word1Xml.Element(strComment);
+                if (commentXml != null)
+                    card.Comment1 = commentXml.Value;
 
                 // set counter and comment for word2
-                card.Counter2[TrainingType.Writting] = int.Parse(cardsList[i].ChildNodes[1].Attributes[strCounter].Value);
-                if (cardsList[i].ChildNodes[1].ChildNodes.Count > 1)
-                    card.Comment2 = cardsList[i].ChildNodes[1].ChildNodes[1].InnerText;
+                foreach (XElement counter in word2Xml.Element(strCounters).Elements(strCounter))
+                {
+                    TrainingType trainingType = (TrainingType)Enum.Parse(typeof(TrainingType), counter.Attribute(strCounterType).Value, true);
+                    card.Counter2[trainingType] = int.Parse(counter.Attribute(strValue).Value);
+                }
+                commentXml = word2Xml.Element(strComment);
+                if (commentXml != null)
+                    card.Comment2 = commentXml.Value;
 
                 // set common comment
-                if (cardsList[i].ChildNodes.Count > 2)
-                    card.CommentCommon = cardsList[i].ChildNodes[2].InnerText;
+                commentXml = cardXml.Element(strComment);
+                if (commentXml != null)
+                    card.CommentCommon = commentXml.Value;
 
                 dictionary.Add(card);
             }
@@ -81,20 +95,11 @@ namespace WordsTraining.Model
         /// <param name="dictionary">Dictionary to save</param>
         public override void Save(WordsDictionary dictionary)
         {
-            XmlDocument xd = XmlDocInit();
-            xd.AppendChild(xd.CreateXmlDeclaration("1.0", "utf-8", ""));
+            XDocument xd = new XDocument();
+            xd.Declaration = new XDeclaration("1.0", "utf-8", "");
 
-            XmlNode root = xd.CreateElement(strRoot);
-            xd.AppendChild(root);
-
-            XmlAttribute lang1 = xd.CreateAttribute(strLang1);
-            lang1.Value = dictionary.Language1;
-
-            XmlAttribute lang2 = xd.CreateAttribute(strLang2);
-            lang2.Value = dictionary.Language2;
-
-            root.Attributes.Append(lang1);
-            root.Attributes.Append(lang2);
+            XElement root = new XElement(strRoot, new XAttribute(strLang1, dictionary.Language1), new XAttribute(strLang2, dictionary.Language2));
+            xd.Add(root);
 
             // iterate over each card and add it to xml
             foreach (var card in dictionary)
@@ -102,29 +107,23 @@ namespace WordsTraining.Model
                 // switch back all cards, that could be switched during training
                 card.Switched = false;
 
-                XmlNode wordCard = xd.CreateElement(strCard);
+                XElement wordCard = new XElement(strCard, new XAttribute(strWordType, card.Type.ToString()));
 
-                XmlAttribute type = xd.CreateAttribute(strType);
-                type.Value = card.Type.ToString();
-                wordCard.Attributes.Append(type);
+                XElement word1 = GetWordNode(card.Word1, card.Comment1, card.Counter1, strLang1);
+                wordCard.Add(word1);
 
-                XmlNode word1 = GetWordNode(xd, card.Word1, card.Comment1, card.Counter1[TrainingType.Writting], Language.Lang1);
-                wordCard.AppendChild(word1);
-
-                XmlNode word2 = GetWordNode(xd, card.Word2, card.Comment2, card.Counter2[TrainingType.Writting], Language.Lang2);
-                wordCard.AppendChild(word2);
+                XElement word2 = GetWordNode(card.Word2, card.Comment2, card.Counter2, strLang2);
+                wordCard.Add(word2);
 
                 if (card.CommentCommon != null)
                 {
-                    XmlNode comment = xd.CreateElement(strComment);
-                    comment.InnerText = card.CommentCommon;
-                    wordCard.AppendChild(comment);
+                    XElement comment = new XElement(strComment, card.CommentCommon);
+                    wordCard.Add(comment);
                 }
 
-                root.AppendChild(wordCard);
+                root.Add(wordCard);
             }
 
-            xd.Validate(null);
             xd.Save(pathToXml);
         }
 
@@ -132,29 +131,27 @@ namespace WordsTraining.Model
         /// <summary>
         /// Create a word node for specific language
         /// </summary>
-        /// <param name="xd">Xml Document</param>
         /// <param name="cardWord">Word</param>
         /// <param name="cardComment">Comment</param>
         /// <param name="cardCounter">Counter</param>
         /// <param name="lang">Language for word</param>
         /// <returns>Xml Node for word</returns>
-        private XmlNode GetWordNode(XmlDocument xd, string cardWord, string cardComment, int cardCounter, Language lang)
+        private XElement GetWordNode(string cardWord, string cardComment, Dictionary<TrainingType, int> cardCounter, string lang)
         {
-            // FIXME: word1 and word initialization
-            XmlNode word = xd.CreateElement(strWord + (int)lang);
-            XmlAttribute counter = xd.CreateAttribute(strCounter);
-            counter.Value = cardCounter.ToString();
-            word.Attributes.Append(counter);
-
-            XmlNode text = xd.CreateElement(strText);
-            text.InnerText = cardWord;
-            word.AppendChild(text);
+            XElement word = new XElement(lang,
+                new XElement(strText, cardWord));
+            XElement counters = new XElement(strCounters);
+            foreach (KeyValuePair<TrainingType, int> pair in cardCounter)
+            {
+                XElement counter = new XElement(strCounter, new XAttribute(strCounterType, pair.Key.ToString()), new XAttribute(strValue, pair.Value.ToString()));
+                counters.Add(counter);
+            }
+            word.Add(counters);
 
             if (cardComment != null)
             {
-                XmlNode comment = xd.CreateElement(strComment);
-                comment.InnerText = cardComment;
-                word.AppendChild(comment);
+                XElement comment = new XElement(strComment, cardComment);
+                word.Add(comment);
             }
 
             return word;
