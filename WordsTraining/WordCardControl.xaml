@@ -22,12 +22,23 @@
                      Width="Auto"
                      Margin="3,0"
                      Text="{Binding Path=SelectedCard.Word1, Mode=OneWay}" />
-            <StackPanel Orientation="Horizontal"
-                        x:Name="Counter1">
-                <TextBlock Height="23"
-                           Name="lbCounter1"
-                           Text="{Binding Path=SelectedCard.Counter1, StringFormat='Counter1 \{0\} '}"
-                           Margin="3,0" />
+            <StackPanel x:Name="Counter1">
+                <ItemsControl ItemsSource="{Binding Path=SelectedCard.Counter1}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Key}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Path=Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Button Content="Reset"
                         Height="23"
                         Name="Reset1"
@@ -53,12 +64,23 @@
                      Width="Auto"
                      Margin="3,0"
                      Text="{Binding Path=SelectedCard.Word2, Mode=OneWay}" />
-            <StackPanel Orientation="Horizontal"
-                        x:Name="Counter2">
-                <TextBlock Height="23"
-                           Name="lbCounter2"
-                           Text="{Binding Path=SelectedCard.Counter2, StringFormat='Counter2 \{0\} '}"
-                           Margin="3,0" />
+            <StackPanel x:Name="Counter2">
+                <ItemsControl ItemsSource="{Binding Path=SelectedCard.Counter2}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Key}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Path=Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Button Content="Reset"
                         Height="23"
                         Name="Reset2"

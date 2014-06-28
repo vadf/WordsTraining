@@ -12,19 +12,20 @@ namespace WordsTraining.Model
     public class XmlDataLayer : DataLayer
     {
         private string pathToXml;
+
+        // name of xml tags and attributes
         private string strRoot = "dictionary";
-        private string strCard = "card";
         private string strLang1 = Language.Lang1.ToString().ToLower();
         private string strLang2 = Language.Lang2.ToString().ToLower();
+        private string strCard = "card";
         private string strComment = "comment";
         private string strWord = "word";
+        private string strWordText = "text";
         private string strWordType = "type";
-        private string strCounter = "counter";
-        private string strText = "text";
         private string strCounters = "counters";
+        private string strCounter = "counter";
         private string strCounterType = "type";
-        private string strValue = "value";
-
+        private string strCounterValue = "value";
 
         /// <summary>
         /// Initiates DataLayerXml with path to dictionary xml file
@@ -52,8 +53,8 @@ namespace WordsTraining.Model
                 XElement word2Xml = cardXml.Element(strLang2);
 
                 // create word card class
-                string word1 = word1Xml.Element(strText).Value;
-                string word2 = word2Xml.Element(strText).Value;
+                string word1 = word1Xml.Element(strWordText).Value;
+                string word2 = word2Xml.Element(strWordText).Value;
                 string type = cardXml.Attribute(strWordType).Value;
                 WordCard card = new WordCard(word1, word2, (WordType)Enum.Parse(typeof(WordType), type));
 
@@ -61,7 +62,7 @@ namespace WordsTraining.Model
                 foreach (XElement counter in word1Xml.Element(strCounters).Elements(strCounter))
                 {
                     TrainingType trainingType = (TrainingType)Enum.Parse(typeof(TrainingType), counter.Attribute(strCounterType).Value, true);
-                    card.Counter1[trainingType] = int.Parse(counter.Attribute(strValue).Value);
+                    card.Counter1[trainingType] = int.Parse(counter.Attribute(strCounterValue).Value);
                 }
                 XElement commentXml = word1Xml.Element(strComment);
                 if (commentXml != null)
@@ -71,7 +72,7 @@ namespace WordsTraining.Model
                 foreach (XElement counter in word2Xml.Element(strCounters).Elements(strCounter))
                 {
                     TrainingType trainingType = (TrainingType)Enum.Parse(typeof(TrainingType), counter.Attribute(strCounterType).Value, true);
-                    card.Counter2[trainingType] = int.Parse(counter.Attribute(strValue).Value);
+                    card.Counter2[trainingType] = int.Parse(counter.Attribute(strCounterValue).Value);
                 }
                 commentXml = word2Xml.Element(strComment);
                 if (commentXml != null)
@@ -139,11 +140,11 @@ namespace WordsTraining.Model
         private XElement GetWordNode(string cardWord, string cardComment, Dictionary<TrainingType, int> cardCounter, string lang)
         {
             XElement word = new XElement(lang,
-                new XElement(strText, cardWord));
+                new XElement(strWordText, cardWord));
             XElement counters = new XElement(strCounters);
             foreach (KeyValuePair<TrainingType, int> pair in cardCounter)
             {
-                XElement counter = new XElement(strCounter, new XAttribute(strCounterType, pair.Key.ToString()), new XAttribute(strValue, pair.Value.ToString()));
+                XElement counter = new XElement(strCounter, new XAttribute(strCounterType, pair.Key.ToString()), new XAttribute(strCounterValue, pair.Value.ToString()));
                 counters.Add(counter);
             }
             word.Add(counters);

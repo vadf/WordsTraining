@@ -227,27 +227,44 @@ namespace WordsTraining
 
         #region Filters
 
+        private string any = "Any";
+
         // Get the list of possible word types for filter
-        public IEnumerable<WordType> WordTypeValues
+        public List<String> WordTypeValues
         {
             get
             {
-                return Enum.GetValues(typeof(WordType)).Cast<WordType>();
+                List<string> list = Enum.GetNames(typeof(WordType)).ToList();
+                list.Insert(0, any);
+                return list;
             }
         }
 
-        // Get the list of possible filter type values
-        public IEnumerable<FilterType> FilterTypeValues
+        // Get the list of possible filter type values for counters
+        public List<String> CounterFilterTypeValues
         {
             get
             {
-                return Enum.GetValues(typeof(FilterType)).Cast<FilterType>();
+                List<string> list = Enum.GetNames(typeof(CounterFilterType)).ToList();
+                list.Insert(0, any);
+                return list;
+            }
+        }
+
+        // Get the list of possible training types for filter
+        public List<String> TrainingTypeValues
+        {
+            get
+            {
+                List<string> list = Enum.GetNames(typeof(TrainingType)).ToList();
+                list.Insert(0, any);
+                return list;
             }
         }
 
         // selected filer type
-        private FilterType _selectedFilterType;
-        public FilterType SelectedFilterType
+        private string _selectedFilterType;
+        public string SelectedFilterType
         {
             get { return _selectedFilterType; }
             set
@@ -258,14 +275,26 @@ namespace WordsTraining
         }
 
         // selected word type
-        private WordType _selectedWordType;
-        public WordType SelectedWordTypeFilter
+        private string _selectedWordType;
+        public string SelectedWordTypeFilter
         {
             get { return _selectedWordType; }
             set
             {
                 _selectedWordType = value;
                 NotifyPropertyChanged("SelectedWordTypeFilter");
+            }
+        }
+
+        // selected training type
+        private string _selectedTrainingType;
+        public string SelectedTrainingTypeFilter
+        {
+            get { return _selectedTrainingType; }
+            set
+            {
+                _selectedTrainingType = value;
+                NotifyPropertyChanged("SelectedTrainingTypeFilter");
             }
         }
 
@@ -286,13 +315,18 @@ namespace WordsTraining
             IEnumerable<WordCard> result = DictionariesControl.selectedDictionary;
             if (txtWordFilter.Text != "")
                 result = CardsFilter.FilterByWord(result, txtWordFilter.Text);
-            if (comboTypeFilter.SelectedIndex >= 0)
-                result = CardsFilter.FilterByType(result, (WordType)comboTypeFilter.SelectedItem);
-            int counter = 0;
+            if (comboWordTypeFilter.SelectedValue.ToString() != any)
+                result = CardsFilter.FilterByType(result, (WordType)Enum.Parse(typeof(WordType), comboWordTypeFilter.SelectedItem.ToString()));
 
-            if (int.TryParse(txtCounterFilter.Text, out counter) && comboCounter.SelectedIndex >= 0)
-                result = CardsFilter.FilterByCounter(result, (FilterType)comboCounter.SelectedItem, counter);
-
+            if (comboCounterFilter.SelectedValue.ToString() != any && comboCounterTrainingType.SelectedItem.ToString() != any)
+            {
+                int counter = 0;
+                int.TryParse(txtCounterFilter.Text, out counter);
+                result = CardsFilter.FilterByCounter(result,
+                    (CounterFilterType)Enum.Parse(typeof(CounterFilterType), comboCounterFilter.SelectedItem.ToString()),
+                    counter,
+                    (TrainingType)Enum.Parse(typeof(TrainingType), comboCounterTrainingType.SelectedItem.ToString()));
+            }
             MyDictionary = new ObservableCollection<WordCard>(result);
         }
 
@@ -300,8 +334,9 @@ namespace WordsTraining
         private void ResetFilter_Click(object sender, RoutedEventArgs e)
         {
             txtWordFilter.Text = "";
-            comboTypeFilter.SelectedItem = null;
-            comboCounter.SelectedItem = null;
+            comboWordTypeFilter.SelectedIndex = 0;
+            comboCounterTrainingType.SelectedIndex = 0;
+            comboCounterFilter.SelectedIndex = 0;
             txtCounterFilter.Text = "";
             MyDictionary = DictionariesControl.selectedDictionary;
         }

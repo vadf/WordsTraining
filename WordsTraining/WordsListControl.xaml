@@ -155,12 +155,17 @@
                                Text="Counter"
                                Margin="3,0" />
                     <ComboBox Height="23"
-                              x:Name="comboCounter"
+                              x:Name="comboCounterTrainingType"
+                              Width="70"
+                              Margin="3,0"
+                              SelectedItem="{Binding SelectedTrainingTypeFilter, Mode=TwoWay}"
+                              ItemsSource="{Binding TrainingTypeValues}" />
+                    <ComboBox Height="23"
+                              x:Name="comboCounterFilter"
                               Width="70"
                               Margin="3,0"
                               SelectedItem="{Binding SelectedFilterType, Mode=TwoWay}"
-                              ItemsSource="{Binding FilterTypeValues}"
-                              RenderTransformOrigin="0.815,0.483" />
+                              ItemsSource="{Binding CounterFilterTypeValues}" />
                     <TextBox Height="23"
                              x:Name="txtCounterFilter"
                              Width="70"
@@ -179,7 +184,7 @@
                                Text="Equals to"
                                Margin="3,0" />
                     <ComboBox Height="23"
-                              x:Name="comboTypeFilter"
+                              x:Name="comboWordTypeFilter"
                               Width="70"
                               Margin="3,0"
                               SelectedItem="{Binding SelectedWordTypeFiler, Mode=TwoWay}"

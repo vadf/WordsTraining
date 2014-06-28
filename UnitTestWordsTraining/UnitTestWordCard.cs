@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
+
 using WordsTraining.Model;
 
 namespace UnitTestWordsTraining
@@ -11,11 +14,15 @@ namespace UnitTestWordsTraining
         string word1 = "Hi";
         string word2 = "Tere";
         WordType type = WordType.Noun;
+        Random random = new Random();
+        TrainingType trainingType;
+        List<TrainingType> trainingTypeList = Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>().ToList();
 
         [TestInitialize]
         public void SetUp()
         {
             card = new CardsGenerator().GetCardExtra(5);
+            trainingType = trainingTypeList[random.Next(trainingTypeList.Count)];
         }
 
         [TestMethod]
@@ -66,16 +73,16 @@ namespace UnitTestWordsTraining
         [TestMethod]
         public void TestIncrCounter()
         {
-            int expected = card.Counter1[TrainingType.Writting] + 1;
-            card.Counter1[TrainingType.Writting]++;
-            Assert.AreEqual(expected, card.Counter1[TrainingType.Writting], "Check that number of successsfull attempts for word1 is incremented");
+            int expected = card.Counter1[trainingType] + 1;
+            card.Counter1[trainingType]++;
+            Assert.AreEqual(expected, card.Counter1[trainingType], "Check that number of successsfull attempts for word1 is incremented");
         }
 
         [TestMethod]
         public void TestSetCounterTo0()
         {
-            card.Counter2[TrainingType.Writting] = 0;
-            Assert.AreEqual(0, card.Counter2[TrainingType.Writting], "Check that number of successsfull attempts for word2 is reset to 0");
+            card.Counter2[trainingType] = 0;
+            Assert.AreEqual(0, card.Counter2[trainingType], "Check that number of successsfull attempts for word2 is reset to 0");
         }
 
         [TestMethod]

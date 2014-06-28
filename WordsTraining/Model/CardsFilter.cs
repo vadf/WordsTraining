@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WordsTraining.Model
 {
-    public enum FilterType { Equals, More, Less }
+    public enum CounterFilterType { Equals, More, Less }
 
     public static class CardsFilter
     {
@@ -28,27 +28,27 @@ namespace WordsTraining.Model
             return result;
         }
 
-        public static IEnumerable<WordCard> FilterByCounter(IEnumerable<WordCard> dictionary, FilterType type, int filterValue)
+        public static IEnumerable<WordCard> FilterByCounter(IEnumerable<WordCard> dictionary, CounterFilterType filterType, int filterValue, TrainingType trainingType)
         {
             IEnumerable<WordCard> result = dictionary;
-            switch (type)
+            switch (filterType)
             {
-                case FilterType.Equals:
+                case CounterFilterType.Equals:
                     result =
                         from c in dictionary
-                        where c.Counter1[TrainingType.Writting] == filterValue || c.Counter2[TrainingType.Writting] == filterValue
+                        where c.Counter1[trainingType] == filterValue || c.Counter2[trainingType] == filterValue
                         select c;
                     break;
-                case FilterType.More:
+                case CounterFilterType.More:
                     result =
                         from c in dictionary
-                        where c.Counter1[TrainingType.Writting] > filterValue || c.Counter2[TrainingType.Writting] > filterValue
+                        where c.Counter1[trainingType] > filterValue || c.Counter2[trainingType] > filterValue
                         select c;
                     break;
-                case FilterType.Less:
+                case CounterFilterType.Less:
                     result =
                         from c in dictionary
-                        where c.Counter1[TrainingType.Writting] < filterValue || c.Counter2[TrainingType.Writting] < filterValue
+                        where c.Counter1[trainingType] < filterValue || c.Counter2[trainingType] < filterValue
                         select c;
                     break;
                 default:
