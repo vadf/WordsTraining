@@ -262,15 +262,15 @@ namespace WordsTraining
             }
         }
 
-        // selected filer type
-        private string _selectedFilterType;
-        public string SelectedFilterType
+        // selected filter type
+        private string _selectedCounterFilterType;
+        public string SelectedCounterFilterType
         {
-            get { return _selectedFilterType; }
+            get { return _selectedCounterFilterType; }
             set
             {
-                _selectedFilterType = value;
-                NotifyPropertyChanged("SelectedFilterType");
+                _selectedCounterFilterType = value;
+                NotifyPropertyChanged("SelectedCounterFilterType");
             }
         }
 
@@ -316,16 +316,16 @@ namespace WordsTraining
             if (txtWordFilter.Text != "")
                 result = CardsFilter.FilterByWord(result, txtWordFilter.Text);
             if (comboWordTypeFilter.SelectedValue.ToString() != any)
-                result = CardsFilter.FilterByType(result, (WordType)Enum.Parse(typeof(WordType), comboWordTypeFilter.SelectedItem.ToString()));
+                result = CardsFilter.FilterByType(result, (WordType)Enum.Parse(typeof(WordType), SelectedWordTypeFilter));
 
-            if (comboCounterFilter.SelectedValue.ToString() != any && comboCounterTrainingType.SelectedItem.ToString() != any)
+            if (SelectedCounterFilterType != any && SelectedTrainingTypeFilter != any)
             {
                 int counter = 0;
                 int.TryParse(txtCounterFilter.Text, out counter);
                 result = CardsFilter.FilterByCounter(result,
-                    (CounterFilterType)Enum.Parse(typeof(CounterFilterType), comboCounterFilter.SelectedItem.ToString()),
+                    (CounterFilterType)Enum.Parse(typeof(CounterFilterType), SelectedCounterFilterType),
                     counter,
-                    (TrainingType)Enum.Parse(typeof(TrainingType), comboCounterTrainingType.SelectedItem.ToString()));
+                    (TrainingType)Enum.Parse(typeof(TrainingType), SelectedTrainingTypeFilter));
             }
             MyDictionary = new ObservableCollection<WordCard>(result);
         }
@@ -334,9 +334,9 @@ namespace WordsTraining
         private void ResetFilter_Click(object sender, RoutedEventArgs e)
         {
             txtWordFilter.Text = "";
-            comboWordTypeFilter.SelectedIndex = 0;
-            comboCounterTrainingType.SelectedIndex = 0;
-            comboCounterFilter.SelectedIndex = 0;
+            SelectedWordTypeFilter = any;
+            SelectedTrainingTypeFilter = any;
+            SelectedCounterFilterType = any;
             txtCounterFilter.Text = "";
             MyDictionary = DictionariesControl.selectedDictionary;
         }

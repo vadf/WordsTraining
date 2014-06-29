@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Linq;
 
 using WordsTraining.Model;
 
@@ -10,7 +13,7 @@ namespace WordsTraining
     /// <summary>
     /// Interaction logic for TrainingSettingsControl.xaml
     /// </summary>
-    public partial class TrainingControl : UserControl
+    public partial class TrainingControl : UserControl, INotifyPropertyChanged
     {
         private Language langFrom = Model.Language.Lang1;
         private Language langTo = Model.Language.Lang2;
@@ -22,6 +25,37 @@ namespace WordsTraining
         public int NumOfWords { get; set; }
         public int Counter { get; set; }
 
+        // Get the list of possible training types
+        public IEnumerable<TrainingType> TrainingTypeValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>();
+            }
+        }
+
+        // selected type
+        private TrainingType _selectedTrainingType;
+        public TrainingType SelectedTrainingType
+        {
+            get { return _selectedTrainingType; }
+            set
+            {
+                _selectedTrainingType = value;
+                NotifyPropertyChanged("SelectedTrainingType");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public TrainingControl()
         {
             InitializeComponent();
@@ -29,6 +63,8 @@ namespace WordsTraining
             Counter = 3;
         }
 
+        // show training setteings view
+        // hide training view
         private void TrainingView_Loaded(object sender, RoutedEventArgs e)
         {
             trainingTest.Visibility = Visibility.Collapsed;
@@ -46,6 +82,7 @@ namespace WordsTraining
             }
         }
 
+        // switch language direction of training
         private void btnSwitchDirection_Click(object sender, RoutedEventArgs e)
         {
             if (langFrom == Model.Language.Lang1)
@@ -62,6 +99,7 @@ namespace WordsTraining
             SetDirectionText(dictionary);
         }
 
+        // set direction text on label
         private void SetDirectionText(WordsDictionary dictionary)
         {
             if (dictionary != null)
@@ -70,11 +108,12 @@ namespace WordsTraining
             }
         }
 
+        // start training
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             WordCardElement.Lang1 = languages[langFrom];
             WordCardElement.Lang2 = languages[langTo];
-            training = new Training(dictionary, isSwitched, NumOfWords, Counter, TrainingType.Writting);
+            training = new Training(dictionary, isSwitched, NumOfWords, Counter, SelectedTrainingType);
             WordCardElement.SelectedCard = training.NextCard();
             if (WordCardElement.SelectedCard != null)
             {
@@ -82,6 +121,7 @@ namespace WordsTraining
                 trainingSetting.IsEnabled = false;
                 btnCheck.IsEnabled = true;
 
+                // visual updates for training view
                 WordCardElement.IsEnabled = false;
                 WordCardElement.Counter1.Visibility = Visibility.Collapsed;
                 WordCardElement.Counter2.Visibility = Visibility.Collapsed;
@@ -94,6 +134,7 @@ namespace WordsTraining
             }
         }
 
+        // make word2 invisible
         private void UpdateTrainingCard()
         {
             WordCardElement.txtWord2.FontSize = 0.1;
@@ -102,6 +143,7 @@ namespace WordsTraining
             txtAnswer.Text = "";
         }
 
+        // check answer
         private void btnCheck_Click(object sender, RoutedEventArgs e)
         {
             if (txtAnswer.Text.ToLower() == WordCardElement.SelectedCard.Word2.ToLower())
@@ -120,6 +162,7 @@ namespace WordsTraining
             btnCheck.IsEnabled = false;
         }
 
+        // go to next card in training
         private void btnNetx_Click(object sender, RoutedEventArgs e)
         {
             lbResultValue.Text = "";
@@ -130,11 +173,13 @@ namespace WordsTraining
                 ShowResult();
         }
 
+        // stop training and show results
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             ShowResult();
         }
 
+        // show training results
         private void ShowResult()
         {
             MessageBox.Show(string.Format("Total words in training {0}, correct answers {1}", training.TotalCards, training.CorrectAnswers));
@@ -145,6 +190,7 @@ namespace WordsTraining
             DictionariesControl.dataLayer.Save(dictionary);
         }
 
+        // handler for 'Enter' press in Answer TextBox
         private void txtAnswer_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Return)
@@ -156,10 +202,14 @@ namespace WordsTraining
             }
         }
 
+        // close training (if opened) when move to another view
         private void TrainingView_Unloaded(object sender, RoutedEventArgs e)
         {
             if (training != null)
+            {
                 training.Close();
+                training = null;
+            }
         }
 
     }

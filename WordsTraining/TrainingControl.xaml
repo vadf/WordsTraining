@@ -29,6 +29,13 @@
                         VerticalAlignment="Stretch"
                         Width="Auto">
                 <TextBlock Height="23"
+                           Text="Training type"
+                           Width="Auto" />
+                <ComboBox Height="23"
+                          Width="Auto"
+                          SelectedItem="{Binding SelectedTrainingType, Mode=TwoWay}"
+                          ItemsSource="{Binding TrainingTypeValues}" />
+                <TextBlock Height="23"
                            Name="lbNumOfWords"
                            Text="Number of words to learn"
                            Width="Auto" />
