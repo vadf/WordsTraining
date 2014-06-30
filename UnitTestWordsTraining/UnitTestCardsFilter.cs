@@ -16,7 +16,7 @@ namespace UnitTestWordsTraining
         int maxCards = 3;
         Random random = new Random();
         TrainingType trainingType;
-        List<TrainingType> trainingTypeList = Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>().ToList();
+        List<TrainingType> trainingTypeList = WordCard.TrainingTypes.ToList();
 
         CardsGenerator generator = new CardsGenerator();
 

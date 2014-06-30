@@ -70,7 +70,7 @@ namespace UnitTestWordsTraining
         /// <returns>Random WordType</returns>
         private WordType RandomType()
         {
-            var typesList = Enum.GetValues(typeof(WordType)).Cast<WordType>().ToArray<WordType>();
+            var typesList = WordCard.WordTypes.ToArray();
             return typesList[random.Next(typesList.Length)];
         }
     }

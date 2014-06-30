@@ -16,7 +16,7 @@ namespace UnitTestWordsTraining
         WordType type = WordType.Noun;
         Random random = new Random();
         TrainingType trainingType;
-        List<TrainingType> trainingTypeList = Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>().ToList();
+        List<TrainingType> trainingTypeList = WordCard.TrainingTypes.ToList();
 
         [TestInitialize]
         public void SetUp()

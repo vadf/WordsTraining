@@ -145,11 +145,9 @@ namespace WordsTraining.Model
             words[Language.Lang2] = tmp;
         }
 
-        // Get the list of possible training types
-        public static IEnumerable<TrainingType> GetTrainingTypes()
-        {
-            return Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>();
-        }
+        // list of training types and word types
+        public static IEnumerable<TrainingType> TrainingTypes = Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>();
+        public static IEnumerable<WordType> WordTypes = Enum.GetValues(typeof(WordType)).Cast<WordType>();
     }
 
     /// <summary>
@@ -191,7 +189,7 @@ namespace WordsTraining.Model
 
         public WordClass()
         {
-            foreach (var type in WordCard.GetTrainingTypes())
+            foreach (var type in WordCard.TrainingTypes)
             {
                 _counter.Add(type, 0);
             }

@@ -30,7 +30,7 @@ namespace WordsTraining
         {
             get
             {
-                return Enum.GetValues(typeof(TrainingType)).Cast<TrainingType>();
+                return WordCard.TrainingTypes;
             }
         }
 

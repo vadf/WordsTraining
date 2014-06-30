@@ -31,7 +31,7 @@ namespace WordsTraining
         {
             get
             {
-                return Enum.GetValues(typeof(WordType)).Cast<WordType>();
+                return WordCard.WordTypes;
             }
         }
 
