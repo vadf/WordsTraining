@@ -129,7 +129,7 @@ namespace UnitTestWordsTraining
                 card.Counter1[trainingType] = counter + 1;
                 card.Counter2[trainingType] = counter - 1;
             }
-            dictionary[dictionary.Count - 1].Counter1[TrainingType.Writting] = counter;
+            dictionary[dictionary.Count - 1].Counter1[trainingType] = counter;
             int actual = 1;
             var result = CardsFilter.FilterByCounter(dictionary, CounterFilterType.Equals, counter, trainingType);
             int expected = CheckFilterCounter(result, CounterFilterType.Equals, counter);

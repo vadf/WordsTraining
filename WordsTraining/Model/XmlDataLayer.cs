@@ -19,7 +19,6 @@ namespace WordsTraining.Model
         private string strLang2 = Language.Lang2.ToString().ToLower();
         private string strCard = "card";
         private string strComment = "comment";
-        private string strWord = "word";
         private string strWordText = "text";
         private string strWordType = "type";
         private string strCounters = "counters";

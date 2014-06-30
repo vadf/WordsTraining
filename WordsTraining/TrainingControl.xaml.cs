@@ -46,6 +46,18 @@ namespace WordsTraining
             }
         }
 
+        // choose list of WordCards
+        private IList<WordCard> _chooseList;
+        public IList<WordCard> ChooseList
+        {
+            get { return _chooseList; }
+            set
+            {
+                _chooseList = value;
+                NotifyPropertyChanged("ChooseList");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -135,12 +147,16 @@ namespace WordsTraining
         }
 
         // make word2 invisible
+        // additional training settings
         private void UpdateTrainingCard()
         {
             WordCardElement.txtWord2.FontSize = 0.1;
             WordCardElement.txtComment2.FontSize = 0.1;
             btnCheck.IsEnabled = true;
             txtAnswer.Text = "";
+
+            if (SelectedTrainingType == TrainingType.Choose)
+                ChooseList = training.Choose(WordCardElement.SelectedCard);
         }
 
         // check answer
@@ -209,6 +225,16 @@ namespace WordsTraining
             {
                 training.Close();
                 training = null;
+            }
+        }
+
+        // choose answer
+        private void ChooseAnswer(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                txtAnswer.Text = btn.Content.ToString();
             }
         }
 

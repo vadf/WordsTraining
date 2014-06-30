@@ -93,5 +93,28 @@ namespace WordsTraining.Model
                 return null;
             }
         }
+
+        /// <summary>
+        /// Choose several(cardsToChoose) cards of the same WordType as currentCard
+        /// </summary>
+        /// <param name="currentCard">Current Selected Word Card</param>
+        /// <param name="cardsToChoose">Number of card to choose (incl. currentCard)</param>
+        /// <returns>Returns the list of WordCards</returns>
+        public IList<WordCard> Choose(WordCard currentCard, int cardsToChoose = 5)
+        {
+            var tmpCards =
+                (from c in dictionary
+                where c.Type == currentCard.Type
+                orderby r.Next()                
+                select c).Take(cardsToChoose);
+
+            IList<WordCard> result = tmpCards.ToList();
+            if (!result.Contains(currentCard))
+            {
+                result[r.Next(result.Count)] = currentCard;
+            }
+
+            return result;            
+        }
     }
 }

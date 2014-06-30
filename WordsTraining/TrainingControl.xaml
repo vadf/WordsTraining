@@ -93,6 +93,24 @@
                              Margin="5,0,0,0"
                              KeyDown="txtAnswer_KeyDown" />
                 </StackPanel>
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding Path=ChooseList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Path=Word2}"
+                                        Height="20"
+                                        Width="Auto"
+                                        Margin="3,3"
+                                        Click="ChooseAnswer" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23"
                                Name="lbResult"

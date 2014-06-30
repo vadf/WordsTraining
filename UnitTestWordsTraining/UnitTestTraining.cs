@@ -13,10 +13,10 @@ namespace UnitTestWordsTraining
         string language1 = "ENG";
         string language2 = "EST";
         int maxCards;
-        int wordsToLearn;
         int maxCounter = 5;
         bool isSwitched;
         TrainingType type = TrainingType.Writting;
+        int cardsToChoose;
 
         CardsGenerator generator = new CardsGenerator();
         Random random = new Random();
@@ -25,7 +25,7 @@ namespace UnitTestWordsTraining
         public void SetUp()
         {
             maxCards = random.Next(5, 10);
-            wordsToLearn = random.Next(1, maxCards);
+            cardsToChoose = random.Next(1, maxCards - 1);
             dictionary = new WordsDictionary(language1, language2);
             for (int i = 0; i < maxCards; i++)
             {
@@ -37,7 +37,7 @@ namespace UnitTestWordsTraining
         [TestMethod]
         public void TestDictionaryEmpty()
         {
-            Training training = new Training(new WordsDictionary(language1, language2), isSwitched, wordsToLearn, maxCounter, type);
+            Training training = new Training(new WordsDictionary(language1, language2), isSwitched, 1, maxCounter, type);
 
             int expected = 0;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
@@ -168,6 +168,95 @@ namespace UnitTestWordsTraining
                 Assert.IsFalse(card.Switched);
         }
 
+        [TestMethod]
+        public void TestChooseCardsMoreThanAvailableType()
+        {
+            int amount = random.Next(1);
+            type = TrainingType.Choose;
+
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
+
+            // set word type as currentCard
+            var currentCard = training.NextCard();
+            foreach (var card in dictionary)
+                card.Type = currentCard.Type;
+            var chooseList = training.Choose(currentCard, cardsToChoose);
+            CheckChooseList(chooseList, currentCard);
+        }
+
+        [TestMethod]
+        public void TestChooseCardsEqualToAvailableType()
+        {
+            int amount = random.Next(1);
+            type = TrainingType.Choose;
+
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
+
+            // set word type as currentCard            
+            foreach (var card in dictionary)
+                card.Type = WordType.Noun;
+            var currentCard = training.NextCard();
+            currentCard.Type = WordType.Verb;
+            for (int i = 0; i < dictionary.Count; i++)
+                dictionary[i].Type = currentCard.Type;
+            var chooseList = training.Choose(currentCard, cardsToChoose);
+            CheckChooseList(chooseList, currentCard);
+        }
+
+        [TestMethod]
+        public void TestChooseCardsLessThanType()
+        {
+            int amount = random.Next(1);
+            type = TrainingType.Choose;
+
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
+
+            // set word type as currentCard            
+            foreach (var card in dictionary)
+                card.Type = WordType.Noun;
+            var currentCard = training.NextCard();
+            currentCard.Type = WordType.Verb;
+            for (int i = 0; i < dictionary.Count - 1; i++)
+                dictionary[i].Type = currentCard.Type;
+            var chooseList = training.Choose(currentCard, cardsToChoose);
+            CheckChooseList(chooseList, currentCard);
+        }
+
+        [TestMethod]
+        public void TestChooseCards0Type()
+        {
+            int amount = random.Next(1);
+            type = TrainingType.Choose;
+
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
+
+            // all other cards have different type as currentCard
+            foreach (var card in dictionary)
+                card.Type = WordType.Noun;
+            var currentCard = training.NextCard();
+            currentCard.Type = WordType.Verb;
+            var chooseList = training.Choose(currentCard, cardsToChoose);
+            CheckChooseList(chooseList, currentCard);
+        }
+
+        [TestMethod]
+        public void TestChoose()
+        {
+            int amount = random.Next(maxCards / 2);
+            type = TrainingType.Choose;
+
+            Training training = new Training(dictionary, isSwitched, maxCards, 1, type);
+            
+            // go trough all cards in training and choose cards
+            var currentCard = training.NextCard();
+            while (currentCard != null)
+            {
+                var chooseList = training.Choose(currentCard);
+                CheckChooseList(chooseList, currentCard);
+                currentCard = training.NextCard();
+            }
+        }
+
         private void CheckDuplicates(Training training)
         {
             var card = training.NextCard();
@@ -176,6 +265,15 @@ namespace UnitTestWordsTraining
             {
                 Assert.IsFalse(cards.Contains(card));
                 card = training.NextCard();
+            }
+        }
+
+        private void CheckChooseList(IList<WordCard> chooseList, WordCard currentCard)
+        {
+            Assert.IsTrue(chooseList.Contains(currentCard), "Validating that chooseList contains currentCard");
+            foreach (var card in chooseList)
+            {
+                Assert.AreEqual(card.Type, currentCard.Type, "Validating that card in chooseList has the same type as currentCard");
             }
         }
     }

@@ -8,7 +8,7 @@ namespace WordsTraining.Model
 {
     public enum WordType { Noun, Verb, Adjective, Adverb, Pronoun, Preposition, Conjunction, Interjunction, Phrase }
     public enum Language { Lang1 = 1, Lang2 }
-    public enum TrainingType { Writting }
+    public enum TrainingType { Choose, Writting }
 
     /// <summary>
     /// Describes the Word card that contains two words
