@@ -129,24 +129,19 @@
                         Visibility="{Binding CommonVisibility}"
                         Click="Filters_Click" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="3">
+                <TextBlock Height="23"
+                           Width="70"
+                           Text="Search"
+                           Margin="3,0" />
+                <TextBox Height="23"
+                         x:Name="txtWordFilter"
+                         Width="70"
+                         Margin="3,0"
+                         KeyUp="txtWordFilter_KeyUp" />
+            </StackPanel>
             <StackPanel Name="filtersPanel">
-                <StackPanel Orientation="Horizontal"
-                            Margin="3">
-                    <TextBlock Height="23"
-                               x:Name="lbWordFilter"
-                               Width="70"
-                               Text="Word"
-                               Margin="3,0" />
-                    <TextBlock Height="23"
-                               x:Name="lbWordFilterType"
-                               Width="70"
-                               Text="Contains"
-                               Margin="3,0" />
-                    <TextBox Height="23"
-                             x:Name="txtWordFilter"
-                             Width="70"
-                             Margin="3,0" />
-                </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
                     <TextBlock Height="23"

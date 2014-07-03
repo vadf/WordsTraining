@@ -330,6 +330,24 @@ namespace WordsTraining
             MyDictionary = new ObservableCollection<WordCard>(result);
         }
 
+        // word search
+        private void txtWordFilter_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Return)
+            {
+
+                if (txtWordFilter.Text == "")
+                {
+                    MyDictionary = DictionariesControl.selectedDictionary;
+                }
+                else
+                {
+                    IEnumerable<WordCard> result = CardsFilter.FilterByWord(DictionariesControl.selectedDictionary, txtWordFilter.Text);
+                    MyDictionary = new ObservableCollection<WordCard>(result);
+                }
+            }
+        }
+
         // reset filters
         private void ResetFilter_Click(object sender, RoutedEventArgs e)
         {

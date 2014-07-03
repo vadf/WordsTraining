@@ -211,7 +211,7 @@ namespace WordsTraining
         {
             if (e.Key == System.Windows.Input.Key.Return)
             {
-                if (btnCheck.IsEnabled == true)
+                if (btnCheck.IsEnabled)
                     btnCheck_Click(sender, e);
                 else
                     btnNetx_Click(sender, e);
@@ -231,10 +231,18 @@ namespace WordsTraining
         // choose answer
         private void ChooseAnswer(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null)
+            if (btnCheck.IsEnabled)
             {
-                txtAnswer.Text = btn.Content.ToString();
+                Button btn = sender as Button;
+                if (btn != null)
+                {
+                    txtAnswer.Text = btn.Content.ToString();
+                }
+                btnCheck_Click(sender, e);
+            }
+            else
+            {
+                btnNetx_Click(sender, e);
             }
         }
 
