@@ -8,8 +8,13 @@
              xmlns:local="clr-namespace:WordsTraining"
              Loaded="TrainingView_Loaded"
              d:DesignWidth="490"
-             d:DesignHeight="450"
+             d:DesignHeight="500"
              Unloaded="TrainingView_Unloaded">
+    <UserControl.Resources>
+        <local:HintVisibilityConvertor x:Key="hintConvertor" />
+        <local:ResultTextConvertor x:Key="resultTextConvertor" />
+        <local:ResultColorConvertor x:Key="resultColorConvertor" />
+    </UserControl.Resources>
     <Grid>
         <Grid Height="Auto"
               HorizontalAlignment="Stretch"
@@ -36,29 +41,24 @@
                           SelectedItem="{Binding SelectedTrainingType, Mode=TwoWay}"
                           ItemsSource="{Binding TrainingTypeValues}" />
                 <TextBlock Height="23"
-                           Name="lbNumOfWords"
                            Text="Number of words to learn"
                            Width="Auto" />
                 <TextBox Height="23"
-                         Name="txtNumOfWords"
                          Width="Auto"
                          Text="{Binding Path=NumOfWords}" />
                 <TextBlock Height="23"
-                           Name="lbCounter"
                            Text="Counter Max"
                            Width="Auto" />
                 <TextBox Height="23"
-                         Name="txtCounter"
                          Width="Auto"
                          Text="{Binding Path=Counter}" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23"
-                               Name="lbDirection"
                                Text="Direction"
                                Width="50" />
+                    <TextBlock Text=" " />
                     <TextBlock Height="23"
-                               Name="lbDirectionValue"
-                               Margin="5,0"
+                               x:Name="lbDirection"
                                Width="Auto" />
                 </StackPanel>
                 <Button Content="Switch Direction"
@@ -83,12 +83,12 @@
                 <local:WordCardControl x:Name="WordCardElement" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23"
-                               Name="lbAnswer"
                                Text="Answer"
                                FontWeight="Bold"
                                Foreground="#FF73B90E" />
                     <TextBox Height="23"
                              Width="150"
+                             Text="{Binding Path=Answer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Name="txtAnswer"
                              Margin="5,0,0,0"
                              KeyDown="txtAnswer_KeyDown" />
@@ -111,16 +111,26 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding Path=Hint, Converter={StaticResource hintConvertor}}">
+                    <TextBlock Text="Hint"
+                               Height="23"
+                               FontStyle="Italic" />
+                    <TextBlock Text=" " />
+                    <TextBlock Text="{Binding Path=Hint, Mode=OneWay}"
+                               Height="23" />
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Height="23"
-                               Name="lbResult"
                                Text="Result"
                                FontWeight="Bold" />
                     <TextBlock Height="23"
+                               Text="{Binding Path=Result, Mode=OneWay, Converter={StaticResource resultTextConvertor}}"
                                Name="lbResultValue"
                                Margin="5,0,0,0"
                                FontStyle="Italic"
-                               FontWeight="Bold" />
+                               FontWeight="Bold"
+                               Foreground="{Binding Path=Result, Mode=OneWay, Converter={StaticResource resultColorConvertor}}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left">

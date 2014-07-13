@@ -89,19 +89,20 @@ namespace UnitTestWordsTraining
         public void TestSucceeded1In1_NotSwitched()
         {
             int amount = 1;
+            int counter = 0;
             isSwitched = false;
             // set counter to 0 for all cards
             foreach (var card in dictionary)
-                card.Counter1[type] = 0;
+                card.Counter1[type] = counter;
 
-            Training training = new Training(dictionary, isSwitched, amount, 1, type);
+            Training training = new Training(dictionary, isSwitched, amount, counter + 1, type);
 
             // increase counter from 0 to 1 for one card
             var cardToLearn = training.NextCard();
-            training.Succeeded();
+            training.CheckAnswer(cardToLearn.Word2, true);
 
             // check that card counter increased and number of learned cards
-            Assert.AreEqual(amount, cardToLearn.Counter1[type], "Validating card counter");
+            Assert.AreEqual(counter + 1, cardToLearn.Counter1[type], "Validating card counter");
             Assert.AreEqual(amount, training.CorrectAnswers, "Validating number of correct answers");
             Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
         }
@@ -119,8 +120,8 @@ namespace UnitTestWordsTraining
             // increase counter from 0 to 1 for several cards
             for (int i = 0; i < amount; i++)
             {
-                training.NextCard();
-                training.Succeeded();
+                var cardToLearn = training.NextCard();
+                training.CheckAnswer(cardToLearn.Word2, true);
             }
 
             // check number of correct answers and total cards in training
@@ -134,6 +135,70 @@ namespace UnitTestWordsTraining
             int expected = maxCards - amount;
             Assert.AreEqual(expected, training.TotalCards, "Validating number of words to learn");
             CheckDuplicates(training);
+        }
+
+        [TestMethod]
+        public void TestFailedDontDecreaseCounter()
+        {
+            int amount = 1;
+            int counter = 0;
+
+            // set counter to 0 for all cards
+            foreach (var card in dictionary)
+                card.Counter1[type] = counter;
+
+            Training training = new Training(dictionary, isSwitched, amount, counter + 1, type);
+
+            // increase counter from 0 to 1 for one card
+            var cardToLearn = training.NextCard();
+            training.CheckAnswer(cardToLearn.Word1, false);
+
+            // check that card counter increased and number of learned cards
+            Assert.AreEqual(counter, cardToLearn.Counter1[type], "Validating card counter");
+            Assert.AreEqual(0, training.CorrectAnswers, "Validating number of correct answers");
+            Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
+        }
+
+        [TestMethod]
+        public void TestFailedDecreaseCounter()
+        {
+            int amount = 1;
+            int counter = 2;
+            // set counter to 0 for all cards
+            foreach (var card in dictionary)
+                card.Counter1[type] = counter;
+
+            Training training = new Training(dictionary, isSwitched, amount, counter + 1, type);
+
+            // increase counter from 0 to 1 for one card
+            var cardToLearn = training.NextCard();
+            training.CheckAnswer(cardToLearn.Word1, true);
+
+            // check that card counter increased and number of learned cards
+            Assert.AreEqual(counter - 1, cardToLearn.Counter1[type], "Validating card counter");
+            Assert.AreEqual(0, training.CorrectAnswers, "Validating number of correct answers");
+            Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
+        }
+
+        [TestMethod]
+        public void TestFailedDecreaseCounterTo0()
+        {
+            int amount = 1;
+            int counter = 0;
+            // set counter to 0 for all cards
+            foreach (var card in dictionary)
+                card.Counter1[type] = counter;
+
+            Training training = new Training(dictionary, isSwitched, amount, counter + 1, type);
+
+            // increase counter from 0 to 1 for one card
+            var cardToLearn = training.NextCard();
+            training.CheckAnswer(cardToLearn.Word1, true);
+
+            // check that card counter increased and number of learned cards
+            Assert.AreEqual(counter, cardToLearn.Counter1[type], "Validating card counter");
+            Assert.AreEqual(0, training.CorrectAnswers, "Validating number of correct answers");
+            Assert.AreEqual(amount, training.TotalCards, "Validating number of cards in training");
         }
 
         [TestMethod]
@@ -180,7 +245,7 @@ namespace UnitTestWordsTraining
             var currentCard = training.NextCard();
             foreach (var card in dictionary)
                 card.Type = currentCard.Type;
-            var chooseList = training.Choose(currentCard, cardsToChoose);
+            var chooseList = training.Choose(cardsToChoose);
             CheckChooseList(chooseList, currentCard);
         }
 
@@ -199,7 +264,7 @@ namespace UnitTestWordsTraining
             currentCard.Type = WordType.Verb;
             for (int i = 0; i < dictionary.Count; i++)
                 dictionary[i].Type = currentCard.Type;
-            var chooseList = training.Choose(currentCard, cardsToChoose);
+            var chooseList = training.Choose(cardsToChoose);
             CheckChooseList(chooseList, currentCard);
         }
 
@@ -218,7 +283,7 @@ namespace UnitTestWordsTraining
             currentCard.Type = WordType.Verb;
             for (int i = 0; i < dictionary.Count - 1; i++)
                 dictionary[i].Type = currentCard.Type;
-            var chooseList = training.Choose(currentCard, cardsToChoose);
+            var chooseList = training.Choose(cardsToChoose);
             CheckChooseList(chooseList, currentCard);
         }
 
@@ -235,7 +300,7 @@ namespace UnitTestWordsTraining
                 card.Type = WordType.Noun;
             var currentCard = training.NextCard();
             currentCard.Type = WordType.Verb;
-            var chooseList = training.Choose(currentCard, cardsToChoose);
+            var chooseList = training.Choose(cardsToChoose);
             CheckChooseList(chooseList, currentCard);
         }
 
@@ -251,10 +316,23 @@ namespace UnitTestWordsTraining
             var currentCard = training.NextCard();
             while (currentCard != null)
             {
-                var chooseList = training.Choose(currentCard);
+                var chooseList = training.Choose();
                 CheckChooseList(chooseList, currentCard);
                 currentCard = training.NextCard();
             }
+        }
+
+        [TestMethod]
+        public void TestWrittingWHint()
+        {
+            type = TrainingType.WrittingWHint;
+            Training training = new Training(dictionary, isSwitched, 1, maxCounter, type);
+            var currentCard = training.NextCard();
+            currentCard.Word2 = "Test";
+            string actual = training.GetHint();
+            string expected = "First letter is 'T', Word length is 4";
+
+            Assert.AreEqual(expected, actual, "Validating hint");
         }
 
         private void CheckDuplicates(Training training)

@@ -8,7 +8,7 @@ namespace WordsTraining.Model
     public class Training
     {
         private IList<WordCard> cardsToLearn;
-        private int _cardIndex = 0;
+        private int _cardIndex = -1;
         private int _correctAnswers = 0;
         private Random r = new Random();
         private WordsDictionary dictionary;
@@ -69,13 +69,25 @@ namespace WordsTraining.Model
         }
 
         /// <summary>
-        /// Correct Answere was provided
+        /// Correct Answer was provided
+        /// Increase training counter
         /// </summary>
-        public void Succeeded()
+        private void Succeeded()
         {
-            var card = cardsToLearn[_cardIndex - 1];
+            var card = cardsToLearn[_cardIndex];
             card.Counter1[type]++;
             _correctAnswers++;
+        }
+
+        /// <summary>
+        /// Wrong Answer was provided
+        /// Decrease training counter if it positive
+        /// </summary>
+        private void Failed()
+        {
+            var card = cardsToLearn[_cardIndex];
+            if (card.Counter1[type] > 0)
+                card.Counter1[type]--;
         }
 
         /// <summary>
@@ -86,7 +98,7 @@ namespace WordsTraining.Model
         {
             try
             {
-                return cardsToLearn[_cardIndex++];
+                return cardsToLearn[++_cardIndex];
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -97,24 +109,54 @@ namespace WordsTraining.Model
         /// <summary>
         /// Choose several(cardsToChoose) cards of the same WordType as currentCard
         /// </summary>
-        /// <param name="currentCard">Current Selected Word Card</param>
         /// <param name="cardsToChoose">Number of card to choose (incl. currentCard)</param>
         /// <returns>Returns the list of WordCards</returns>
-        public IList<WordCard> Choose(WordCard currentCard, int cardsToChoose = 5)
+        public IList<WordCard> Choose(int cardsToChoose = 5)
         {
             var tmpCards =
                 (from c in dictionary
-                where c.Type == currentCard.Type
-                orderby r.Next()                
-                select c).Take(cardsToChoose);
+                 where c.Type == cardsToLearn[_cardIndex].Type
+                 orderby r.Next()
+                 select c).Take(cardsToChoose);
 
             IList<WordCard> result = tmpCards.ToList();
-            if (!result.Contains(currentCard))
+            if (!result.Contains(cardsToLearn[_cardIndex]))
             {
-                result[r.Next(result.Count)] = currentCard;
+                result[r.Next(result.Count)] = cardsToLearn[_cardIndex];
             }
 
-            return result;            
+            return result;
+        }
+
+        /// <summary>
+        /// Returns Hint for current card
+        /// </summary>
+        /// <returns></returns>
+        public string GetHint()
+        {
+            string hint = String.Format("First letter is '{0}', Word length is {1}", cardsToLearn[_cardIndex].Word2[0], cardsToLearn[_cardIndex].Word2.Length);
+            return hint;
+        }
+
+        /// <summary>
+        /// Check answer
+        /// </summary>
+        /// <param name="answer">Answer string</param>
+        /// <param name="decreaseOnFail">Decrease training counter on fail</param>
+        /// <returns>True, if answer correct</returns>
+        public bool CheckAnswer(string answer, bool decreaseOnFail)
+        {
+            bool result = false;
+            if (string.Equals(answer, cardsToLearn[_cardIndex].Word2, StringComparison.OrdinalIgnoreCase))
+            {
+                Succeeded();
+                result = true;
+            }
+            else if (decreaseOnFail)
+            {
+                Failed();
+            }
+            return result;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Linq;
 
 using WordsTraining.Model;
+using System.Windows.Data;
 
 namespace WordsTraining
 {
@@ -21,6 +22,8 @@ namespace WordsTraining
         private WordsDictionary dictionary;
         private Dictionary<Language, string> languages = new Dictionary<Language, string>();
         private bool isSwitched = false;
+
+        #region Properties
 
         public int NumOfWords { get; set; }
         public int Counter { get; set; }
@@ -58,6 +61,39 @@ namespace WordsTraining
             }
         }
 
+        private bool? _result;
+        public bool? Result
+        {
+            get { return _result; }
+            set
+            {
+                _result = value;
+                NotifyPropertyChanged("Result");
+            }
+        }
+
+        private string _answer;
+        public string Answer
+        {
+            get { return _answer; }
+            set
+            {
+                _answer = value;
+                NotifyPropertyChanged("Answer");
+            }
+        }
+
+        private string _hint;
+        public string Hint
+        {
+            get { return _hint; }
+            set
+            {
+                _hint = value;
+                NotifyPropertyChanged("Hint");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -67,6 +103,8 @@ namespace WordsTraining
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        #endregion
 
         public TrainingControl()
         {
@@ -116,7 +154,7 @@ namespace WordsTraining
         {
             if (dictionary != null)
             {
-                lbDirectionValue.Text = languages[langFrom] + " -> " + languages[langTo];
+                lbDirection.Text = languages[langFrom] + " -> " + languages[langTo];
             }
         }
 
@@ -132,6 +170,10 @@ namespace WordsTraining
                 trainingTest.Visibility = Visibility.Visible;
                 trainingSetting.IsEnabled = false;
                 btnCheck.IsEnabled = true;
+                Result = null;
+                Answer = "";
+                Hint = "";
+                UpdateTrainingCard();
 
                 // visual updates for training view
                 WordCardElement.IsEnabled = false;
@@ -142,7 +184,6 @@ namespace WordsTraining
                 WordCardElement.txtWord1.Background = Brushes.GreenYellow; // or (Brush)bc.ConvertFrom("#FFXXXXXX");
                 WordCardElement.txtWord2.Background = Brushes.Gray;
                 txtAnswer.Focus();
-                UpdateTrainingCard();
             }
         }
 
@@ -153,26 +194,19 @@ namespace WordsTraining
             WordCardElement.txtWord2.FontSize = 0.1;
             WordCardElement.txtComment2.FontSize = 0.1;
             btnCheck.IsEnabled = true;
-            txtAnswer.Text = "";
+            Answer = "";
 
             if (SelectedTrainingType == TrainingType.Choose)
-                ChooseList = training.Choose(WordCardElement.SelectedCard);
+                ChooseList = training.Choose();
+            if (SelectedTrainingType == TrainingType.WrittingWHint)
+                Hint = training.GetHint();
         }
 
         // check answer
         private void btnCheck_Click(object sender, RoutedEventArgs e)
         {
-            if (txtAnswer.Text.ToLower() == WordCardElement.SelectedCard.Word2.ToLower())
-            {
-                lbResultValue.Text = "Correct";
-                lbResultValue.Foreground = Brushes.Green;
-                training.Succeeded();
-            }
-            else
-            {
-                lbResultValue.Text = "Incorrect";
-                lbResultValue.Foreground = Brushes.IndianRed;
-            }
+            Result = training.CheckAnswer(Answer, true);
+
             WordCardElement.txtWord2.FontSize = WordCardElement.txtWord1.FontSize;
             WordCardElement.txtComment2.FontSize = WordCardElement.txtComment1.FontSize;
             btnCheck.IsEnabled = false;
@@ -181,7 +215,7 @@ namespace WordsTraining
         // go to next card in training
         private void btnNetx_Click(object sender, RoutedEventArgs e)
         {
-            lbResultValue.Text = "";
+            Result = null;
             WordCardElement.SelectedCard = training.NextCard();
             if (WordCardElement.SelectedCard != null)
                 UpdateTrainingCard();
@@ -236,7 +270,7 @@ namespace WordsTraining
                 Button btn = sender as Button;
                 if (btn != null)
                 {
-                    txtAnswer.Text = btn.Content.ToString();
+                    Answer = btn.Content.ToString();
                 }
                 btnCheck_Click(sender, e);
             }
@@ -247,4 +281,60 @@ namespace WordsTraining
         }
 
     }
+
+    #region Converters
+
+    [ValueConversion(typeof(String), typeof(Visibility))]
+    public class HintVisibilityConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string hint = value as String;
+            return hint == "" ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return (Visibility)value == Visibility.Visible ? "Hint" : "";
+        }
+    }
+
+    [ValueConversion(typeof(bool?), typeof(String))]
+    public class ResultTextConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool? result = (bool?)value;
+            if (!result.HasValue)
+                return "";
+            return (bool)result ? "Correct" : "Incorrect";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string text = value as string;
+            return text == "Correct" ? true : false;
+        }
+    }
+
+    [ValueConversion(typeof(bool?), typeof(Brushes))]
+    public class ResultColorConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool? result = (bool?)value;
+            if (!result.HasValue)
+                return Brushes.Black;
+            return (bool)result ? Brushes.Green : Brushes.IndianRed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            SolidColorBrush brush = value as SolidColorBrush;
+            return brush == Brushes.Green ? true : false;
+        }
+    }
+
+    #endregion
+
 }
