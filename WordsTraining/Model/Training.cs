@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace WordsTraining.Model
 {
@@ -24,6 +23,7 @@ namespace WordsTraining.Model
             get { return cardsToLearn.Count; }
         }
 
+
         /// <summary>
         /// Initiates Training object
         /// Select amount of words from dictionary to learn
@@ -33,23 +33,37 @@ namespace WordsTraining.Model
         /// <param name="amount">Amount of cards to learn</param>
         /// <param name="maxCounter">Max counter value</param>
         /// <param name="type">Training type</param>
-        public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter, TrainingType type)
+        /// <param name="learnedBefore">If true, Select only words that were learned in previous training type</param>
+        public Training(WordsDictionary dictionary, bool isSwitched, int amount, int maxCounter, TrainingType type, bool learnedBefore)
         {
             this.dictionary = dictionary;
             this.type = type;
 
             // switch all cards if needed
-            foreach (var card in dictionary)
-                card.Switched = isSwitched;
+            if (isSwitched)
+            {
+                foreach (var card in dictionary)
+                    card.Switched = isSwitched;
+            }
+
+            IEnumerable<WordCard> cardsList = dictionary;
+            // get learned cards from prevois training type
+            if (learnedBefore && type != 0)
+            {
+                cardsList =
+                    from c in cardsList
+                    where c.Counter1[type - 1] >= maxCounter
+                    select c;
+            }
 
             // select all cards that have counter less than maxCounter for specific training type
-            var tmpCards =
-                from c in dictionary
+            cardsList =
+                from c in cardsList
                 where c.Counter1[type] < maxCounter
                 select c;
 
             // select cards of specific amount to learn from tmpCards list
-            IList<WordCard> cards = tmpCards.ToList<WordCard>();
+            IList<WordCard> cards = cardsList.ToList<WordCard>();
             cardsToLearn = new List<WordCard>();
             while (cardsToLearn.Count < amount && cards.Count > 0)
             {

@@ -67,9 +67,13 @@
                         Width="Auto"
                         Click="btnSwitchDirection_Click"
                         Margin="0,3" />
+                <CheckBox Content="Decrease on fail"
+                          IsChecked="{Binding Path=DecreaseOnFail, Mode=TwoWay}"/>
+                <CheckBox Content="Use learned words"
+                          IsChecked="{Binding Path=LearnedBefore, Mode=TwoWay}" />
                 <Button Content="Start"
                         Height="23"
-                        Name="btnStart"
+                        x:Name="btnStart"
                         Width="Auto"
                         Click="btnStart_Click"
                         Margin="0,3" />

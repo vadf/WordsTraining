@@ -94,6 +94,28 @@ namespace WordsTraining
             }
         }
 
+        private bool _decreaseOnFail;
+        public bool DecreaseOnFail
+        {
+            get { return _decreaseOnFail; }
+            private set
+            {
+                _decreaseOnFail = value;
+                NotifyPropertyChanged("DecreaseOnFail");
+            }
+        }
+
+        private bool _learnedBefore;
+        public bool LearnedBefore
+        {
+            get { return _learnedBefore; }
+            private set
+            {
+                _learnedBefore = value;
+                NotifyPropertyChanged("LearnedBefore");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -129,6 +151,8 @@ namespace WordsTraining
                 SetDirectionText(dictionary);
                 trainingSetting.Visibility = Visibility.Visible;
                 trainingSetting.IsEnabled = true;
+                DecreaseOnFail = true;
+                LearnedBefore = true;
             }
         }
 
@@ -163,7 +187,7 @@ namespace WordsTraining
         {
             WordCardElement.Lang1 = languages[langFrom];
             WordCardElement.Lang2 = languages[langTo];
-            training = new Training(dictionary, isSwitched, NumOfWords, Counter, SelectedTrainingType);
+            training = new Training(dictionary, isSwitched, NumOfWords, Counter, SelectedTrainingType, LearnedBefore);
             WordCardElement.SelectedCard = training.NextCard();
             if (WordCardElement.SelectedCard != null)
             {
@@ -205,7 +229,7 @@ namespace WordsTraining
         // check answer
         private void btnCheck_Click(object sender, RoutedEventArgs e)
         {
-            Result = training.CheckAnswer(Answer, true);
+            Result = training.CheckAnswer(Answer, DecreaseOnFail);
 
             WordCardElement.txtWord2.FontSize = WordCardElement.txtWord1.FontSize;
             WordCardElement.txtComment2.FontSize = WordCardElement.txtComment1.FontSize;
