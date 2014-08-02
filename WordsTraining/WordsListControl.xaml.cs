@@ -18,10 +18,21 @@ namespace WordsTraining
         #region Properties and Variables
 
         private bool isNew = false;
-        private Visibility _commonVisibility = Visibility.Visible;
-        private Visibility _saveVisibility = Visibility.Collapsed;
-        private ObservableCollection<WordCard> dictionary;
 
+        private WordCard _selectedCard;
+        public WordCard SelectedCard
+        {
+            get { return _selectedCard; }
+            set
+            {
+                _selectedCard = value;
+                WordCardElement.SelectedCard = _selectedCard;
+                NotifyPropertyChanged("SelectedCard");
+                CommonView();
+            }
+        }
+
+        private ObservableCollection<WordCard> dictionary;
         public ObservableCollection<WordCard> MyDictionary
         {
             get { return dictionary; }
@@ -55,6 +66,7 @@ namespace WordsTraining
             }
         }
 
+        private Visibility _commonVisibility = Visibility.Visible;
         public Visibility CommonVisibility
         {
             get { return _commonVisibility; }
@@ -65,6 +77,7 @@ namespace WordsTraining
             }
         }
 
+        private Visibility _saveVisibility = Visibility.Collapsed;
         public Visibility SaveVisibility
         {
             get { return _saveVisibility; }
@@ -102,46 +115,12 @@ namespace WordsTraining
                 //MyDictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
                 ResetFilter_Click(sender, e);
-                UpdateWordView(0);
                 Lang1 = DictionariesControl.selectedDictionary.Language1;
                 Lang2 = DictionariesControl.selectedDictionary.Language2;
                 WordCardElement.Lang1 = DictionariesControl.selectedDictionary.Language1;
                 WordCardElement.Lang2 = DictionariesControl.selectedDictionary.Language2;
             }
             filtersPanel.Visibility = Visibility.Collapsed;
-        }
-
-        private void WordsView_Unloaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void lang1Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateWordView(lang1Words.SelectedIndex);
-        }
-
-        private void lang2Words_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateWordView(lang2Words.SelectedIndex);
-        }
-
-        // Set SelectedCard when some word selected from list
-        private void UpdateWordView(int index)
-        {
-            if (index >= 0 && index < MyDictionary.Count)
-            {
-                WordCardElement.SelectedCard = MyDictionary[index];
-                if (lang1Words.SelectedIndex != index)
-                {
-                    lang1Words.SelectedIndex = index;
-                }
-                if (lang2Words.SelectedIndex != index)
-                {
-                    lang2Words.SelectedIndex = index;
-                }
-            }
-            CommonView();
         }
 
         #endregion
@@ -151,7 +130,7 @@ namespace WordsTraining
         // prepation to add new card
         private void New_Click(object sender, RoutedEventArgs e)
         {
-            WordCardElement.SelectedCard = new WordCard("new", "new", WordType.Noun);
+            SelectedCard = new WordCard("new", "new", WordType.Noun);
             isNew = true;
             UpdateView();
         }
@@ -159,26 +138,22 @@ namespace WordsTraining
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             // save card deatils
-            WordCardElement.SelectedCard.Word1 = WordCardElement.txtWord1.Text;
-            WordCardElement.SelectedCard.Comment1 = WordCardElement.txtComment1.Text;
-            WordCardElement.SelectedCard.Word2 = WordCardElement.txtWord2.Text;
-            WordCardElement.SelectedCard.Comment2 = WordCardElement.txtComment2.Text;
-            WordCardElement.SelectedCard.Type = (WordType)WordCardElement.txtType.SelectedItem;
-            WordCardElement.SelectedCard.CommentCommon = WordCardElement.txtComment.Text;
+            SelectedCard.Word1 = WordCardElement.txtWord1.Text;
+            SelectedCard.Comment1 = WordCardElement.txtComment1.Text;
+            SelectedCard.Word2 = WordCardElement.txtWord2.Text;
+            SelectedCard.Comment2 = WordCardElement.txtComment2.Text;
+            SelectedCard.Type = (WordType)WordCardElement.txtType.SelectedItem;
+            SelectedCard.CommentCommon = WordCardElement.txtComment.Text;
             if (isNew)
             {
                 // if new card, add it to dictionary
                 // TODO: think for more elegance solution
-                MyDictionary.Insert(0, WordCardElement.SelectedCard);
-                if (!DictionariesControl.selectedDictionary.Contains(WordCardElement.SelectedCard))
-                    DictionariesControl.selectedDictionary.Insert(0, WordCardElement.SelectedCard);
+                MyDictionary.Insert(0, SelectedCard);
+                if (!DictionariesControl.selectedDictionary.Contains(SelectedCard))
+                    DictionariesControl.selectedDictionary.Insert(0, SelectedCard);
 
             }
             CommonView();
-
-            // refresh words lists if some word 'names' are changed
-            lang1Words.Items.Refresh();
-            lang2Words.Items.Refresh();
 
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
         }
@@ -186,11 +161,11 @@ namespace WordsTraining
         // remove card from dictionary
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            MyDictionary.Remove(WordCardElement.SelectedCard);
-            if (!DictionariesControl.selectedDictionary.Contains(WordCardElement.SelectedCard))
-                DictionariesControl.selectedDictionary.Remove(WordCardElement.SelectedCard);
+            MyDictionary.Remove(SelectedCard);
+            if (!DictionariesControl.selectedDictionary.Contains(SelectedCard))
+                DictionariesControl.selectedDictionary.Remove(SelectedCard);
             DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
-            WordCardElement.SelectedCard = null;
+            SelectedCard = null;
         }
 
         // set update mode
@@ -202,8 +177,8 @@ namespace WordsTraining
         // close update mode
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            if (isNew) SelectedCard = null;
             CommonView();
-            UpdateWordView(lang1Words.SelectedIndex);
         }
 
         // set common view mode

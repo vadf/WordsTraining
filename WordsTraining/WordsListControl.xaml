@@ -8,139 +8,136 @@
              x:Name="WordsView"
              d:DesignHeight="550"
              d:DesignWidth="740"
-             Loaded="WordsView_Loaded"
-             Unloaded="WordsView_Unloaded">
+             Loaded="WordsView_Loaded">
+    <UserControl.Resources>
+        <DataTemplate x:Key="CardListTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Width="90"
+                           Text="{Binding Path=Word1}"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Width="5" />
+                <TextBlock Width="90"
+                           Text="{Binding Path=Word2}"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch"
-          Margin="0"
-          Name="grid1"
           VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150*" />
-            <ColumnDefinition Width="150*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="300*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="6,0"
-                    Orientation="Horizontal"
-                    Grid.Column="0"
-                    VerticalAlignment="Top">
-            <Button Content="A"
-                    x:Name="Word1Asc"
-                    Width="15"
-                    Click="Word1Asc_Click" />
-            <Button Content="D"
-                    x:Name="Word1Desc"
-                    Width="15"
-                    Click="Word1Desc_Click" />
-            <TextBlock Height="23"
-                       Width="80"
-                       Name="lang1"
-                       Margin="6,0"
-                       Text="{Binding Path=Lang1}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="6,0"
+                            Orientation="Horizontal"
+                            Grid.Column="0"
+                            Width="90">
+                    <Button Content="A"
+                            x:Name="Word1Asc"
+                            Width="15"
+                            Click="Word1Asc_Click" />
+                    <Button Content="D"
+                            x:Name="Word1Desc"
+                            Width="15"
+                            Click="Word1Desc_Click" />
+                    <TextBlock Height="23"
+                               Width="60"
+                               Name="lang1"
+                               Margin="6,0"
+                               Text="{Binding Path=Lang1}" />
+                </StackPanel>
+                <StackPanel Margin="6,0"
+                            Orientation="Horizontal"
+                            Grid.Column="0"
+                            Width="90">
+                    <Button Content="A"
+                            x:Name="Word2Asc"
+                            Width="15"
+                            Click="Word2Asc_Click" />
+                    <Button Content="D"
+                            x:Name="Word2Desc"
+                            Width="15"
+                            Click="Word2Desc_Click" />
+                    <TextBlock Height="23"
+                               Width="60"
+                               Name="lang2"
+                               Margin="6,0"
+                               Text="{Binding Path=Lang2}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
-        <ListBox  Name="lang1Words"
-                  Height="Auto"
-                  HorizontalAlignment="Stretch"
-                  Margin="6,25,6,6"
-                  VerticalAlignment="Stretch"
-                  Width="Auto"
-                  SelectionChanged="lang1Words_SelectionChanged"
-                  ItemsSource="{Binding MyDictionary}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=Word1}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Margin="6,0"
-                    Orientation="Horizontal"
-                    Grid.Column="1"
-                    VerticalAlignment="Top">
-            <Button Content="A"
-                    x:Name="Word2Asc"
-                    Width="15"
-                    Click="Word2Asc_Click" />
-            <Button Content="D"
-                    x:Name="Word2Desc"
-                    Width="15"
-                    Click="Word2Desc_Click" />
-            <TextBlock Height="23"
-                       Width="80"
-                       Name="lang2"
-                       Margin="6,0"
-                       Text="{Binding Path=Lang2}" />
-        </StackPanel>
-        <ListBox Name="lang2Words"
-                 Grid.Column="1"
+        <ListBox Grid.Column="0"
+                 Grid.Row="1"
                  Height="Auto"
-                 HorizontalAlignment="Stretch"
-                 Margin="6,25,6,6"
-                 VerticalAlignment="Stretch"
                  Width="Auto"
-                 SelectionChanged="lang2Words_SelectionChanged"
-                 ItemsSource="{Binding MyDictionary}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=Word2}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 ItemsSource="{Binding MyDictionary}"
+                 SelectedItem="{Binding Path=SelectedCard}"
+                 ItemTemplate="{StaticResource CardListTemplate}">
         </ListBox>
-        <StackPanel  Grid.Column="2">
+        <StackPanel Orientation="Horizontal"
+                    Margin="3"
+                    Grid.Column="1"
+                    Grid.Row="0">
+            <TextBlock Height="23"
+                       Width="70"
+                       Text="Search"
+                       Margin="3,0" />
+            <TextBox Height="23"
+                     x:Name="txtWordFilter"
+                     Width="70"
+                     Margin="3,0"
+                     KeyUp="txtWordFilter_KeyUp" />
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Grid.Row="1">
             <StackPanel Orientation="Horizontal">
                 <Button Content="New"
                         Height="23"
                         Name="New"
                         Width="65"
-                        Margin="3,5"
                         Click="New_Click"
                         Visibility="{Binding CommonVisibility}" />
                 <Button Content="Update"
                         Height="23"
                         Name="Update"
                         Width="65"
-                        Margin="3,5"
                         Click="Update_Click"
                         Visibility="{Binding CommonVisibility}" />
                 <Button Content="Remove"
                         Height="23"
                         Name="Remove"
                         Width="65"
-                        Margin="3,5"
                         Click="Remove_Click"
                         Visibility="{Binding CommonVisibility}" />
                 <Button Content="Save"
                         Height="23"
                         Name="Save"
                         Width="65"
-                        Margin="3,5"
                         Click="Save_Click"
                         Visibility="{Binding SaveVisibility}" />
                 <Button Content="Cancel"
                         Height="23"
                         Name="Cancel"
                         Width="65"
-                        Margin="3,5"
                         Visibility="{Binding SaveVisibility}"
                         Click="Cancel_Click" />
                 <Button Content="Filters"
                         Height="23"
                         Name="Filters"
                         Width="65"
-                        Margin="3,5"
                         Visibility="{Binding CommonVisibility}"
                         Click="Filters_Click" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Margin="3">
-                <TextBlock Height="23"
-                           Width="70"
-                           Text="Search"
-                           Margin="3,0" />
-                <TextBox Height="23"
-                         x:Name="txtWordFilter"
-                         Width="70"
-                         Margin="3,0"
-                         KeyUp="txtWordFilter_KeyUp" />
-            </StackPanel>
+
             <StackPanel Name="filtersPanel">
                 <StackPanel Orientation="Horizontal"
                             Margin="3">
@@ -206,8 +203,9 @@
                             Margin="3,5"
                             Click="Hide_Click" />
                 </StackPanel>
-            </StackPanel>
 
+
+            </StackPanel>
             <local:WordCardControl x:Name="WordCardElement" />
         </StackPanel>
     </Grid>
