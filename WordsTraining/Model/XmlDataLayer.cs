@@ -34,7 +34,7 @@ namespace WordsTraining.Model
         {
             this.pathToXml = pathToXml;
         }
-
+        
         /// <summary>
         /// Read Dictionary from xml file
         /// Returns Dictionary
@@ -88,7 +88,6 @@ namespace WordsTraining.Model
             return dictionary;
         }
 
-
         /// <summary>
         /// Save Dictionary to xml file
         /// </summary>
@@ -127,7 +126,6 @@ namespace WordsTraining.Model
             xd.Save(pathToXml);
         }
 
-
         /// <summary>
         /// Create a word node for specific language
         /// </summary>
@@ -155,18 +153,6 @@ namespace WordsTraining.Model
             }
 
             return word;
-        }
-
-        private XmlDocument XmlDocInit()
-        {
-            XmlDocument xd = new XmlDocument();
-
-            // read XSD scheme for XML validation
-            byte[] byteArray = Encoding.UTF8.GetBytes(Resource.DictionaryScheme);
-            MemoryStream streamXsd = new MemoryStream(byteArray);
-            XmlReader scheme = XmlReader.Create(streamXsd);
-            xd.Schemas.Add("", scheme);
-            return xd;
         }
     }
 }

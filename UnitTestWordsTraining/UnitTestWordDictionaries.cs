@@ -23,7 +23,7 @@ namespace UnitTestWordsTraining
         }
 
         [TestMethod]
-        public void TestInit()
+        public void TestWordsDictionaryInit()
         {
             Assert.AreEqual(language1, dictionary.Language1, "Validating that language1 is initialized correctly");
             Assert.AreEqual(language2, dictionary.Language2, "Validating that language2 is initialized correctly");
@@ -31,14 +31,14 @@ namespace UnitTestWordsTraining
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestInitFailed1()
+        public void TestWordsDictionaryInitFailed1()
         {
             dictionary = new WordsDictionary(null, language2);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestInitFailed2()
+        public void TestWordsDictionaryInitFailed2()
         {
             dictionary = new WordsDictionary(language1, "");
         }

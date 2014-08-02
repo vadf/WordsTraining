@@ -26,7 +26,7 @@ namespace UnitTestWordsTraining
         }
 
         [TestMethod]
-        public void TestInit()
+        public void TestWordCardInit()
         {
             card = new WordCard(word1, word2, type);
             Assert.AreEqual(word1, card.Word1, "Validating that word1 is initialized correctly");
@@ -37,14 +37,14 @@ namespace UnitTestWordsTraining
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestInitFailed1()
+        public void TestWordCardInitFailed1()
         {
             new WordCard(null, word2, type);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TestInitFailed2()
+        public void TestWordCardInitFailed2()
         {
             new WordCard(word1, "", type);
         }

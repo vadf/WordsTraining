@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.IO;
 
 using WordsTraining.Model;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace WordsTraining
 {
@@ -22,41 +24,98 @@ namespace WordsTraining
     /// </summary>
     public partial class DictionariesControl : UserControl
     {
-        private string dictionariesFolder = "";
-        private string extention = ".xml";
+        private DictionariesService dictionariesService;
 
         public static DataLayer dataLayer;
         public static WordsDictionary selectedDictionary;
+
+        #region Properties
+
+        private string _name;
+        public string DictionaryName
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                NotifyPropertyChanged("DictionaryName");
+            }
+        }
+
+        private string _lang1;
+        public string Language1
+        {
+            get { return _lang1; }
+            set
+            {
+                _lang1 = value;
+                NotifyPropertyChanged("Language1");
+            }
+        }
+
+        private string _lang2;
+        public string Language2
+        {
+            get { return _lang2; }
+            set
+            {
+                _lang2 = value;
+                NotifyPropertyChanged("Language2");
+            }
+        }
+
+        private DictionaryInfo _selectedDictionary;
+        public DictionaryInfo SelectedDictionary
+        {
+            get { return _selectedDictionary; }
+            set
+            {
+                _selectedDictionary = value;
+                NotifyPropertyChanged("SelectedDictionary");
+            }
+        }
+
+        public ObservableCollection<DictionaryInfo> DictionariesList { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
 
         public DictionariesControl()
         {
             InitializeComponent();
 
-            dictionariesFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "WordsTraining");
-
-            // Create Dictionaries folder if not exist
-            if (!Directory.Exists(dictionariesFolder))
-            {
-                Directory.CreateDirectory(dictionariesFolder);
-            }
+            string folder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WordsTraining");
+            dictionariesService = new XmlDictionariesService(folder);
+            DictionariesList = dictionariesService.Dictionaries;
+            DataContext = this;
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-            selectedDictionary = new WordsDictionary(txtLang1.Text, txtLang2.Text);
-            dataLayer = new XmlDataLayer(GetFullPath(txtName.Text));
-            selectedDictionary.Add(new WordCard("Hello", "Hello", WordType.Noun)); // HACK: at least one card is needed to save
-            dataLayer.Save(selectedDictionary);
+            dictionariesService.AddDictionary(DictionaryName, Language1, Language2);
+            SelectedDictionary = DictionariesList.Last();
+            dataLayer = SelectedDictionary.DataLayer;
+            selectedDictionary = SelectedDictionary.Dictionary;
             SwitchTab();
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            if (listDictionaries.SelectedIndex == -1) return;
-            dataLayer = new XmlDataLayer(GetFullPath(listDictionaries.SelectedItem.ToString()));
-            selectedDictionary = dataLayer.Read(); ;
-            SwitchTab();
+            if (SelectedDictionary != null)
+            {
+                dataLayer = SelectedDictionary.DataLayer;
+                selectedDictionary = SelectedDictionary.Dictionary;
+                SwitchTab();
+            }
         }
 
         private void SwitchTab()
@@ -65,50 +124,23 @@ namespace WordsTraining
             ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = true;
             MainWindow.tabControl.SelectedIndex = 1;
         }
-        /// <summary>
-        /// Read all files from Dictionary folder
-        /// </summary>
-        /// <returns>List of file names</returns>
-        private List<string> GetDictionariesList()
-        {
-            // read dictionaries list
-            string[] dictionaries = Directory.GetFiles(dictionariesFolder, "*" + extention);
-            var dict =
-                from d in dictionaries
-                select System.IO.Path.GetFileName(d).Replace(extention, "");
-            return new List<string>(dict);
-        }
 
         private void DictionariesView_Loaded(object sender, RoutedEventArgs e)
         {
-            List<string> list = GetDictionariesList();
-            listDictionaries.ItemsSource = list;
+            ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = false;
+            ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = false;
+            if (dataLayer != null && selectedDictionary != null)
+                dataLayer.Save(selectedDictionary);
+            dataLayer = null;
+            selectedDictionary = null;
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            if (listDictionaries.SelectedIndex == -1) return;
-            string name = listDictionaries.SelectedItem.ToString();
-            //if (selectedDictionary == name) //TODO
+            if (SelectedDictionary != null)
             {
-                ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = false;
-                ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = false;
-                dataLayer = null;
-                selectedDictionary = null;
+                dictionariesService.RemoveDictionary(SelectedDictionary);
             }
-
-            File.Delete(GetFullPath(name));
-            listDictionaries.Items.Refresh();
-        }
-
-        /// <summary>
-        /// Create full path to xml file using dictionary name
-        /// </summary>
-        /// <param name="name">Dictionary name</param>
-        /// <returns>Full path to xml</returns>
-        private string GetFullPath(string name)
-        {
-            return System.IO.Path.Combine(dictionariesFolder, name + extention);
         }
     }
 }

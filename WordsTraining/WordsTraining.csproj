@@ -28,7 +28,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -94,6 +94,9 @@
     <Compile Include="DictionariesControl.xaml.cs">
       <DependentUpon>DictionariesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\DictionaryInfo.cs" />
+    <Compile Include="Model\XmlDictionariesService.cs" />
+    <Compile Include="Model\DictionariesService.cs" />
     <Compile Include="TrainingControl.xaml.cs">
       <DependentUpon>TrainingControl.xaml</DependentUpon>
     </Compile>
