@@ -141,9 +141,9 @@ namespace WordsTraining
         {
             trainingTest.Visibility = Visibility.Collapsed;
             trainingSetting.Visibility = Visibility.Collapsed;
-            if (DictionariesControl.dataLayer != null)
+            if (App.SelectedDictionary != null)
             {
-                dictionary = DictionariesControl.selectedDictionary;
+                dictionary = App.SelectedDictionary.Dictionary;
                 DataContext = this;
                 languages.Clear();
                 languages.Add(Model.Language.Lang1, dictionary.Language1);
@@ -197,6 +197,7 @@ namespace WordsTraining
                 Result = null;
                 Answer = "";
                 Hint = "";
+                ChooseList = null;
                 UpdateTrainingCard();
 
                 // visual updates for training view
@@ -261,7 +262,7 @@ namespace WordsTraining
             trainingTest.Visibility = Visibility.Collapsed;
             training.Close();
             training = null;
-            DictionariesControl.dataLayer.Save(dictionary);
+            App.SelectedDictionary.DataLayer.Save(dictionary);
         }
 
         // handler for 'Enter' press in Answer TextBox

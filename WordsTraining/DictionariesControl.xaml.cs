@@ -25,9 +25,7 @@ namespace WordsTraining
     public partial class DictionariesControl : UserControl
     {
         private DictionariesService dictionariesService;
-
-        public static DataLayer dataLayer;
-        public static WordsDictionary selectedDictionary;
+        private List<DictionaryInfo> toRemove = new List<DictionaryInfo>();
 
         #region Properties
 
@@ -64,17 +62,6 @@ namespace WordsTraining
             }
         }
 
-        private DictionaryInfo _selectedDictionary;
-        public DictionaryInfo SelectedDictionary
-        {
-            get { return _selectedDictionary; }
-            set
-            {
-                _selectedDictionary = value;
-                NotifyPropertyChanged("SelectedDictionary");
-            }
-        }
-
         public ObservableCollection<DictionaryInfo> DictionariesList { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -102,20 +89,8 @@ namespace WordsTraining
         private void Create_Click(object sender, RoutedEventArgs e)
         {
             dictionariesService.AddDictionary(DictionaryName, Language1, Language2);
-            SelectedDictionary = DictionariesList.Last();
-            dataLayer = SelectedDictionary.DataLayer;
-            selectedDictionary = SelectedDictionary.Dictionary;
+            App.SelectedDictionary = DictionariesList.Last();
             SwitchTab();
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedDictionary != null)
-            {
-                dataLayer = SelectedDictionary.DataLayer;
-                selectedDictionary = SelectedDictionary.Dictionary;
-                SwitchTab();
-            }
         }
 
         private void SwitchTab()
@@ -129,18 +104,55 @@ namespace WordsTraining
         {
             ((TabItem)MainWindow.tabControl.Items[1]).IsEnabled = false;
             ((TabItem)MainWindow.tabControl.Items[2]).IsEnabled = false;
-            if (dataLayer != null && selectedDictionary != null)
-                dataLayer.Save(selectedDictionary);
-            dataLayer = null;
-            selectedDictionary = null;
+            if (App.SelectedDictionary != null)
+                App.SelectedDictionary.DataLayer.Save(App.SelectedDictionary.Dictionary);
+            toRemove.Clear();
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedDictionary != null)
+            foreach (var dict in toRemove)
             {
-                dictionariesService.RemoveDictionary(SelectedDictionary);
+                dictionariesService.RemoveDictionary(dict);
             }
+            toRemove.Clear();
+        }
+
+        private void OpenDictionary(object sender, RoutedEventArgs e)
+        {
+            DictionaryInfo dict = GetSelectedDictionary(sender);
+            if (dict == null) return;
+
+            App.SelectedDictionary = dict;
+            SwitchTab();
+        }
+
+        private void AddToRemoveList(object sender, RoutedEventArgs e)
+        {
+            DictionaryInfo dict = GetSelectedDictionary(sender);
+            if (dict == null) return;
+
+            toRemove.Add(dict);
+        }
+
+        private void DelFromRemoveList(object sender, RoutedEventArgs e)
+        {
+            DictionaryInfo dict = GetSelectedDictionary(sender);
+            if (dict == null) return;
+
+            toRemove.Remove(dict);
+        }
+
+        private DictionaryInfo GetSelectedDictionary(object sender)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            return element.DataContext as DictionaryInfo;
+        }
+
+        private void CheckBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            cb.IsChecked = false;
         }
     }
 }

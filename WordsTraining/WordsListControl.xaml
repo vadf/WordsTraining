@@ -31,6 +31,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0"
                     Grid.Row="0">
@@ -207,6 +208,12 @@
 
             </StackPanel>
             <local:WordCardControl x:Name="WordCardElement" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Cards Shown: " />
+            <TextBlock Text="{Binding Path=MyDictionary.Count}" />
         </StackPanel>
     </Grid>
 </UserControl>

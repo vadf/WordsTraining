@@ -110,15 +110,15 @@ namespace WordsTraining
         private void WordsView_Loaded(object sender, RoutedEventArgs e)
         {
             // set dictionary and languages
-            if (DictionariesControl.selectedDictionary != null && DictionariesControl.selectedDictionary != MyDictionary)
+            if (App.SelectedDictionary != null)
             {
                 //MyDictionary = DictionariesControl.selectedDictionary;
                 DataContext = this;
                 ResetFilter_Click(sender, e);
-                Lang1 = DictionariesControl.selectedDictionary.Language1;
-                Lang2 = DictionariesControl.selectedDictionary.Language2;
-                WordCardElement.Lang1 = DictionariesControl.selectedDictionary.Language1;
-                WordCardElement.Lang2 = DictionariesControl.selectedDictionary.Language2;
+                Lang1 = App.SelectedDictionary.Language1;
+                Lang2 = App.SelectedDictionary.Language2;
+                WordCardElement.Lang1 = App.SelectedDictionary.Language1;
+                WordCardElement.Lang2 = App.SelectedDictionary.Language2;
             }
             filtersPanel.Visibility = Visibility.Collapsed;
         }
@@ -149,22 +149,22 @@ namespace WordsTraining
                 // if new card, add it to dictionary
                 // TODO: think for more elegance solution
                 MyDictionary.Insert(0, SelectedCard);
-                if (!DictionariesControl.selectedDictionary.Contains(SelectedCard))
-                    DictionariesControl.selectedDictionary.Insert(0, SelectedCard);
+                if (!App.SelectedDictionary.Dictionary.Contains(SelectedCard))
+                    App.SelectedDictionary.Dictionary.Insert(0, SelectedCard);
 
             }
             CommonView();
 
-            DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
+            App.SelectedDictionary.DataLayer.Save(App.SelectedDictionary.Dictionary);
         }
 
         // remove card from dictionary
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             MyDictionary.Remove(SelectedCard);
-            if (!DictionariesControl.selectedDictionary.Contains(SelectedCard))
-                DictionariesControl.selectedDictionary.Remove(SelectedCard);
-            DictionariesControl.dataLayer.Save(DictionariesControl.selectedDictionary);
+            if (App.SelectedDictionary.Dictionary.Contains(SelectedCard))
+                App.SelectedDictionary.Dictionary.Remove(SelectedCard);
+            App.SelectedDictionary.DataLayer.Save(App.SelectedDictionary.Dictionary);
             SelectedCard = null;
         }
 
@@ -287,7 +287,7 @@ namespace WordsTraining
 
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<WordCard> result = DictionariesControl.selectedDictionary;
+            IEnumerable<WordCard> result = App.SelectedDictionary.Dictionary;
             if (txtWordFilter.Text != "")
                 result = CardsFilter.FilterByWord(result, txtWordFilter.Text);
             if (comboWordTypeFilter.SelectedValue.ToString() != any)
@@ -313,11 +313,11 @@ namespace WordsTraining
 
                 if (txtWordFilter.Text == "")
                 {
-                    MyDictionary = DictionariesControl.selectedDictionary;
+                    MyDictionary = App.SelectedDictionary.Dictionary;
                 }
                 else
                 {
-                    IEnumerable<WordCard> result = CardsFilter.FilterByWord(DictionariesControl.selectedDictionary, txtWordFilter.Text);
+                    IEnumerable<WordCard> result = CardsFilter.FilterByWord(App.SelectedDictionary.Dictionary, txtWordFilter.Text);
                     MyDictionary = new ObservableCollection<WordCard>(result);
                 }
             }
@@ -331,7 +331,7 @@ namespace WordsTraining
             SelectedTrainingTypeFilter = any;
             SelectedCounterFilterType = any;
             txtCounterFilter.Text = "";
-            MyDictionary = DictionariesControl.selectedDictionary;
+            MyDictionary = App.SelectedDictionary.Dictionary;
         }
 
         #endregion

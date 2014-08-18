@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using WordsTraining.Model;
 
 namespace WordsTraining
 {
@@ -12,5 +13,6 @@ namespace WordsTraining
     /// </summary>
     public partial class App : Application
     {
+        public static DictionaryInfo SelectedDictionary { get; set; }
     }
 }

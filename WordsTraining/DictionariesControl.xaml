@@ -10,134 +10,129 @@
              Loaded="DictionariesView_Loaded">
     <UserControl.Resources>
         <DataTemplate x:Key="DictionaryTemplate">
-            <Border BorderBrush="Black" BorderThickness="1" Padding="3">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="70" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Text="Name: " />
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Text="{Binding Path=Name}" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="Language1: " />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Text="{Binding Path=Language1}" />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="0"
-                               Text="Language2: " />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="1"
-                               Text="{Binding Path=Language2}" />
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="0"
-                               Text="Number of Cards: " />
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="1"
-                               Text="{Binding Path=NumOfCards}" />
-                </Grid>
-            </Border>
+            <StackPanel>
+                <Button Padding="3"
+                        Click="OpenDictionary">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="70" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Name: " />
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="{Binding Path=Name}" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Language1: " />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Path=Language1}" />
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="Language2: " />
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding Path=Language2}" />
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Text="Number of Cards: " />
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="1"
+                                   Text="{Binding Path=NumOfCards}" />
+                    </Grid>
+                </Button>
+                <CheckBox Content="Remove"
+                          IsChecked="False"
+                          Checked="AddToRemoveList"
+                          Unchecked="DelFromRemoveList"
+                          Loaded="CheckBox_Loaded"/>
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
-        <Grid Height="Auto"
-              HorizontalAlignment="Stretch"
-              Width="Auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <ListBox ItemsSource="{Binding DictionariesList}"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Stretch"
-                     Width="Auto"
-                     Height="Auto"
-                     Grid.Column="0"
-                     Grid.Row="1"
-                     SelectedItem="{Binding Path=SelectedDictionary, Mode=TwoWay}"
-                     ItemTemplate="{StaticResource DictionaryTemplate}" />
+    <Grid Height="Auto"
+          HorizontalAlignment="Stretch"
+          Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding DictionariesList}"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 Width="Auto"
+                 Height="Auto"
+                 Grid.Column="0"
+                 Grid.Row="1"
+                 ItemTemplate="{StaticResource DictionaryTemplate}" />
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="1"
+                    VerticalAlignment="Top">
+            <Button Content="Remove"
+                    Height="23"
+                    Width="75"
+                    Margin="3,0"
+                    Click="Remove_Click" />
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Grid.Row="1"
+                    Height="Auto"
+                    Width="Auto"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    Margin="6">
+            <TextBlock Height="23"
+                       Text="Create new Dictionary"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,0" />
             <StackPanel Orientation="Horizontal"
-                        Grid.Row="0"
-                        Grid.ColumnSpan="2"
-                        VerticalAlignment="Top">
-                <Button Content="Open"
-                        Height="23"
-                        x:Name="Open"
-                        Width="75"
-                        Margin="3,0"
-                        Click="Open_Click" />
-                <Button Content="Remove"
-                        Height="23"
-                        x:Name="Remove"
-                        Width="75"
-                        Margin="3,0"
-                        Click="Remove_Click" />
-            </StackPanel>
-            <StackPanel Grid.Column="1"
-                        Grid.Row="1"
-                        Height="Auto"
-                        Width="Auto"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        Margin="6"
-                        x:Name="stackPanel1">
+                        Margin="0,5,0,0">
                 <TextBlock Height="23"
-                           x:Name="lbNew"
-                           Text="Create new Dictionary"
-                           HorizontalAlignment="Center"
-                           Margin="0,10,0,0" />
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,5,0,0">
-                    <TextBlock Height="23"
-                               Text="Name"
-                               HorizontalAlignment="Left" />
-                    <TextBox Height="23"
-                             Width="100"
-                             Margin="10,0,0,0"
-                             Text="{Binding Path=DictionaryName, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,5,0,0">
-                    <TextBlock Height="23"
-                               Text="Lang1"
-                               HorizontalAlignment="Left" />
-                    <TextBox Height="23"
-                             Width="100"
-                             Margin="10,0,0,0"
-                             Text="{Binding Path=Language1, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,5,0,0">
-                    <TextBlock Height="23"
-                               Text="Lang2"
-                               HorizontalAlignment="Left" />
-                    <TextBox Height="23"
-                             Width="100"
-                             Margin="10,0,0,0"
-                             Text="{Binding Path=Language2, Mode=TwoWay}" />
-                </StackPanel>
-                <Button Content="Create"
-                        Height="23"
-                        x:Name="Create"
-                        Width="75"
-                        Margin="0,5,0,0"
-                        Click="Create_Click" />
+                           Text="Name"
+                           HorizontalAlignment="Left" />
+                <TextBox Height="23"
+                         Width="100"
+                         Margin="10,0,0,0"
+                         Text="{Binding Path=DictionaryName, Mode=TwoWay}" />
             </StackPanel>
-        </Grid>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,5,0,0">
+                <TextBlock Height="23"
+                           Text="Lang1"
+                           HorizontalAlignment="Left" />
+                <TextBox Height="23"
+                         Width="100"
+                         Margin="10,0,0,0"
+                         Text="{Binding Path=Language1, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,5,0,0">
+                <TextBlock Height="23"
+                           Text="Lang2"
+                           HorizontalAlignment="Left" />
+                <TextBox Height="23"
+                         Width="100"
+                         Margin="10,0,0,0"
+                         Text="{Binding Path=Language2, Mode=TwoWay}" />
+            </StackPanel>
+            <Button Content="Create"
+                    Height="23"
+                    Width="75"
+                    Margin="0,5,0,0"
+                    Click="Create_Click" />
+        </StackPanel>
     </Grid>
 </UserControl>
