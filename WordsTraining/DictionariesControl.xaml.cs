@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-
-using WordsTraining.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+
+using WordsTraining.Model;
 
 namespace WordsTraining
 {
     /// <summary>
     /// Interaction logic for DictionariesView.xaml
     /// </summary>
-    public partial class DictionariesControl : UserControl
+    public partial class DictionariesControl : UserControl, INotifyPropertyChanged
     {
         private DictionariesService dictionariesService;
         private List<DictionaryInfo> toRemove = new List<DictionaryInfo>();
@@ -59,6 +50,17 @@ namespace WordsTraining
             {
                 _lang2 = value;
                 NotifyPropertyChanged("Language2");
+            }
+        }
+
+        private DictionaryInfo _selectedDictionary;
+        public DictionaryInfo SelectedDictionary
+        {
+            get { return _selectedDictionary; }
+            set
+            {
+                _selectedDictionary = value;
+                NotifyPropertyChanged("SelectedDictionary");
             }
         }
 
@@ -107,6 +109,8 @@ namespace WordsTraining
             if (App.SelectedDictionary != null)
                 App.SelectedDictionary.DataLayer.Save(App.SelectedDictionary.Dictionary);
             toRemove.Clear();
+            NewDictionaryPanel.Visibility = System.Windows.Visibility.Collapsed;
+            DictionaryDetailsPanel.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
@@ -153,6 +157,23 @@ namespace WordsTraining
         {
             CheckBox cb = sender as CheckBox;
             cb.IsChecked = false;
+        }
+
+        private void NewDictionary(object sender, RoutedEventArgs e)
+        {
+            NewDictionaryPanel.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void ShowDetails(object sender, RoutedEventArgs e)
+        {
+            DictionaryDetailsPanel.Visibility = System.Windows.Visibility.Visible;
+            SelectedDictionary = GetSelectedDictionary(sender);
+        }
+
+        private void HideDetails(object sender, RoutedEventArgs e)
+        {
+            DictionaryDetailsPanel.Visibility = System.Windows.Visibility.Collapsed;
+            NewDictionaryPanel.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

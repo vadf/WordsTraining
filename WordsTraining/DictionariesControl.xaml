@@ -50,11 +50,28 @@
                                    Text="{Binding Path=NumOfCards}" />
                     </Grid>
                 </Button>
-                <CheckBox Content="Remove"
-                          IsChecked="False"
-                          Checked="AddToRemoveList"
-                          Unchecked="DelFromRemoveList"
-                          Loaded="CheckBox_Loaded"/>
+                <Grid Margin="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <CheckBox Content="Remove"
+                              Grid.Column="0"
+                              Grid.Row="0"
+                              IsChecked="False"
+                              Checked="AddToRemoveList"
+                              Unchecked="DelFromRemoveList"
+                              Loaded="CheckBox_Loaded"
+                              HorizontalAlignment="Left" />
+                    <Button Content="Details >>>"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Click="ShowDetails"
+                            HorizontalAlignment="Right" />
+                </Grid>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -63,6 +80,7 @@
           Width="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -70,36 +88,51 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ListBox ItemsSource="{Binding DictionariesList}"
+                 Grid.Column="1"
+                 Grid.Row="1"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
                  Width="Auto"
                  Height="Auto"
-                 Grid.Column="0"
-                 Grid.Row="1"
-                 ItemTemplate="{StaticResource DictionaryTemplate}" />
+                 ItemTemplate="{StaticResource DictionaryTemplate}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"
+                               IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0"
-                    Grid.ColumnSpan="1"
+                    Grid.ColumnSpan="2"
                     VerticalAlignment="Top">
+            <Button Content="New"
+                    Height="23"
+                    Width="75"
+                    Margin="3,0"
+                    Click="NewDictionary" />
             <Button Content="Remove"
                     Height="23"
                     Width="75"
                     Margin="3,0"
                     Click="Remove_Click" />
         </StackPanel>
-        <StackPanel Grid.Column="1"
+        <StackPanel Grid.Column="0"
                     Grid.Row="1"
                     Height="Auto"
                     Width="Auto"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
-                    Margin="6">
+                    Margin="6"
+                    x:Name="NewDictionaryPanel">
             <TextBlock Height="23"
                        Text="Create new Dictionary"
                        HorizontalAlignment="Center"
                        Margin="0,10,0,0" />
             <StackPanel Orientation="Horizontal"
-                        Margin="0,5,0,0">
+                        Margin="2">
                 <TextBlock Height="23"
                            Text="Name"
                            HorizontalAlignment="Left" />
@@ -109,7 +142,7 @@
                          Text="{Binding Path=DictionaryName, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal"
-                        Margin="0,5,0,0">
+                        Margin="2">
                 <TextBlock Height="23"
                            Text="Lang1"
                            HorizontalAlignment="Left" />
@@ -119,7 +152,7 @@
                          Text="{Binding Path=Language1, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal"
-                        Margin="0,5,0,0">
+                        Margin="2">
                 <TextBlock Height="23"
                            Text="Lang2"
                            HorizontalAlignment="Left" />
@@ -131,8 +164,39 @@
             <Button Content="Create"
                     Height="23"
                     Width="75"
-                    Margin="0,5,0,0"
+                    Margin="2"
                     Click="Create_Click" />
+            <Button Content="Hide"
+                    Height="23"
+                    Width="75"
+                    Margin="2"
+                    Click="HideDetails" />
+        </StackPanel>
+        <StackPanel Grid.Column="2"
+                    Grid.Row="1"
+                    Width="100"
+                    x:Name="DictionaryDetailsPanel">
+            <TextBlock Text="Details"
+                       Height="23" />
+            <TextBlock Text="{Binding Path=SelectedDictionary.Name}"
+                       Height="23" />
+            <TextBlock Text="Average Counters Values:"
+                       TextWrapping="Wrap" />
+            <ListView ItemsSource="{Binding Path=SelectedDictionary.TrainingAverage}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=Key}" />
+                            <TextBlock Text="{Binding Path=Value, StringFormat=N2}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Content="Hide"
+                    Height="23"
+                    Width="75"
+                    Margin="2"
+                    Click="HideDetails" />
         </StackPanel>
     </Grid>
 </UserControl>
