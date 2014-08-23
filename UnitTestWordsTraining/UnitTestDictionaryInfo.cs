@@ -50,7 +50,7 @@ namespace UnitTestWordsTraining
                     average += (card.Counter1[type] + card.Counter2[type]) / 2.0;
                 }
                 average /= dictionary.Count;
-                Assert.AreEqual(average, info.TrainingAverage[type]);
+                Assert.AreEqual(average.ToString("0.00"), info.TrainingAverage[type].ToString("0.00"));
             }
         }
 

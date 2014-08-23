@@ -27,6 +27,7 @@ namespace UnitTestWordsTraining
             card.Comment1 = RandomString(lang1, random.Next(0, 10));
             card.Comment2 = RandomString(lang2, random.Next(0, 10));
             card.CommentCommon = RandomString(lang1, random.Next(0, 10));
+            card.LastTrained = DateTime.Now.AddDays(-10 * random.NextDouble());
             return card;
         }
 

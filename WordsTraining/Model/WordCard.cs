@@ -65,6 +65,8 @@ namespace WordsTraining.Model
 
         public string CommentCommon { get; set; }
 
+        public DateTime LastTrained { get; set; }
+        
         private bool isSwitched = false;
         public bool Switched
         {
@@ -93,6 +95,7 @@ namespace WordsTraining.Model
             this.Word1 = word1;
             this.Word2 = word2;
             this.Type = type;
+            LastTrained = DateTime.Now;
             Switched = false;
         }
 

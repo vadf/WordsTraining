@@ -14,17 +14,18 @@ namespace WordsTraining.Model
         private string pathToXml;
 
         // name of xml tags and attributes
-        private string strRoot = "dictionary";
+        private const string strRoot = "dictionary";
         private string strLang1 = Language.Lang1.ToString().ToLower();
         private string strLang2 = Language.Lang2.ToString().ToLower();
-        private string strCard = "card";
-        private string strComment = "comment";
-        private string strWordText = "text";
-        private string strWordType = "type";
-        private string strCounters = "counters";
-        private string strCounter = "counter";
-        private string strCounterType = "type";
-        private string strCounterValue = "value";
+        private const string strCard = "card";
+        private const string strComment = "comment";
+        private const string strWordText = "text";
+        private const string strWordType = "type";
+        private const string strCounters = "counters";
+        private const string strCounter = "counter";
+        private const string strCounterType = "type";
+        private const string strCounterValue = "value";
+        private const string strLastTrained = "lastTrained";
 
         /// <summary>
         /// Initiates DataLayerXml with path to dictionary xml file
@@ -82,6 +83,14 @@ namespace WordsTraining.Model
                 if (commentXml != null)
                     card.CommentCommon = commentXml.Value;
 
+                XElement lastTrained = cardXml.Element(strLastTrained);
+                if (lastTrained != null)
+                {
+                    DateTime time = DateTime.Now;
+                    if (DateTime.TryParse(lastTrained.Value, out time))
+                        card.LastTrained = time;
+                }
+
                 dictionary.Add(card);
             }
 
@@ -119,6 +128,9 @@ namespace WordsTraining.Model
                     XElement comment = new XElement(strComment, card.CommentCommon);
                     wordCard.Add(comment);
                 }
+
+                XElement lastTrained = new XElement(strLastTrained, card.LastTrained);
+                wordCard.Add(lastTrained);
 
                 root.Add(wordCard);
             }

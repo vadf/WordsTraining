@@ -56,21 +56,14 @@ namespace WordsTraining.Model
                     select c;
             }
 
-            // select all cards that have counter less than maxCounter for specific training type
-            cardsList =
+            // select cards that have counter less than maxCounter for specific training type
+            cardsList = (
                 from c in cardsList
                 where c.Counter1[type] < maxCounter
-                select c;
-
-            // select cards of specific amount to learn from tmpCards list
-            IList<WordCard> cards = cardsList.ToList<WordCard>();
-            cardsToLearn = new List<WordCard>();
-            while (cardsToLearn.Count < amount && cards.Count > 0)
-            {
-                int pos = r.Next(cards.Count);
-                cardsToLearn.Add(cards[pos]);
-                cards.RemoveAt(pos);
-            }
+                orderby c.LastTrained
+                select c)
+                .Take(amount);
+            cardsToLearn = cardsList.ToList();
         }
 
         /// <summary>
@@ -112,7 +105,9 @@ namespace WordsTraining.Model
         {
             try
             {
-                return cardsToLearn[++_cardIndex];
+                _cardIndex++;
+                cardsToLearn[_cardIndex].LastTrained = DateTime.Now;
+                return cardsToLearn[_cardIndex];
             }
             catch (ArgumentOutOfRangeException)
             {
